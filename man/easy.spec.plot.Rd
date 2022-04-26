@@ -9,11 +9,11 @@ Quick Plotting of Evolutionary Wavelet Spectrum
 Plots a standard version of the EWS plot.
 }
 \usage{
-easy.spec.plot(spec, bylev = FALSE)
+easy.spec.plot(spectrum, bylev = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{spec}{
+  \item{spectrum}{
 A spectrum object of class wd which you wish to plot
 }
 \item{bylev}{

@@ -8,15 +8,17 @@ Estimation of Evolutionary Wavelet Spectrum for Non-Zero Mean Time Series via Di
 This function computes the evolutionary wavelet spectrum (EWS) estimate from a time series that may include a trend component. The estimate is computed by taking the non-decimated wavelet transform of the first differenced time series data, squaring it; smoothing using a running mean and then correcting for bias using the appropriate correction matrix. Inherits the smoothing functionality from the ewspec3 function in the R package locits.
 }
 \usage{
-ewspec.diff(data, filter.number = 1, family = "DaubExPhase",
-binwidth = floor(2 * sqrt(length(data))), diff.number = 1,
-max.scale = floor(log2(length(data)) * 0.7), WP.smooth = TRUE,
-AutoReflect = FALSE, supply.inv.mat = FALSE, inv = NULL)
-}
+ewspec.diff(data, lag=1, filter.number  = 1, family = "DaubExPhase",
+                       binwidth = floor(2*sqrt(length(data))), diff.number = 1,
+                       max.scale = floor(log2(length(data))*0.7), WP.smooth = TRUE,
+                       AutoReflect = FALSE, supply.inv.mat = FALSE, inv = NULL)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{
 The time series you wish to analyse.
+}
+  \item{lag}{
+An integer indicating which lag to use for differencing.
 }
   \item{filter.number}{
 The index number for the wavelet used to analyse the time series. For the "DaubExPhase" family, the filter number can be bewtween 1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to 10.
@@ -47,11 +49,10 @@ Not intended for use. If supply.mat is TRUE, user must supply the appropriate co
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
 
 This function computes an estimate of the evolutionary wavelet spectrum of a time series that displays nonstationary mean and autocovariance. The estimation procedure is as follows:
 
-1. The time series is first differenced to remove the trend.
+1. The time series is differenced to remove the trend.
 
 2. The squared modulus of the non-decimated wavelet transform is computed, known as the raw wavelet periodogram. This is returned by the function.
 

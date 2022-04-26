@@ -8,12 +8,18 @@ Auxilliary Function to Convert wd Objects
 Auxiliary function used as a result of boundary handling. Not for general use.
 }
 \usage{
-calc.final.spec(spec)
+calc.final.spec(spec, dyadic=TRUE,data.len)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{spec}{
-The spectrum object based on the boundary corrected time series of length 4*length(data).
+The spectrum object based on the boundary corrected time series.
+}
+  \item{dyadic}{
+Whether or not the time serie is a power of 2.
+}
+  \item{data.len}{
+Length of time series.
 }
 }
 \details{
@@ -22,22 +28,8 @@ Converts the boundary converted spectrum object back to its correct size.
 \value{
 Spectrum object of class wd.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
+
 \author{
 E T McGonigle
-}
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-
 }
 
