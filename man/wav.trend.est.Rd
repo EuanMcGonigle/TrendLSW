@@ -12,8 +12,9 @@ This function computes the linear wavelet thresholding trend estimate for a time
 
 }
 \usage{
-wav.trend.est(data, filter.number = 10, family = "DaubLeAsymm",
-                         scale = 1, type = "dec", boundary.handle =FALSE)
+wav.trend.est(data, filter.number = 4, family = "DaubLeAsymm",
+              max.scale = floor(log2(length(data))*0.7),
+              type = "dec", boundary.handle =FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,8 +27,8 @@ wav.trend.est(data, filter.number = 10, family = "DaubLeAsymm",
 \item{family}{
   Selects the wavelet family to use. Recommended to only use the Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.
 }
-\item{scale}{
-Selects the coarsest scale of the wavelet transform to analyse to. Should be a value from 1 (coarsest) to J-1 (finest), where T=2^J is the length of the time series.
+\item{max.scale}{
+Selects the coarsest scale of the wavelet transform to analyse to. Should be a value from 1 (finest) to J-1 (coarsest), where T=2^J is the length of the time series.
 }
 \item{type}{
 The type of wavelet transform used. By default, it is "dec" which is the standard discrete wavelet transform. Can also be "nondec", which uses a non-decimated wavelet transform.

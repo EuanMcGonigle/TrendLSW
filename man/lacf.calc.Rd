@@ -2,31 +2,40 @@
 \alias{lacf.calc}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Create lacf Object from Spectrum Estimate
+Compute localised autocovariance estimate from spectrum estimate.
 %%  ~~function to do ... ~~
 }
 \description{
 Function that produces an lacf object that contains the local autocovariance and autocorrelation estimates, given an input of a spectrum estimate. Same functionality as lacf function from locits, but user specifies the spectrum estimate in the argument.
 }
 \usage{
-lacf.calc(x)
+lacf.calc(x, filter.number = 10, family = "DaubLeAsymm",
+                      spec.est, lag.max = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-Only additional argument is
-  \item{altered_spec}{
-Spectrum from which the lacf estimate will be calculated.
+\item{x}{
+	The time series you wish to analyse.
 }
+\item{filter.number}{
+  Wavelet filter number that generated the time series.
+}
+\item{family}{
+Wavelet family that generated the time series.
+}
+\item{spec.est}{
+Estiamted spectrum from which the lacf estimate will be calculated.
+}
+\item{lag.max}{
+The maximum lag of acf required. If NULL then the same default as in the regular acf function is used.
+}
+
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+An object of class \code{lacf} which contains the autocovariance.
 }
 
 \author{

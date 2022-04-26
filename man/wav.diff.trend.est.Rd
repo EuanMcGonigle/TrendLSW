@@ -10,7 +10,7 @@ This function computes the wavelet thresholding trend estimate for a time series
 \usage{
 wav.diff.trend.est(data, spec, filter.number = 4, thresh.type = "soft",
 normal = TRUE, family = "DaubLeAsymm", max.scale = floor(0.7 * log2(length(data))),
-trans.type = "nondec")
+trans.type = "nondec", boundary.handle = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -37,6 +37,9 @@ Selects the number of scales of the wavelet transform to apply thresholding to. 
 }
   \item{trans.type}{
 The type of wavelet transform used in the procedure. Either "nondec" to use non-decimated wavelet transform and T.I. denoising (recommended), or "dec" to use the standard discrete wavelet transform.
+}
+\item{boundary.handle}{
+Logical variable, decides if boundary handling should be applied to the time series before estimation.
 }
 }
 \details{

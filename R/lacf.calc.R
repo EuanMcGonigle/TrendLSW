@@ -1,26 +1,10 @@
-lacf.calc = function (x, filter.number = 10, family = "DaubLeAsymm", smooth.dev = var,
-                      AutoReflect = TRUE, altered_spec, lag.max = NULL, WPsmooth.type = "RM",
-                      binwidth, tol = 0.1, maxits = 5, ABBverbose = 0, verbose = FALSE,
-                      ...)
+lacf.calc = function (x, filter.number = 10, family = "DaubLeAsymm",
+                      spec.est, lag.max = NULL)
 {
   dsname = deparse(substitute(x))
-  #if (WPsmooth.type == "RM") {
-  #if (missing(binwidth) || binwidth == 0)
-  # binwidth <- AutoBestBW(x = x, filter.number = filter.number,
-  #                       family = family, smooth.dev = smooth.dev, AutoReflect = AutoReflect,
-  #                       tol = tol, maxits = maxits, plot.it = FALSE,
-  #                       verbose = ABBverbose)
-  #if (verbose == TRUE)
-  # cat("Linear Smoothing. Bandwidth is: ", binwidth,
-  # "\n")
-  # }
 
-  #EWS <- ewspec3(x = x, filter.number = filter.number, family = family,
-  #smooth.dev = smooth.dev, AutoReflect = AutoReflect, WPsmooth.type = WPsmooth.type,
-  #binwidth = binwidth, ...)
-
-  S <- altered_spec
-  SmoothWP <- altered_spec
+  S <- spec.est
+  SmoothWP <- spec.est
 
   J <- S$nlevels
   Smat <- matrix(S$D, nrow = length(x), ncol = J)
