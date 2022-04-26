@@ -50,7 +50,3 @@ E T McGonigle
 \examples{
 Atau.mat.calc(J=5, filter.number = 1, family = "DaubExPhase", lag = 1)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

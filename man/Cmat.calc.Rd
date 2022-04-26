@@ -1,6 +1,6 @@
 \name{Cmat.calc}
 \alias{Cmat.calc}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
 \title{
   Cross Autocorrelation Wavelet Inner Product Matrix Calculation
 }
@@ -11,7 +11,7 @@ Function that computes the cross autocorrelation matrix of inner products.
 Cmat.calc(J, gen.filter.number = 1, an.filter.number = 1,
                       gen.family = "DaubExPhase", an.family = "DaubExPhase")
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{J}{
  The dimension of the matrix required. Should be a positive integer.
@@ -42,11 +42,6 @@ McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wa
 \author{
 E T McGonigle
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
@@ -57,7 +52,4 @@ E T McGonigle
 Cmat.calc(J=5, gen.filter.number = 1, an.filter.number = 2,
 gen.family = "DaubExPhase", an.family = "DaubExPhase")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
+
