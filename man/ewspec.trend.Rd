@@ -10,11 +10,11 @@ This function computes the evolutionary wavelet spectrum (EWS) estimate from a t
 }
 \usage{
 ewspec.trend(data, an.filter.number  = 10, an.family = "DaubLeAsymm",
-gen.filter.number  = 10, gen.family = "DaubLeAsymm",
-binwidth = floor(2*sqrt(length(data))),
-max.scale = floor(log2(length(data))*0.7), WP.smooth = TRUE,
-AutoReflect = TRUE, supply_mat = FALSE, mat = NULL,
-boundary.handle = TRUE)
+                        gen.filter.number = an.filter.number, gen.family = an.family,
+                        binwidth = floor(2*sqrt(length(data))),
+                        max.scale = floor(log2(length(data))*0.7), WP.smooth = TRUE,
+                        AutoReflect = TRUE, supply.mat = FALSE, mat = NULL,
+                        boundary.handle = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

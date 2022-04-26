@@ -12,6 +12,7 @@ ewspec.diff(data, lag=1, filter.number  = 1, family = "DaubExPhase",
                        binwidth = floor(2*sqrt(length(data))), diff.number = 1,
                        max.scale = floor(log2(length(data))*0.7), WP.smooth = TRUE,
                        AutoReflect = FALSE, supply.inv.mat = FALSE, inv = NULL)
+}
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{
