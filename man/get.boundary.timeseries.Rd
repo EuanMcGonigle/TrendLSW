@@ -24,7 +24,7 @@ The time series used to calculate the boundary extended version.
 A vector of 4 times the length of the input vector.
 }
 \references{
-%% ~put references to the literature/web site here ~
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. Journal of Time Series Analysis.
 }
 \author{
 E T McGonigle

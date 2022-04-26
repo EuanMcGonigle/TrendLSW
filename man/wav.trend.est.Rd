@@ -44,6 +44,7 @@ A vector of length length(data) containing the trend estimate.
 }
 \references{
 %% ~put references to the literature/web site here ~
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. Journal of Time Series Analysis.
 }
 \author{
 E T McGonigle

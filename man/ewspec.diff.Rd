@@ -75,7 +75,7 @@ The smoothed, un-corrected raw wavelet periodogram of the input data.
 }
 }
 \references{
-McGonigle, E. T., Killick, R., and Nunes, M. (2020). Modelling Time-Varying First and Second-Order Structure of Time Series via Wavelets and Differencing.
+McGonigle, E. T., Killick, R., and Nunes, M. (2021). Modelling Time-Varying First and Second-Order Structure of Time Series via Wavelets and Differencing. arXiv preprint arXiv:2108.07550.
 }
 \author{
 E T McGonigle
