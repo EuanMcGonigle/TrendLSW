@@ -27,9 +27,6 @@ noise = rnorm(512)
 trend = seq(from = 0, to = 5,length = 512)
 x = trend+noise
 
-plot.ts(x, lty = 1, col = 8)
-lines(trend, col = 2, lwd = 2)
-lines(trend.est,col = 4, lwd = 2, lty = 2)
 ````
 
 Apply `wav.trend.est`:
