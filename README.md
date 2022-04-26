@@ -1,6 +1,5 @@
 # TrendLSW
-TrendLSW R Package
-# fvarseg
+
 Implements wavelet methods for analysis of nonstionary time series. See 
 
 > Trend locally stationary wavelet processes
