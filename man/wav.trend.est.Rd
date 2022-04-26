@@ -1,0 +1,79 @@
+\name{wav.trend.est}
+\alias{wav.trend.est}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Linear Wavelet Thresholding Trend Estimation of Second-Order Nonstationary Time Series
+%%  ~~function to do ... ~~
+}
+\description{
+%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+
+This function computes the linear wavelet thresholding trend estimate for a time series that may be second-order nonstationary. The function calculates the wavelet transform of the time series, sets to zero the non-boundary wavelet coffifients, then inverts the transform to give the final estimate.
+
+}
+\usage{
+wav.trend.est(data, filter.number = 10, family = "DaubLeAsymm",
+                         scale = 1, type = "dec", boundary.handle =FALSE)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{data}{
+ The time series you want to esitmate the trend function of.
+}
+\item{filter.number}{
+  Selects the index of the wavelet used in the estimation procedure. For Daubechies compactly supported wavelets the filter number is the number of vanishing moments.
+}
+\item{family}{
+  Selects the wavelet family to use. Recommended to only use the Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.
+}
+\item{scale}{
+Selects the coarsest scale of the wavelet transform to analyse to. Should be a value from 1 (coarsest) to J-1 (finest), where T=2^J is the length of the time series.
+}
+\item{type}{
+The type of wavelet transform used. By default, it is "dec" which is the standard discrete wavelet transform. Can also be "nondec", which uses a non-decimated wavelet transform.
+}
+\item{boundary.handle}{
+ Can be TRUE or FALSE. If TRUE, the time series is boundary corrected, to get a less variable trend estimate at the boundaries of the times series. If FALSE, no boundary correction is applied.
+}
+}
+\details{
+%%  ~~ If necessary, more details than the description above ~~
+}
+\value{
+A vector of length length(data) containing the trend estimate.
+}
+\references{
+%% ~put references to the literature/web site here ~
+}
+\author{
+E T McGonigle
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%% ~~objects to See Also as \code{\link{help}}, ~~~
+}
+\examples{
+##---- computes estimator of simulated linear trend time series
+
+set.seed(1)
+
+noise = rnorm(512)
+trend = seq(from = 0, to = 5,length = 512)
+x = trend+noise
+
+trend.est = wav.trend.est(x, filter.number = 4, family = "DaubLeAsymm", boundary.handle =TRUE)
+
+plot.ts(x, lty = 1, col = 8)
+lines(trend, col = 2, lwd = 2)
+lines(trend.est,col = 4, lwd = 2, lty = 2)
+
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }% use one of  RShowDoc("KEYWORDS")
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
