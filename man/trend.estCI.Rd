@@ -9,15 +9,15 @@ Calculate Confidene Intervals Of Wavelet-Based Trend Estimate
 A function to calculate appropriate confidence intervals for the trend estimate, based on a given trend estimate and covariance matrix of the time series.
 }
 \usage{
-trend.estCI(trend_est, cov_mat, filter.number, family, alpha)
+trend.estCI(trend.est, lacf.est, filter.number = 4, family = "DaubLeAsymm", alpha = 0.95)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{trend_est}{
+  \item{trend.est}{
 The trend estimate of the time series.
 }
-  \item{cov_mat}{
-The covariance matrix estimate of the time series.
+  \item{lacf.est}{
+The estimated local autocovariance of the time series.
 }
 \item{filter.number}{
   The index of the wavelet used in the estimation procedure.
@@ -36,11 +36,11 @@ A list object, containing the following objects:
 \item{trend.var}{
 The variance estimate of the trend estimate.
 }
-\item{upper.conf}{
-The upper pointwise confidence interval for the trend estimate.
-}
 \item{lower.conf}{
 The lower pointwise confidence interval for the trend estimate.
+}
+\item{upper.conf}{
+The upper pointwise confidence interval for the trend estimate.
 }
 }
 \references{
@@ -51,7 +51,7 @@ E T McGonigle
 }
 \seealso{
 
-\code{\link{wav.trend.est}}, \code{\link{lacf.calc}}, \code{\link{create.covmat}}
+\code{\link{wav.trend.est}}, \code{\link{lacf.calc}}
 }
 
 

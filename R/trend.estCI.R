@@ -1,19 +1,40 @@
-trend.estCI = function(trend_est, cov_mat, filter.number = 10, family = "DaubLeAsymm", alpha = 0.95){
+trend.estCI = function(trend.est, lacf.est, filter.number = 4, family = "DaubLeAsymm", alpha = 0.95){
 
   #function to create confidence interval for the trend estimate
 
-  data_len = length(trend_est)
+  data.len = length(trend.est)
 
-  siz <- 1 - alpha
-  qval <- qnorm(1 - siz/2)
+  size <- 1 - alpha
+  qval <- qnorm(1 - size/2)
+
+  create.covmat = function(lacf, data.len){
+
+    lacf = lacf$lacf
+
+    max.lag = length(lacf[1,])
+
+    cov.mat = matrix(0,nrow = data.len,ncol = data.len)
+
+    for (row in 1:data.len){
+      for (column in row:(min((max.lag-1+row),data.len))){
+        cov.mat[row,column] = lacf[row,(abs(column-row)+1)]
+        cov.mat[column,row] = cov.mat[row,column]
+      }
+    }
+
+    cov.mat
+
+  }
+
+  cov.mat = create.covmat(lacf.est, data.len)
 
   #calculate the wavelet transform matrix:
 
-  W = t(GenW(n = data_len,filter.number = filter.number,family = family))
+  W = t(wavethresh::GenW(n = data.len,filter.number = filter.number,family = family))
 
-  scale = log2(data_len)
+  scale = log2(data.len)
 
-  boundary_test = c(rep(0,data_len-1),1)
+  boundary_test = c(rep(0,data.len-1),1)
 
   y_wd = wd(boundary_test,family = family, filter.number = filter.number)
 
@@ -27,11 +48,11 @@ trend.estCI = function(trend_est, cov_mat, filter.number = 10, family = "DaubLeA
 
   }
 
-  boundary_vec = c(1,rep(0,data_len-2),1)
+  boundary_vec = c(1,rep(0,data.len-2),1)
 
   for(i in (scale-1):3){
 
-    boundary_vec[(data_len-2^(i+1)+2):(data_len-2^(i+1)+1+2^i)][boundary_coefs[[i]]] = 1
+    boundary_vec[(data.len-2^(i+1)+2):(data.len-2^(i+1)+1+2^i)][boundary_coefs[[i]]] = 1
 
   }
 
@@ -44,12 +65,21 @@ trend.estCI = function(trend_est, cov_mat, filter.number = 10, family = "DaubLeA
 
   R = t(W)%*%A%*%W
 
-  trend_cov = (R)%*%cov_mat%*%t(R)
+  trend.cov = (R)%*%cov.mat%*%t(R)
 
-  trend_var = diag(trend_cov)
+  trend.sd = suppressWarnings(sqrt(diag(trend.cov)))
 
-  l = list(trend.est = trend_est, trend.var = trend_var, upper.conf = trend_est+qval*trend_var,
-           lower.conf = trend_est-qval*trend_var)
+  v.nas = which(is.na(trend.sd))
+
+  trend.sd.final = trend.sd
+
+  if(length(v.nas>0)){
+    for(i in 1:length(v.nas)){
+      trend.sd.final[v.nas[i]] = trend.sd[which(!is.nan(trend.sd))][which.min(abs(v.nas[i]-which(!is.nan(trend.sd))))]
+    }
+  }
+
+  l = list(trend.est = trend.est, trend.var = trend.sd.final^2, lower.conf = trend.est-trend.sd.final*qval, upper.conf = trend.est+trend.sd.final*qval)
 
   return(l)
 
