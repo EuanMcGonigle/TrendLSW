@@ -3,9 +3,6 @@ ewspec.diff = function(data, lag=1, filter.number  = 1, family = "DaubExPhase",
                        max.scale = floor(log2(length(data))*0.7), WP.smooth = TRUE,
                        AutoReflect = FALSE, supply.inv.mat = FALSE, inv = NULL){
 
-  #require(wavethresh)
-  #require(locits)
-
   #function that computes the spectral estimate of a time series that has a trend.
 
   #user chooses a maximum scale of the wavelet transform to analyse,
