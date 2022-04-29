@@ -31,9 +31,6 @@ The maximum lag of acf required. If NULL then the same default as in the regular
 }
 
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 An object of class \code{lacf} which contains the autocovariance.
 }
@@ -43,11 +40,9 @@ E T McGonigle
 }
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+
 \code{\link{lacf}}
 
 }
-\examples{
 
-}
 

@@ -66,12 +66,6 @@ McGonigle, E. T., Killick, R., and Nunes, M. (2020). Modelling Time-Varying Firs
 \author{
 E T McGonigle
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 \code{\link{ewspec.diff}}, \code{\link{wav.trend.est}}

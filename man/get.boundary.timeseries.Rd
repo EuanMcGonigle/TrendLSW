@@ -17,9 +17,6 @@ get.boundary.timeseries(data)
 The time series used to calculate the boundary extended version.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 A vector of 4 times the length of the input vector.
 }
@@ -29,16 +26,15 @@ McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wa
 \author{
 E T McGonigle
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 
+  trend = seq(from = 0, to = 2, length = 400)
+  set.seed(1)
+
+  x = rnorm(400) + trend
+
+  x.b = get.boundary.timeseries(x)
+
+  plot.ts(x.b)
 }
 

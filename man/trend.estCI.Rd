@@ -29,9 +29,6 @@ The covariance matrix estimate of the time series.
   The significance level of the confidence interval to calculate. Default is 0.95.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 A list object, containing the following objects:
 \item{trend.est}{The trend estimate of the input data.
@@ -47,23 +44,14 @@ The lower pointwise confidence interval for the trend estimate.
 }
 }
 \references{
-%% ~put references to the literature/web site here ~
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. Journal of Time Series Analysis.
 }
 \author{
 E T McGonigle
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 
 \code{\link{wav.trend.est}}, \code{\link{lacf.calc}}, \code{\link{create.covmat}}
 }
-\examples{
 
-}
 

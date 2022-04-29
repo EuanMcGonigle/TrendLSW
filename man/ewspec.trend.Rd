@@ -87,15 +87,6 @@ Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and ada
 \author{
 E T McGonigle
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 
 ##---- simulates an example time series and estimates its EWS
@@ -109,9 +100,10 @@ trend = seq(from = 0, to = 10,length = 1024)
 
 x = trend+noise
 
-spec.est = ewspec.trend(x, an.filter.number =4, an.family = "DaubExPhase", gen.filter.number = 1, gen.family = "DaubExPhase", max.scale = 7)
+spec.est = ewspec.trend(x, an.filter.number =4, an.family = "DaubExPhase",
+gen.filter.number = 1, gen.family = "DaubExPhase", max.scale = 7)
 
-easy.spec.plot(spec.est$S)
+simple.spec.plot(spec.est$S)
 
 
 }

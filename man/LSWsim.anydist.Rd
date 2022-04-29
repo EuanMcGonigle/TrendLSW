@@ -19,24 +19,12 @@ An object of class wd which contains the spectrum for simulating an LSW process.
 The distribution of the random variables used to simulate the process. Can be "Normal", "Exponential", "Chisquare" or "Poisson".
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 A vector simulated from the spectral description given in the spec description. The returned vector will exhibit the spectral characteristics defined by spec.
-}
-\references{
-%% ~put references to the literature/web site here ~
 }
 \author{
 E T McGonigle
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 

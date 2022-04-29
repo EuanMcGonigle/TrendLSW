@@ -82,14 +82,8 @@ McGonigle, E. T., Killick, R., and Nunes, M. (2021). Modelling Time-Varying Firs
 \author{
 E T McGonigle
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
 \code{\link{ewspec}}, \code{\link{ewspec3}}, \code{\link{ewspec.trend}}
 
 }
@@ -107,7 +101,7 @@ x = trend+noise
 
 spec.est = ewspec.diff(x,family = "DaubExPhase", filter.number = 1,max.scale = 7)
 
-easy.spec.plot(spec.est$S)
+simple.spec.plot(spec.est$S)
 
 
 }

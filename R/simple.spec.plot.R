@@ -1,4 +1,4 @@
-easy.spec.plot = function(spectrum, bylev = FALSE){
+simple.spec.plot = function(spectrum, bylev = FALSE){
 
   scales = nlevelsWT(spectrum)
   if (bylev ==FALSE){

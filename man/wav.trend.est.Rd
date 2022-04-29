@@ -37,9 +37,6 @@ The type of wavelet transform used. By default, it is "dec" which is the standar
  Can be TRUE or FALSE. If TRUE, the time series is boundary corrected, to get a less variable trend estimate at the boundaries of the times series. If FALSE, no boundary correction is applied.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 A vector of length length(data) containing the trend estimate.
 }
@@ -50,14 +47,8 @@ McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wa
 \author{
 E T McGonigle
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{wav.diff.trend.est}}
 }
 \examples{
 ##---- computes estimator of simulated linear trend time series

@@ -1,2 +1,5 @@
 exportPattern("^[[:alpha:]]+")
 import(wavethresh, locits, binhf)
+importFrom("graphics", "plot")
+importFrom("stats", "lm", "predict", "qnorm", "rchisq", "rexp",
+               "rnorm", "rpois")

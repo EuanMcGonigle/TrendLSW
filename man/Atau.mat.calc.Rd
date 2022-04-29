@@ -37,16 +37,6 @@ McGonigle, E. T., Killick, R., and Nunes, M. (2021). Modelling Time-Varying Firs
 \author{
 E T McGonigle
 }
-\note{
-%%  ~~further notes~~
-}
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-
-}
 \examples{
 Atau.mat.calc(J=5, filter.number = 1, family = "DaubExPhase", lag = 1)
 }
