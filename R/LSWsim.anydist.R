@@ -23,5 +23,5 @@ LSWsim.anydist = function (spec, distribution = "Normal")
     }
     spec <- putD(spec, level = i, v = v)
   }
-  AvBasis(convert(spec))
+  wavethresh::AvBasis(wavethresh::convert(spec))
 }

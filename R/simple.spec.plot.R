@@ -1,6 +1,6 @@
 simple.spec.plot = function(spectrum, bylev = FALSE){
 
-  scales = nlevelsWT(spectrum)
+  scales = wavethresh::nlevelsWT(spectrum)
   if (bylev ==FALSE){
     plot(spectrum, ylabchars = -(1:scales), main = "", sub = "", ylab = "Scale")
   }
