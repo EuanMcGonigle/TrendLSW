@@ -34,7 +34,7 @@ Apply `wav.trend.est`:
 trend.est = wav.trend.est(x, filter.number = 4, family = "DaubLeAsymm", boundary.handle =TRUE)
 ```
 
-Visulaise the estimated trend function and underlying truth:
+Visualise the estimated trend function and underlying truth:
 ```
 plot.ts(x, lty = 1, col = 8)
 lines(trend, col = 2, lwd = 2)
