@@ -14,7 +14,12 @@ get.boundary.timeseries = function(data, type = "TLSW"){
 
   bh.left = predict(L, newdata = data.frame(s=-1/data.len))
 
-  bh.series1 = c(-rev(data)+2*bh.left, data, -rev(data)+2*bh.right)
+  if (type == "LSW.diff"){
+    bh.series1 = c(data-bh.right+bh.left,data, data+bh.right-bh.left)
+  } else{
+    bh.series1 = c(-rev(data)+2*bh.left, data, -rev(data)+2*bh.right)
+  }
+
   if(is.na(J)==TRUE){
     l = 2^floor(log2(length(bh.series1)))
     k = floor((3*data.len-l)/2)
@@ -25,6 +30,7 @@ get.boundary.timeseries = function(data, type = "TLSW"){
     }
 
     return(bh.series2)
+
   } else{
     l = length(bh.series1)
 
@@ -32,7 +38,5 @@ get.boundary.timeseries = function(data, type = "TLSW"){
 
     return(bh.series2)
   }
-
-
 
 }
