@@ -4,7 +4,7 @@ get.boundary.timeseries = function(data){
   #boundary handling to both sides.
 
   data.len = length(data)
-  J = IsPowerOfTwo(data.len)
+  J = wavethresh::IsPowerOfTwo(data.len)
 
   s = seq(from = 0 , to = (data.len-1)/data.len,length =data.len)
 
