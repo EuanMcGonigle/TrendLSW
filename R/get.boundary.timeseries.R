@@ -6,9 +6,9 @@ get.boundary.timeseries = function(data){
   data.len = length(data)
   J = wavethresh::IsPowerOfTwo(data.len)
 
-  s = seq(from = 0 , to = (data.len-1)/data.len,length =data.len)
+  s = seq(from = 0 , to = (data.len-1)/data.len,length = data.len)
 
-  l = lm(data~poly(s,6,raw = TRUE))
+  l = lm(data~poly(s,3,raw = TRUE))
 
   bh_right = 2*predict(l, newdata = data.frame(s=1))
 
