@@ -1,6 +1,6 @@
 Package: TrendLSW
 Type: Package
-Title: Wavelet methods for analysing first and second-order properties of nonstationary time series
+Title: Wavelet Methods for Analysing First- and Second-Order Properties of Locally Stationary Time Series
 Version: 1.0.1
 Author: Euan McGonigle
 Maintainer: Euan McGonigle <euan.mcgonigle@bristol.ac.uk>
