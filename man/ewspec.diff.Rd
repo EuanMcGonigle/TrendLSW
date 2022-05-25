@@ -11,7 +11,8 @@ This function computes the evolutionary wavelet spectrum (EWS) estimate from a t
 ewspec.diff(data, lag=1, filter.number  = 1, family = "DaubExPhase",
                        binwidth = floor(2*sqrt(length(data))), diff.number = 1,
                        max.scale = floor(log2(length(data))*0.7), WP.smooth = TRUE,
-                       AutoReflect = FALSE, supply.inv.mat = FALSE, inv = NULL)
+                       boundary.handle = FALSE, AutoReflect = FALSE,
+                       supply.inv.mat = FALSE,inv = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -38,6 +39,9 @@ The coarsest level to which the time series is analysed to. Should be a positive
 }
   \item{WP.smooth}{
 Argument that dictates if smoothing is performed on the raw wavelet periodogram.
+}
+  \item{boundary.handle}{
+  Logical variable, if TRUE, then boundary handling will be applied when computing the periodogram. Recommended to set as FALSE, will be set as TRUE automatically if non-dyadic data is used.
 }
   \item{AutoReflect}{
 As in wavethresh. Decides whether or not the time series is reflected when computing the wavelet transform. Strongly recommended to leave as FALSE.

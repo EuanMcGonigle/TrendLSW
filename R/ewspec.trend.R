@@ -113,11 +113,7 @@ ewspec.trend = function(data, an.filter.number  = 10, an.family = "DaubLeAsymm",
 
       return(final_spec)
 
-
-
     }
-
-
   }
 
 
@@ -159,7 +155,6 @@ ewspec.trend = function(data, an.filter.number  = 10, an.family = "DaubLeAsymm",
   #now fill in wd object with final spectrum estimate.
 
   S = wavethresh::cns(2^J, filter.number = gen.filter.number,family = gen.family)
-
 
   for (j in 1:max.scale){
     S = wavethresh::putD(S, level = J-j, cor.spec.mat[j,])

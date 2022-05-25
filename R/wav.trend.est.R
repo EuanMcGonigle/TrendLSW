@@ -30,7 +30,7 @@ wav.trend.est = function(data, filter.number = 4, family = "DaubLeAsymm",
     data = get.boundary.timeseries(data)
   }
   data.len = length(data)
-  J = IsPowerOfTwo(data.len)
+  J = wavethresh::IsPowerOfTwo(data.len)
 
 
   #below code determines the boundary coefficients for a given wavelet
@@ -76,7 +76,7 @@ wav.trend.est = function(data, filter.number = 4, family = "DaubLeAsymm",
 
   }
 
-  #perform inverse tranfsorm on thresholded coefficients
+  #perform inverse transform on thresholded coefficients
   if (type == "dec"){
     data_wr = wr(data.thresh)
   }

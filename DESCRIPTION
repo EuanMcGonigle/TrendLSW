@@ -8,5 +8,5 @@ Description: Wavelet-based routines for trend estimation and second-order estima
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
-Imports: wavethresh, locits, binhf
+Imports: wavethresh, locits
 RoxygenNote: 7.1.1
