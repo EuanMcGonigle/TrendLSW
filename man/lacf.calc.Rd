@@ -1,9 +1,7 @@
 \name{lacf.calc}
 \alias{lacf.calc}
-%- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Compute localised autocovariance estimate from spectrum estimate.
-%%  ~~function to do ... ~~
+Compute localised autocovariance estimate from spectrum estimate.~
 }
 \description{
 Function that produces an lacf object that contains the local autocovariance and autocorrelation estimates, given an input of a spectrum estimate. Provides the same functionality as the function \code{lacf} from the locits package, but user specifies the spectrum estimate in the argument.
@@ -12,7 +10,6 @@ Function that produces an lacf object that contains the local autocovariance and
 lacf.calc(x, filter.number = 10, family = "DaubLeAsymm",
                       spec.est, lag.max = NULL)
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
 \item{x}{
 	The time series you wish to analyse.
