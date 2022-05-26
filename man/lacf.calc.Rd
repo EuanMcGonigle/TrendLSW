@@ -6,7 +6,7 @@ Compute localised autocovariance estimate from spectrum estimate.
 %%  ~~function to do ... ~~
 }
 \description{
-Function that produces an lacf object that contains the local autocovariance and autocorrelation estimates, given an input of a spectrum estimate. Same functionality as lacf function from locits, but user specifies the spectrum estimate in the argument.
+Function that produces an lacf object that contains the local autocovariance and autocorrelation estimates, given an input of a spectrum estimate. Provides the same functionality as the function \code{lacf} from the locits package, but user specifies the spectrum estimate in the argument.
 }
 \usage{
 lacf.calc(x, filter.number = 10, family = "DaubLeAsymm",
