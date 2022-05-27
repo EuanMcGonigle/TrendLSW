@@ -5,11 +5,11 @@ Cmat.calc = function(J, gen.filter.number = 1, an.filter.number = 1,
 
   C_mat = matrix(0, nrow = J, ncol = J)
 
-  h.gen = filter.select(filter.number = gen.filter.number, family = gen.family)$H #access the filter for chosen wavelet
+  h.gen = wavethresh::filter.select(filter.number = gen.filter.number, family = gen.family)$H #access the filter for chosen wavelet
 
   h.gen.len = as.numeric(length(h.gen))
 
-  h.an = filter.select(filter.number = an.filter.number, family = an.family)$H #access the filter for chosen wavelet
+  h.an = wavethresh::filter.select(filter.number = an.filter.number, family = an.family)$H #access the filter for chosen wavelet
 
   h.an.len = as.numeric(length(h.an))
 

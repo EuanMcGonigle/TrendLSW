@@ -48,7 +48,7 @@ wav.trend.est = function(data, filter.number = 4, family = "DaubLeAsymm",
 
   for (j in (J-1):(J-max.scale)){
 
-    temp = accessD(y.wd,level = j)
+    temp = wavethresh::accessD(y.wd,level = j)
 
     boundary.coefs[[j]] = (which(temp!=0))
 
@@ -68,20 +68,20 @@ wav.trend.est = function(data, filter.number = 4, family = "DaubLeAsymm",
 
   for (j in (J-1):(J-max.scale)){
 
-    temp = accessD(data.wd,level = j)
+    temp = wavethresh::accessD(data.wd,level = j)
 
     temp[-boundary.coefs[[j]]] = 0
 
-    data.thresh = putD(data.thresh, temp,level = j)
+    data.thresh = wavethresh::putD(data.thresh, temp,level = j)
 
   }
 
   #perform inverse transform on thresholded coefficients
   if (type == "dec"){
-    data_wr = wr(data.thresh)
+    data_wr = wavethresh::wr(data.thresh)
   }
   else if (type == "nondec"){
-    data_wr = AvBasis(convert(data.thresh))
+    data_wr = wavethresh::AvBasis(convert(data.thresh))
   }
 
   #subset the longer estimate to get the ture estimate

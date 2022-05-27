@@ -5,10 +5,10 @@ LSWsim.anydist = function (spec, distribution = "Normal")
 
   if (any(spec$D < 0))
     stop("All spectral elements must be non-negative")
-  nlev <- nlevelsWT(spec)
+  nlev <- wavethresh::nlevelsWT(spec)
   len <- 2^nlev
   for (i in (nlev - 1):0) {
-    v <- accessD(spec, level = i)
+    v <- wavethresh::accessD(spec, level = i)
     if(distribution=="Poisson"){
       v <- sqrt(v) * 2^(nlev - i) * (rpois(len,1)-1)
     }
@@ -21,7 +21,7 @@ LSWsim.anydist = function (spec, distribution = "Normal")
     else if(distribution=="Chisquare"){
       v <- sqrt(v) * 2^(nlev - i) * (rchisq(n=len, df = 1/2)-1/2)
     }
-    spec <- putD(spec, level = i, v = v)
+    spec <- wavethresh::putD(spec, level = i, v = v)
   }
   wavethresh::AvBasis(wavethresh::convert(spec))
 }

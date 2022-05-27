@@ -36,13 +36,13 @@ trend.estCI = function(trend.est, lacf.est, filter.number = 4, family = "DaubLeA
 
   boundary_test = c(rep(0,data.len-1),1)
 
-  y_wd = wd(boundary_test,family = family, filter.number = filter.number)
+  y_wd = wavethresh::wd(boundary_test,family = family, filter.number = filter.number)
 
   boundary_coefs = list(1:scale)
 
   for (i in (scale-1):1){
 
-    temp = accessD(y_wd,level = i)
+    temp = wavethresh::accessD(y_wd,level = i)
 
     boundary_coefs[[i]] = (which(temp!=0))
 
@@ -61,7 +61,7 @@ trend.estCI = function(trend.est, lacf.est, filter.number = 4, family = "DaubLeA
 
   A = diag(boundary_vec)
 
-  #calcualte the covariance matrix of the trend estimate:
+  #calculate the covariance matrix of the trend estimate:
 
   R = t(W)%*%A%*%W
 

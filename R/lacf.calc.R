@@ -8,7 +8,7 @@ lacf.calc = function (x, filter.number = 10, family = "DaubLeAsymm",
 
   J <- S$nlevels
   Smat <- matrix(S$D, nrow = length(x), ncol = J)
-  Psi <- PsiJmat(-J, filter.number = filter.number, family = family)
+  Psi <- wavethresh::PsiJmat(-J, filter.number = filter.number, family = family)
   nc <- ncol(Psi)
   L <- (nc - 1)/2
   dimnames(Psi) <- list(NULL, c(-L:0, 1:L))

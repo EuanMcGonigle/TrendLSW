@@ -66,13 +66,12 @@ wav.diff.trend.est = function(data, spec, filter.number = 4, thresh.type = "soft
     var.mat
 
   }
-  #find negative values and replace them with nearby positive values:
 
 
   spec.mat = matrix(0,nrow = max.scale,ncol = length(accessD(spec,level = 0)))
 
   for (j in 1:max.scale){
-    spec.mat[j,] = accessD(spec,level = nlevelsWT(spec)-j)
+    spec.mat[j,] = wavethresh::accessD(spec,level = nlevelsWT(spec)-j)
   }
 
   #calculate variance estimate matrix
@@ -101,22 +100,10 @@ wav.diff.trend.est = function(data, spec, filter.number = 4, thresh.type = "soft
 
     bc.var.mat[,lower:upper] = var.mat[,1:length(orig.data)]
 
-    #boundary.coefs = list()
-
-    #for (i in 1:max.scale){
-
-      #temp = accessD(y.wd,level = nlevelsWT(y.wd)-i)
-
-      #boundary.coefs[[i]] = (which(temp!=0))
-
-      #bc.var.mat[i,boundary.coefs[[i]]] = 0
-    #}
-
-
 
     for (j in 1:max.scale){
 
-      dj = accessD(data.wd,level = J-j)
+      dj = wavethresh::accessD(data.wd,level = J-j)
 
       if (normal==TRUE){
         thresh = sqrt(2*bc.var.mat[j,]*log(data.len))
@@ -134,12 +121,12 @@ wav.diff.trend.est = function(data, spec, filter.number = 4, thresh.type = "soft
         temp1[abs(dj)>=thresh] = sign(temp2)*(abs(temp2)-thresh[abs(dj)>=thresh])
       }
 
-      data.wd.thresh = putD(data.wd.thresh,level = J-j, temp1)
+      data.wd.thresh = wavethresh::putD(data.wd.thresh,level = J-j, temp1)
     }
 
     #invert the thresholded object to get trend estimate:
 
-    trend.est = AvBasis(convert(data.wd.thresh))
+    trend.est = wavethresh::AvBasis(convert(data.wd.thresh))
 
     if (boundary.handle ==TRUE){
       if(dyadic==TRUE){
@@ -161,7 +148,7 @@ wav.diff.trend.est = function(data, spec, filter.number = 4, thresh.type = "soft
 
     for (j in 1:max.scale){
 
-      dj = accessD(data.wd,level = J-j)
+      dj = wavethresh::accessD(data.wd,level = J-j)
 
       if (normal==TRUE){
         thresh = sqrt(2*var.mat[j,]*log(data.len))
@@ -179,12 +166,12 @@ wav.diff.trend.est = function(data, spec, filter.number = 4, thresh.type = "soft
         temp1[abs(dj)>=thresh] = sign(temp2)*(abs(temp2)-thresh[abs(dj)>=thresh])
       }
 
-      data.wd.thresh = putD(data.wd.thresh,level = J-j, temp1)
+      data.wd.thresh = wavethresh::putD(data.wd.thresh,level = J-j, temp1)
     }
 
     #invert the thresholded object to get trend estimate:
 
-    trend.est = AvBasis(convert(data.wd.thresh))
+    trend.est = wavethresh::AvBasis(convert(data.wd.thresh))
 
     return(trend.est)
 
