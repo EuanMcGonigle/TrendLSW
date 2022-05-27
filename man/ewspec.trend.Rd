@@ -100,7 +100,7 @@ trend = seq(from = 0, to = 10,length = 1024)
 
 x = trend+noise
 
-spec.est = ewspec.trend(x, an.filter.number =4, an.family = "DaubExPhase",
+spec.est = ewspec.trend(x, an.filter.number = 4, an.family = "DaubExPhase",
 gen.filter.number = 1, gen.family = "DaubExPhase", max.scale = 7)
 
 simple.spec.plot(spec.est$S)

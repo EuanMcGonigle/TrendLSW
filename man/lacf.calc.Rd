@@ -4,7 +4,7 @@
 Compute localised autocovariance estimate from spectrum estimate.~
 }
 \description{
-Function that produces an lacf object that contains the local autocovariance and autocorrelation estimates, given an input of a spectrum estimate. Provides the same functionality as the function \code{lacf} from the locits package, but user specifies the spectrum estimate in the argument.
+Computes the local autocovariance and autocorrelation estimates, given an input of a spectrum estimate. Provides the same functionality as the function \code{lacf} from the locits package, but user provides the spectrum estimate in the argument.
 }
 \usage{
 lacf.calc(x, filter.number = 10, family = "DaubLeAsymm",
@@ -40,6 +40,31 @@ E T McGonigle
 
 \code{\link{lacf}}
 
+}
+\examples{
+##---- computes estimate of local autocovariance function using the ewspec.trend
+##---- function to compute the spectral estimate
+
+##---- example where LSW process is generated using the Haar wavelet
+
+spec = wavethresh::cns(1024)
+spec = wavethresh::putD(spec, level = 8, 1+sin(seq(from = 0, to = 2*pi,length = 1024))^2)
+
+noise = wavethresh::LSWsim(spec)
+trend = seq(from = 0, to = 10,length = 1024)
+
+x = trend+noise
+
+##---- first estimate the spectrum using Daubechies EP4 wavelet:
+
+spec.est = ewspec.trend(x, an.filter.number = 4, an.family = "DaubExPhase",
+gen.filter.number = 1, gen.family = "DaubExPhase", max.scale = 7)
+
+#---- estimate the lacf specifying the Haar wavelet as the generating wavelet
+
+lacf.est = lacf.calc(x = x, filter.number = 1, family = "DaubExPhase", spec.est = spec.est$S)
+
+plot.ts(lacf.est$lacf[,1])
 }
 
 
