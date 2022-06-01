@@ -58,10 +58,10 @@ The function works as follows:
 A vector of length length(data) containing the trend estimate.
 }
 \references{
-McGonigle, E. T., Killick, R., and Nunes, M. (2020). Modelling Time-Varying First and Second-Order Structure of Time Series via Wavelets and Differencing.
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling time-varying first and second-order structure of time series via wavelets and differencing. \emph{arXiv preprint} \href{https://arxiv.org/abs/2108.07550}{arXiv:2108.07550}.
 }
 \author{
-E T McGonigle
+Euan T. McGonigle
 }
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~

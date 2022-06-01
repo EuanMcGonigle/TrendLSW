@@ -24,9 +24,11 @@ LazyLoad: \tab yes\cr
 Maintainer: \packageMaintainer{TrendLSW}
 }
 \references{
-McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. Journal of Time Series Analysis.
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. \emph{Journal of Time Series Analysis}.
 
-Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and adaptive estimation of the evolutionary wavelet spectrum. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 62(2):271–292.
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling time-varying first and second-order structure of time series via wavelets and differencing. \emph{arXiv preprint} \href{https://arxiv.org/abs/2108.07550}{arXiv:2108.07550}.
+
+Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and adaptive estimation of the evolutionary wavelet spectrum. \emph{Journal of the Royal Statistical Society: Series B (Statistical Methodology)}, \bold{62(2)}, 271--292.
 }
 \seealso{
 
@@ -57,8 +59,6 @@ trend.est = wav.trend.est(x, filter.number = 4, family = "DaubLeAsymm", boundary
 plot.ts(x, lty = 1, col = 8)
 lines(trend, col = 2, lwd = 2)
 lines(trend.est,col = 4, lwd = 2, lty = 2)
-
-
 
 
 }

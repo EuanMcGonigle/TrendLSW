@@ -23,7 +23,7 @@ The distribution of the random variables used to simulate the process. Can be "N
 A vector simulated from the spectral description given in the spec description. The returned vector will exhibit the spectral characteristics defined by spec.
 }
 \author{
-E T McGonigle
+Euan T. McGonigle
 }
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~

@@ -18,7 +18,7 @@ If TRUE, plots each level of the spectrum on its own individual scaling.
 }
 }
 \author{
-E T McGonigle
+Euan T. McGonigle
 }
 
 \examples{

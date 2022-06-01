@@ -37,15 +37,13 @@ This function computes the cross inner product matrix of the discrete non-decima
 A J-dimensional square matrix giving the cross inner product autocorrelation wavelet matrix.
 }
 \references{
-McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. Journal of Time Series Analysis.
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. \emph{Journal of Time Series Analysis}.
 }
 \author{
-E T McGonigle
+Euan T. McGonigle
 }
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-
 \code{\link{ewspec.trend}}, \code{\link{wav.diff.trend.est}}
 }
 \examples{

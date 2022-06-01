@@ -21,7 +21,7 @@ lacf.calc(x, filter.number = 10, family = "DaubLeAsymm",
 Wavelet family that generated the time series.
 }
 \item{spec.est}{
-Estiamted spectrum from which the lacf estimate will be calculated.
+Estimated spectrum from which the lacf estimate will be calculated.
 }
 \item{lag.max}{
 The maximum lag of acf required. If NULL then the same default as in the regular acf function is used.
@@ -31,9 +31,14 @@ The maximum lag of acf required. If NULL then the same default as in the regular
 \value{
 An object of class \code{lacf} which contains the autocovariance.
 }
+\references{
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. \emph{Journal of Time Series Analysis}.
+
+Nason, G. P. (2013). A test for second‐order stationarity and approximate confidence intervals for localized autocovariances for locally stationary time series. \emph{Journal of the Royal Statistical Society: Series B (Statistical Methodology)}, \bold{75(5)}, 879--904.
+}
 
 \author{
-E T McGonigle
+Euan T. McGonigle
 }
 
 \seealso{
