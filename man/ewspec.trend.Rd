@@ -82,7 +82,7 @@ The smoothed, un-corrected raw wavelet periodogram of the input data.
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. Journal of Time Series Analysis.
 
-Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and adaptive estima- tion of the evolutionary wavelet spectrum. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 62(2):271–292.
+Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and adaptive estimation of the evolutionary wavelet spectrum. Journal of the Royal Statistical Society: Series B (Statistical Methodology), 62(2):271–292.
 }
 \author{
 E T McGonigle
@@ -92,16 +92,16 @@ E T McGonigle
 ##---- simulates an example time series and estimates its EWS
 
 
-spec = wavethresh::cns(1024)
-spec = wavethresh::putD(spec, level = 8, 1+sin(seq(from = 0, to = 2*pi,length = 1024))^2)
+spec = wavethresh::cns(512)
+spec = wavethresh::putD(spec, level = 8, 1+sin(seq(from = 0, to = 2*pi,length = 512))^2)
 
 noise = wavethresh::LSWsim(spec)
-trend = seq(from = 0, to = 10,length = 1024)
+trend = seq(from = 0, to = 5,length = 512)
 
 x = trend+noise
 
 spec.est = ewspec.trend(x, an.filter.number = 4, an.family = "DaubExPhase",
-gen.filter.number = 1, gen.family = "DaubExPhase", max.scale = 7)
+gen.filter.number = 1, gen.family = "DaubExPhase")
 
 simple.spec.plot(spec.est$S)
 

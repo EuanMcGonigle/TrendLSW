@@ -1,12 +1,16 @@
 Package: TrendLSW
 Type: Package
-Title: Wavelet Methods for Analysing First- and Second-Order Properties of Locally Stationary Time Series
-Version: 1.0.0
-Authors@R: c(person("Euan", "McGonigle", role=c("aut", "cre"),
-        email="euan.mcgonigle@bristol.ac.uk", comment = c(ORCID = "0000-0003-0902-0035")))
-Author: Euan  McGonigle [aut, cre]
-Depends: R (>= 2.10)
-Maintainer: Euan McGonigle <euan.mcgonigle@bristol.ac.uk>
+Title: Wavelet Methods for Analysing Locally Stationary Time Series
+Version: 0.1.0
+Authors@R: c(person("Euan T.", "McGonigle", role=c("aut", "cre"),
+        email="euan.mcgonigle@bristol.ac.uk", comment = c(ORCID = "0000-0003-0902-0035")),
+        person("Rebecca","Killick",role="ths"),
+        person("Matthew","Nunes",role="ths"))
+Author: Euan T. McGonigle [aut, cre],
+    Rebecca Killick [ths],
+    Matthew Nunes [ths]
+Depends: R (>= 4.1.0)
+Maintainer: Euan T. McGonigle <euan.mcgonigle@bristol.ac.uk>
 Description: Provides wavelet-based methods for trend, spectrum and autocovariance estimation of locally 
     stationary time series.
 License: GPL (>= 3)

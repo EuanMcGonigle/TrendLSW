@@ -47,18 +47,18 @@ E T McGonigle
 
 ##---- example where LSW process is generated using the Haar wavelet
 
-spec = wavethresh::cns(1024)
-spec = wavethresh::putD(spec, level = 8, 1+sin(seq(from = 0, to = 2*pi,length = 1024))^2)
+spec = wavethresh::cns(512)
+spec = wavethresh::putD(spec, level = 8, 1+sin(seq(from = 0, to = 2*pi,length = 512))^2)
 
 noise = wavethresh::LSWsim(spec)
-trend = seq(from = 0, to = 10,length = 1024)
+trend = seq(from = 0, to = 10,length = 512)
 
 x = trend+noise
 
 ##---- first estimate the spectrum using Daubechies EP4 wavelet:
 
 spec.est = ewspec.trend(x, an.filter.number = 4, an.family = "DaubExPhase",
-gen.filter.number = 1, gen.family = "DaubExPhase", max.scale = 7)
+gen.filter.number = 1, gen.family = "DaubExPhase")
 
 #---- estimate the lacf specifying the Haar wavelet as the generating wavelet
 
