@@ -51,7 +51,7 @@ E T McGonigle
 \code{\link{wav.diff.trend.est}}
 }
 \examples{
-##---- computes estimator of simulated linear trend time series
+# computes trend estimator of simulated linear trend time series
 
 set.seed(1)
 

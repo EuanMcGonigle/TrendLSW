@@ -89,8 +89,7 @@ E T McGonigle
 }
 \examples{
 
-##---- simulates an example time series and estimates its EWS
-
+# simulates an example time series and estimates its evolutionary wavelet spectrum
 
 spec = wavethresh::cns(512)
 spec = wavethresh::putD(spec, level = 8, 1+sin(seq(from = 0, to = 2*pi,length = 512))^2)
