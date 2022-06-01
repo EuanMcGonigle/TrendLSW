@@ -1,12 +1,12 @@
 # TrendLSW
 
-Implements wavelet methods for analysis of nonstionary time series. See 
+Implements wavelet methods for analysis of nonstationary time series. See 
 
-> Trend locally stationary wavelet processes
+> McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. \emph{Journal of Time Series Analysis}.
 > 
-> Modelling time-varying first and second-order structure of time Series via wavelets and differencing
+> McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling time-varying first and second-order structure of time series via wavelets and differencing. \emph{arXiv preprint} [https://arxiv.org/abs/2108.07550](arXiv:2108.07550).
 
-by Euan T. McGonigle, Rebecca Killick and Matthew A. Nunes. See [here]( https://doi.org/10.1111/jtsa.12643) and [arXiv:2108.07750](https://arxiv.org/abs/2108.07550) for full details.
+for full details.
 
 ## Installation
 
