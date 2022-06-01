@@ -4,7 +4,7 @@ Title: Wavelet Methods for Analysing Locally Stationary Time Series
 Version: 0.1.0
 Date: 2022-06-01
 Authors@R: c(person("Euan T.", "McGonigle", role=c("aut", "cre"),
-        email="euan.mcgonigle@bristol.ac.uk", comment = c(ORCID = "0000-0003-0902-0035")),
+        email="euan.mcgonigle@bristol.ac.uk"),
         person("Rebecca","Killick",role="ths"),
         person("Matthew","Nunes",role="ths"))
 Author: Euan T. McGonigle [aut, cre],

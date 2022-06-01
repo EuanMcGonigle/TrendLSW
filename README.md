@@ -6,7 +6,7 @@ Implements wavelet methods for analysis of nonstionary time series. See
 > 
 > Modelling time-varying first and second-order structure of time Series via wavelets and differencing
 
-by Euan T. McGonigle, Rebecca Killick and Matthew A. Nunes. See [here](https://onlinelibrary.wiley.com/doi/10.1111/jtsa.12643) and [arXiv:2108.07750](https://arxiv.org/abs/2108.07550) for full details.
+by Euan T. McGonigle, Rebecca Killick and Matthew A. Nunes. See [here]( https://doi.org/10.1111/jtsa.12643) and [arXiv:2108.07750](https://arxiv.org/abs/2108.07550) for full details.
 
 ## Installation
 
