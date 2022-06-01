@@ -1,7 +1,6 @@
-lacf.calc = function (x, filter.number = 10, family = "DaubLeAsymm",
-                      spec.est, lag.max = NULL)
-{
-  dsname = deparse(substitute(x))
+lacf.calc <- function(x, filter.number = 10, family = "DaubLeAsymm",
+                      spec.est, lag.max = NULL) {
+  dsname <- deparse(substitute(x))
 
   S <- spec.est
   SmoothWP <- spec.est
@@ -10,19 +9,24 @@ lacf.calc = function (x, filter.number = 10, family = "DaubLeAsymm",
   Smat <- matrix(S$D, nrow = length(x), ncol = J)
   Psi <- wavethresh::PsiJmat(-J, filter.number = filter.number, family = family)
   nc <- ncol(Psi)
-  L <- (nc - 1)/2
+  L <- (nc - 1) / 2
   dimnames(Psi) <- list(NULL, c(-L:0, 1:L))
-  if (is.null(lag.max))
+  if (is.null(lag.max)) {
     lag.max <- floor(10 * (log10(length(x))))
+  }
   if (L + 1 + lag.max > ncol(Psi)) {
-    warning(paste("lag.max too high. Have reset it to ",
-                  ncol(Psi) - L - 1, ". Higher lags are zero"))
+    warning(paste(
+      "lag.max too high. Have reset it to ",
+      ncol(Psi) - L - 1, ". Higher lags are zero"
+    ))
     lag.max <- ncol(Psi) - L - 1
   }
   the.lacf <- Smat %*% Psi[, (L + 1):(L + 1 + lag.max)]
   the.lacor <- sweep(the.lacf, 1, the.lacf[, 1], FUN = "/")
-  l <- list(lacf = the.lacf, lacr = the.lacor, name = dsname,
-            date = date(), SmoothWP = SmoothWP, S = S, J = J)
+  l <- list(
+    lacf = the.lacf, lacr = the.lacor, name = dsname,
+    date = date(), SmoothWP = SmoothWP, S = S, J = J
+  )
   class(l) <- "lacf"
   return(l)
 }
