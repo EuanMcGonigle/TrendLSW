@@ -36,6 +36,7 @@ Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and ada
 
 }
 \keyword{wavelet}
+\keyword{ts}
 \examples{
 # simulates an example time series and estimates its evolutionary wavelet spectrum
 
