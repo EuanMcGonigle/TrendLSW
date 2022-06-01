@@ -6,7 +6,7 @@ Estimation of Evolutionary Wavelet Spectrum for Non-Zero Mean Time Series
 %%  ~~function to do ... ~~
 }
 \description{
-This function computes the evolutionary wavelet spectrum (EWS) estimate from a time series that may include a trend component. The estimate is computed by taking the non-decimated wavelet transform of the time series data, squaring it; smoothing using a running mean and then correction for bias using the appropriate correction matrix. Inherits the smoohing functionality from the ewspec3 function in thr R package wavethresh.
+This function computes the evolutionary wavelet spectrum (EWS) estimate from a time series that may include a trend component. The estimate is computed by taking the non-decimated wavelet transform of the time series data, squaring it; smoothing using a running mean and then correction for bias using the appropriate correction matrix. Inherits the smoothing functionality from the ewspec3 function in thr R package wavethresh.
 }
 \usage{
 ewspec.trend(data, an.filter.number  = 10, an.family = "DaubLeAsymm",
