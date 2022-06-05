@@ -6,7 +6,7 @@ Calculates Boundary Extended Time Series
 %%  ~~function to do ... ~~
 }
 \description{
-A function to calclate the boundary extended time series, to be used within the \code{\link{ewspec.trend}}, \code{\link{ewspec.diff}}, \code{\link{wav.trend.est}}, and \code{\link{wav.diff.trend.est}} functions. Not recommended for general usage.
+A function to calculate the boundary extended time series, to be used within the \code{\link{ewspec.trend}}, \code{\link{ewspec.diff}}, \code{\link{wav.trend.est}}, and \code{\link{wav.diff.trend.est}} functions. Not recommended for general usage.
 }
 \usage{
 get.boundary.timeseries(data, type = "TLSW")

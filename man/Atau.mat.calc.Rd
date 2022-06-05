@@ -22,7 +22,7 @@ The index of the wavelet used to compute the inner product matrix.
 The family of wavelet used to compute the inner product matrix.
 }
   \item{lag}{
-The lag of matrix to calculate. A lage of 0 corresponds to the standrad A matrix.
+The lag of matrix to calculate. A lag of 0 corresponds to the standard A matrix.
 }
 }
 \details{

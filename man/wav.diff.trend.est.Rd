@@ -24,7 +24,7 @@ You must supply the estimate of the evolutionary wavelet spectrum of the time se
  Selects the index of the wavelet used in the estimation procedure. For Daubechies compactly supported wavelets the filter number is the number of vanishing moments.
 }
   \item{thresh.type}{
-The type of thresholding function used. Currnetly only "soft" and "hard" are available. Recommended to use "soft".
+The type of thresholding function used. Currently only "soft" and "hard" are available. Recommended to use "soft".
 }
   \item{normal}{
 If TRUE, uses a threshold assuming the data are normally distributed. If FALSE, uses a larger threshold to reflect non-normality.
@@ -33,7 +33,7 @@ If TRUE, uses a threshold assuming the data are normally distributed. If FALSE, 
   Selects the wavelet family to use. Recommended to only use the Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.
 }
   \item{max.scale}{
-Selects the number of scales of the wavelet transform to apply thresholding to. Should be a value from 1 (fineest) to J-1 (coarsest), where T=2^J is the length of the time series. Recommended to use 2J/3 scales.
+Selects the number of scales of the wavelet transform to apply thresholding to. Should be a value from 1 (finest) to J-1 (coarsest), where T=2^J is the length of the time series. Recommended to use 2J/3 scales.
 }
 \item{boundary.handle}{
 Logical variable, decides if boundary handling should be applied to the time series before estimation.
@@ -41,13 +41,13 @@ Logical variable, decides if boundary handling should be applied to the time ser
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
-This function estimates the trend function of a locally stationary time series, by incorporating the evolutionary wavelet spterum estimate in a wavelet thresholding procedure. To use this function, first compute the spectral estimate of the time series, using the function ewspec.diff.
+This function estimates the trend function of a locally stationary time series, by incorporating the evolutionary wavelet spectrum estimate in a wavelet thresholding procedure. To use this function, first compute the spectral estimate of the time series, using the function ewspec.diff.
 
 The function works as follows:
 
 1. The wavelet transform of the time series is calculated.
 
-2. The wavelet coefficeints are individually thresholded using the universal threshold sqrt(var*2*log T) and an estimate of their variance. The variance estimate is calculated using the spectral estimated, supplied by the user in the spec argument.
+2. The wavelet coefficients are individually thresholded using the universal threshold sqrt(var*2*log T) and an estimate of their variance. The variance estimate is calculated using the spectral estimated, supplied by the user in the spec argument.
 
 3. The inverse wavelet transform is applied to obtain the final estimate.
 

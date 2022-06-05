@@ -22,7 +22,7 @@ ewspec.trend(data, an.filter.number  = 10, an.family = "DaubLeAsymm",
 The time series you wish to analyse.
 }
 \item{an.filter.number}{
-The index number for the wavelet used to analyse the time series. For the "DaubExPhase" family, the filter number can be bewtween 1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to 10. Similarly for gen.filter.number.
+The index number for the wavelet used to analyse the time series. For the "DaubExPhase" family, the filter number can be between 1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to 10. Similarly for gen.filter.number.
 }
 \item{an.family}{
 The family of the analysing wavelet. It is recommended to use either the Daubechies Extremal Phase family, or the Daubechies Least Asymmetric family, corresponding to the "DaubExPhase" or the "DaubLeAsymm" options. Similarly for gen.family.
@@ -52,19 +52,22 @@ Not intended for use. If TRUE, user must supply the appropriate correction matri
 If supply.mat is TRUE, user must supply the appropriate correction matrix used to correct the raw wavelet periodogram. Equal to solve(C).
 }
 \item{boundary.handle}{
- Can be TRUE or FALSE. If TRUE, the time series is boundary corrected, to get a more accurate spectrum estimate at the boundaries of the times series. If FALSE, no boundary correction is applied. Recommned to use TRUE.
+ Can be TRUE or FALSE. If TRUE, the time series is boundary corrected, to get a more accurate spectrum
+ estimate at the boundaries of the times series. If FALSE, no boundary correction is applied. Recommended to use TRUE.
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 
-This function computes an estimate of the evolutionary wavelet spectrum of a time series that displays a smooth mean and nonstationary autocovariance. The estimation procedure is as follows:
+This function computes an estimate of the evolutionary wavelet spectrum of a time series that displays a
+smooth mean and nonstationary autocovariance. The estimation procedure is as follows:
 
-1. The squared modulus of the non-decimated wavelet transform is computed, known as the raw wavelet periodogram. This is returned by the function.
+1. The squared modulus of the non-decimated wavelet transform is computed, known as the raw wavelet
+periodogram. This is returned by the function.
 
 2. The raw wavelet periodogram is smoothed using a running mean smoother.
 
-3. The smoothed periodogram is bias corrected using the inverse of the bias matrix. The correction is applied across the finest max.scale scales. If the analyising wavelet and generating wavelet are different, this is given by the iverse of the C matrix defined in McGonigle et al. (2020). If they are the same, this is the inverse of the A matrix, defined in Nason et al. (2000). If you are unsure on the filter and wavelet choices, it is recommended to use the same wavelet for generating and analysing purposes.
+3. The smoothed periodogram is bias corrected using the inverse of the bias matrix. The correction is applied across the finest max.scale scales. If the analysing wavelet and generating wavelet are different, this is given by the inverse of the C matrix defined in McGonigle et al. (2020). If they are the same, this is the inverse of the A matrix, defined in Nason et al. (2000). If you are unsure on the filter and wavelet choices, it is recommended to use the same wavelet for generating and analysing purposes.
 
 The final estimate, stored in the S component, can be plotted using the plot function, please see the example below.
 }
@@ -73,7 +76,7 @@ A list object, containing the following objects:
 \item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of class wd and so can be plotted and printed in the usual way using wavethresh functionality.
 }
 \item{WavPer}{
-The raw wavelet periodogram of the input data. The EWS estimate (above) is the smoothed corrected version of the raw wavelet periodgram.
+The raw wavelet periodogram of the input data. The EWS estimate (above) is the smoothed corrected version of the raw wavelet periodogram.
 }
 \item{SmoothWavPer}{
 The smoothed, un-corrected raw wavelet periodogram of the input data.

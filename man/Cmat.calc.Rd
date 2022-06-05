@@ -30,7 +30,7 @@ Cmat.calc(J, gen.filter.number = 1, an.filter.number = 1,
 }
 }
 \details{
-This function computes the cross inner product matrix of the discrete non-decimated autocorrelation wavelets. This matrix is used to correct the wavelet periodogram analysed using a diffferent wavelet to the wavelet that is assumed to generate the time series. The matrix returned is the one called C in McGonigle et al. (2020).
+This function computes the cross inner product matrix of the discrete non-decimated autocorrelation wavelets. This matrix is used to correct the wavelet periodogram analysed using a different wavelet to the wavelet that is assumed to generate the time series. The matrix returned is the one called C in McGonigle et al. (2020).
 
 }
 \value{

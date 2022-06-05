@@ -2,7 +2,7 @@
 \alias{trend.estCI}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Calculate Confidene Intervals Of Wavelet-Based Trend Estimate
+Calculate Confidence Intervals Of Wavelet-Based Trend Estimate
 %%  ~~function to do ... ~~
 }
 \description{

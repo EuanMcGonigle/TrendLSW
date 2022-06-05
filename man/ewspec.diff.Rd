@@ -23,7 +23,7 @@ The time series you wish to analyse.
 An integer indicating which lag to use for differencing.
 }
   \item{filter.number}{
-The index number for the wavelet used to analyse the time series. For the "DaubExPhase" family, the filter number can be bewtween 1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to 10.
+The index number for the wavelet used to analyse the time series. For the "DaubExPhase" family, the filter number can be between 1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to 10.
 }
   \item{family}{
 The family of the wavelet used. It is recommended to use either the Daubechies Extremal Phase family, or the Daubechies Least Asymmetric family, corresponding to the "DaubExPhase" or the "DaubLeAsymm" options.
@@ -32,7 +32,7 @@ The family of the wavelet used. It is recommended to use either the Daubechies E
 The bin width of the running mean smoother used to smooth the raw wavelet periodogram.
 }
   \item{diff.number}{
-The number of differences used to remove the trend of the series. A first difference is reccomended as default.
+The number of differences used to remove the trend of the series. A first difference is recommended as default.
 }
   \item{max.scale}{
 The coarsest level to which the time series is analysed to. Should be a positive integer less than J, where T=2^J is the length of the time series. The default setting is 0.7J, to control for bias.
@@ -74,7 +74,7 @@ A list object, containing the following objects:
 \item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of class wd and so can be plotted and printed in the usual way using wavethresh functionality.
 }
 \item{WavPer}{
-The raw wavelet periodogram of the input data. The EWS estimate (above) is the smoothed corrected version of the wavelet periodgram.
+The raw wavelet periodogram of the input data. The EWS estimate (above) is the smoothed corrected version of the wavelet periodogram.
 }
 \item{SmoothWavPer}{
 The smoothed, un-corrected raw wavelet periodogram of the input data.

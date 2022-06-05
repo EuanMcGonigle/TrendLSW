@@ -8,7 +8,7 @@ Linear Wavelet Thresholding Trend Estimation of Second-Order Nonstationary Time 
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 
-This function computes the linear wavelet thresholding trend estimate for a time series that may be second-order nonstationary. The function calculates the wavelet transform of the time series, sets to zero the non-boundary wavelet coffifients, then inverts the transform to give the final estimate.
+This function computes the linear wavelet thresholding trend estimate for a time series that may be second-order nonstationary. The function calculates the wavelet transform of the time series, sets to zero the non-boundary wavelet coefficients, then inverts the transform to give the final estimate.
 
 }
 \usage{
@@ -19,7 +19,7 @@ wav.trend.est(data, filter.number = 4, family = "DaubLeAsymm",
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{data}{
- The time series you want to esitmate the trend function of.
+ The time series you want to estimate the trend function of.
 }
 \item{filter.number}{
   Selects the index of the wavelet used in the estimation procedure. For Daubechies compactly supported wavelets the filter number is the number of vanishing moments.
