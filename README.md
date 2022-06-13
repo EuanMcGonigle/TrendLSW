@@ -38,7 +38,7 @@ Visualise the estimated trend function and underlying truth:
 ```
 plot.ts(x, lty = 1, col = 8)
 lines(trend, col = 2, lwd = 2)
-lines(trend.est,col = 4, lwd = 2, lty = 2)
+lines(trend.est$trend.est,col = 4, lwd = 2, lty = 2)
 ```
 
 

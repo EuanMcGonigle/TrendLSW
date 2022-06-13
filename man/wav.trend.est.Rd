@@ -14,7 +14,9 @@ This function computes the linear wavelet thresholding trend estimate for a time
 \usage{
 wav.trend.est(data, filter.number = 4, family = "DaubLeAsymm",
               max.scale = floor(log2(length(data))*0.7),
-              type = "dec", boundary.handle =FALSE)
+              type = "dec", boundary.handle = FALSE, calc.confint = FALSE,
+              sig.lvl = 0.05, lag.max = floor(10 * (log10(length(data)))),
+              ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,7 +36,20 @@ Selects the coarsest scale of the wavelet transform to analyse to. Should be a v
 The type of wavelet transform used. By default, it is "dec" which is the standard discrete wavelet transform. Can also be "nondec", which uses a non-decimated wavelet transform.
 }
 \item{boundary.handle}{
- Can be TRUE or FALSE. If TRUE, the time series is boundary corrected, to get a less variable trend estimate at the boundaries of the times series. If FALSE, no boundary correction is applied.
+ Can be \code{TRUE} or \code{FALSE}. If TRUE, the time series is boundary corrected, to get a less variable trend estimate at the boundaries of the times series. If FALSE, no boundary correction is applied.
+}
+\item{calc.confint}{
+Can be \code{TRUE} or \code{FALSE}. If TRUE, a \code{100(1-sig.lvl)\%} pointwise confidence interval is computed for the trend estimate.
+}
+\item{sig.lvl}{
+Used only if \code{calc.confint = TRUE}; a numeric value (\code{0 <= sig.lvl <= 1}) with which a
+\code{100(1-sig.lvl)\%} pointwise confidence interval for the trend estimate is generated.
+}
+\item{lag.max}{
+Used only if \code{calc.confint = TRUE}; a positive integer specifying the maximum lag to which the local autocovariance function is estimated.
+}
+\item{...}{
+Further arguments to be passed to the \code{\link{ewspec.trend}} and \code{\link{lacf.calc}} calls, only to be used if \code{calc.confint = TRUE}.
 }
 }
 \value{
@@ -62,7 +77,7 @@ trend.est = wav.trend.est(x, filter.number = 4, family = "DaubLeAsymm", boundary
 
 plot.ts(x, lty = 1, col = 8)
 lines(trend, col = 2, lwd = 2)
-lines(trend.est,col = 4, lwd = 2, lty = 2)
+lines(trend.est$trend.est,col = 4, lwd = 2, lty = 2)
 
 }
 
