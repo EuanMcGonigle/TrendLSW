@@ -32,7 +32,7 @@ This function computes the lagged inner product matrix of the discrete non-decim
 A J-dimensional square matrix giving the lagged inner product autocorrelation wavelet matrix.
 }
 \references{
-McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling time-varying first and second-order structure of time series via wavelets and differencing. \emph{arXiv preprint} \href{https://arxiv.org/abs/2108.07550}{arXiv:2108.07550}.
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling time-varying first and second-order structure of time series via wavelets and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448. 
 }
 \author{
 Euan T. McGonigle
