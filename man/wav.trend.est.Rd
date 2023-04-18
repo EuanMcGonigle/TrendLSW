@@ -56,7 +56,7 @@ Further arguments to be passed to the \code{\link{ewspec.trend}} and \code{\link
 A vector of length length(data) containing the trend estimate.
 }
 \references{
-McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. \emph{Journal of Time Series Analysis}.
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. \emph{Journal of Time Series Analysis}, 43(6), 895-917.
 }
 \author{
 Euan T. McGonigle
