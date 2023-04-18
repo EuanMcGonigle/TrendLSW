@@ -2,9 +2,10 @@
 
 Implements wavelet methods for analysis of nonstationary time series. See 
 
-> McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. *Journal of Time Series Analysis*.
+> McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend locally stationary wavelet processes. *Journal of Time Series Analysis*, 43(6), 895-917. [(link to paper)](https://doi.org/10.1111/jtsa.12643).
+
 > 
-> McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling time-varying first and second-order structure of time series via wavelets and differencing. *Electronic Journal of Statistics* [link to paper](https://projecteuclid.org/journals/electronic-journal-of-statistics/volume-16/issue-2/Modelling-time-varying-first-and-second-order-structure-of-time/10.1214/22-EJS2044.full).
+> McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling time-varying first and second-order structure of time series via wavelets and differencing. *Electronic Journal of Statistics*, 6(2), 4398-4448. [(link to paper)](https://projecteuclid.org/journals/electronic-journal-of-statistics/volume-16/issue-2/Modelling-time-varying-first-and-second-order-structure-of-time/10.1214/22-EJS2044.full).
 
 for full details.
 
