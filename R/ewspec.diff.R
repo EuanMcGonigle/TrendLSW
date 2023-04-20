@@ -75,8 +75,8 @@ ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase"
   calc.final.spec <- function(spec, dyadic, data.len) {
     if (dyadic == TRUE) {
       final_spec <- wavethresh::cns(2^(spec$nlevels - 2),
-        filter.number = spec$filter$filter.number,
-        family = spec$filter$family
+        filter.number <- spec$filter$filter.number,
+        family <- spec$filter$family
       )
 
       lower <- 2^(spec$nlevels - 2) + 2^(spec$nlevels - 3) + 1
@@ -96,8 +96,8 @@ ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase"
       final.spec.J <- floor(log2(data.len)) + 1
 
       final_spec <- wavethresh::cns(2^final.spec.J,
-        filter.number = spec$filter$filter.number,
-        family = spec$filter$family
+        filter.number <- spec$filter$filter.number,
+        family <- spec$filter$family
       )
 
       lower <- floor((2^est.spec.J - data.len) / 2)
@@ -120,8 +120,7 @@ ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase"
 
   data.wd <- locits::ewspec3(diff.data,
     filter.number = filter.number, family = family,
-    binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = WP.smooth
-  )
+    binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = WP.smooth)
 
   if (boundary.handle == TRUE) {
     temp <- locits::ewspec3(rep(0, 2^J), filter.number = filter.number, family = family)
