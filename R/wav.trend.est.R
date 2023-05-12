@@ -76,10 +76,11 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
   if (type == "dec") {
     data_wr <- wavethresh::wr(data.thresh)
   } else if (type == "nondec") {
-    data_wr <- wavethresh::AvBasis(convert(data.thresh))
+    data_wr <- wavethresh::AvBasis(wavethresh::convert(data.thresh))
   }
 
   # subset the longer estimate to get the true estimate
+
 
   if(calc.confint==FALSE){
     if (boundary.handle == TRUE) {
