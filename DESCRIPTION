@@ -3,14 +3,14 @@ Type: Package
 Title: Wavelet Methods for Analysing Locally Stationary Time Series
 Version: 0.1.0
 Date: 2022-06-01
-Authors@R: c(person("Euan T.", "McGonigle", email="euan.mcgonigle@bristol.ac.uk",role=c("aut", "cre")),
+Authors@R: c(person("Euan T.", "McGonigle", email="e.t.mcgonigle@soton.ac.uk",role=c("aut", "cre")),
         person("Rebecca","Killick",role="ths"),
         person("Matthew","Nunes",role="ths"))
 Author: Euan T. McGonigle [aut, cre],
     Rebecca Killick [ths],
     Matthew Nunes [ths]
 Depends: R (>= 4.1.0)
-Maintainer: Euan T. McGonigle <euan.mcgonigle@bristol.ac.uk>
+Maintainer: Euan T. McGonigle <e.t.mcgonigle@soton.ac.uk>
 Description: Provides wavelet-based methods for trend, spectrum and autocovariance estimation of locally 
     stationary time series.
 License: GPL (>= 3)
