@@ -64,7 +64,7 @@ The function works as follows:
 1. The wavelet transform of the time series is calculated.
 
 2. The wavelet coefficients are individually thresholded using the universal
-threshold \eqn{\hat{\sigma}\sqrt(*2*log T)}, where \eqn{\hat{sigma}^2} is an estimate of their variance. The variance
+threshold \eqn{\hat{\sigma}\sqrt(2 log T)}, where \eqn{\hat{sigma}^2} is an estimate of their variance. The variance
 estimate is calculated using the spectral estimate, supplied by the user in
 the \code{spec} argument.
 
