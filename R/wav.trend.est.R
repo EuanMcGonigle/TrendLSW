@@ -1,8 +1,58 @@
+#' @title Linear Wavelet Thresholding Trend Estimation of Second-Order Nonstationary
+#' @description Computes the linear wavelet thresholding trend estimate for a
+#' time series that may be second-order nonstationary. The function calculates
+#' the wavelet transform of the time series, sets to zero the non-boundary
+#' @param data The time series you want to estimate the trend function of.
+#' @param filter.number Selects the index of the wavelet used in the estimation
+#' procedure. For Daubechies compactly supported wavelets the filter number is
+#' the number of vanishing moments.
+#' @param family Selects the wavelet family to use. Recommended to only use the
+#' Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.
+#' @param max.scale Selects the coarsest scale of the wavelet transform to
+#' analyse to. Should be a value from 1 (finest) to J-1 (coarsest), where T=2^J
+#' is the length of the time series.
+#' @param type The type of wavelet transform used. By default, it is "dec"
+#' which is the standard discrete wavelet transform. Can also be "nondec",
+#' which uses a non-decimated wavelet transform.
+#' @param boundary.handle Can be \code{TRUE} or \code{FALSE}. If TRUE, the time
+#' series is boundary corrected, to get a less variable trend estimate at the
+#' boundaries of the times series. If FALSE, no boundary correction is applied.
+#' @param calc.confint Can be \code{TRUE} or \code{FALSE}. If TRUE, a
+#' \code{(1-sig.lvl)} pointwise confidence interval is computed for the
+#' trend estimate.
+#' @param sig.lvl Used only if \code{calc.confint = TRUE}; a numeric value
+#' (\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
+#' confidence interval for the trend estimate is generated.
+#' @param lag.max Used only if \code{calc.confint = TRUE}; a positive integer
+#' specifying the maximum lag to which the local autocovariance function is
+#' estimated.
+#' @param ...  Further arguments to be passed to the \code{\link{ewspec.trend}}
+#' and \code{\link{lacf.calc}} calls, only to be used if \code{calc.confint =
+#' TRUE}.
+#' @return A vector of length length(data) containing the trend estimate.
+#' @seealso \code{\link{wav.diff.trend.est}}
+#' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
+#' locally stationary wavelet processes. \emph{Journal of Time Series
+#' Analysis}, 43(6), 895-917.
+#' @examples
+#' # computes trend estimator of simulated linear trend time series
+#'
+#' set.seed(1)
+#'
+#' noise <- rnorm(512)
+#' trend <- seq(from = 0, to = 5, length = 512)
+#' x <- trend + noise
+#'
+#' trend.est <- wav.trend.est(x, filter.number = 4, family = "DaubLeAsymm", boundary.handle = TRUE)
+#'
+#' plot.ts(x, lty = 1, col = 8)
+#' lines(trend, col = 2, lwd = 2)
+#' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
+#' @export
 wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
                           max.scale = floor(log2(length(data)) * 0.7), type = "dec",
                           boundary.handle = FALSE, calc.confint = FALSE, sig.lvl = 0.05,
-                          lag.max = floor(10 * (log10(length(data)))),...) {
-
+                          lag.max = floor(10 * (log10(length(data)))), ...) {
   # this function carries out wavelet thresholding of a time series to obtain a
   # trend estimate. All non-boundary wavelet coefficients up to a specified scale
   # are set to zero.
@@ -82,7 +132,7 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
   # subset the longer estimate to get the true estimate
 
 
-  if(calc.confint==FALSE){
+  if (calc.confint == FALSE) {
     if (boundary.handle == TRUE) {
       if (dyadic == TRUE) {
         lower <- 2^(J - 2) + 2^(J - 3) + 1
@@ -93,16 +143,19 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
       }
       data_wr <- data_wr[lower:upper]
     }
-    return(list(data = orig.data, filter.number = filter.number, family = family, trend.est = data_wr, calc.confint=calc.confint))
-  } else{
+    return(list(data = orig.data, filter.number = filter.number, family = family, trend.est = data_wr, calc.confint = calc.confint))
+  } else {
+    spec.est <- ewspec.trend(data, max.scale = max.scale, ..., boundary.handle = FALSE, AutoReflect = FALSE)
 
-    spec.est = ewspec.trend(data, max.scale = max.scale, ..., boundary.handle = FALSE, AutoReflect = FALSE)
+    lacf.est <- lacf.calc(data,
+      filter.number = spec.est$S$filter$filter.number, family = spec.est$S$filter$family,
+      lag.max = lag.max, spec.est = spec.est$S
+    )
 
-    lacf.est = lacf.calc(data, filter.number = spec.est$S$filter$filter.number, family = spec.est$S$filter$family,
-                         lag.max=lag.max, spec.est = spec.est$S)
-
-    trend.confint = trend.estCI(trend.est = data_wr, lacf.est = lacf.est, filter.number = filter.number,
-                                family = family, alpha = 1-sig.lvl)
+    trend.confint <- trend.estCI(
+      trend.est = data_wr, lacf.est = lacf.est, filter.number = filter.number,
+      family = family, alpha = 1 - sig.lvl
+    )
 
     if (boundary.handle == TRUE) {
       if (dyadic == TRUE) {
@@ -113,13 +166,12 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
         upper <- lower + length(orig.data) - 1
       }
       data_wr <- data_wr[lower:upper]
-
     }
 
-    return(list(data = orig.data, filter.number = filter.number, family = family,trend.est = data_wr, calc.confint=calc.confint,
-                lower.conf = trend.confint$lower.conf[lower:upper], upper.conf = trend.confint$upper.conf[lower:upper],
-                sig.lvl = sig.lvl))
+    return(list(
+      data = orig.data, filter.number = filter.number, family = family, trend.est = data_wr, calc.confint = calc.confint,
+      lower.conf = trend.confint$lower.conf[lower:upper], upper.conf = trend.confint$upper.conf[lower:upper],
+      sig.lvl = sig.lvl
+    ))
   }
-
-
 }

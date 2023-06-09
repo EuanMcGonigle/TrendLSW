@@ -1,6 +1,34 @@
+#' @title Cross Autocorrelation Wavelet Inner Product Matrix Calculation
+#' @description Computes the cross autocorrelation matrix of inner products.
+#' @details Computes the cross inner product matrix of the discrete
+#' non-decimated autocorrelation wavelets. This matrix is used to correct the
+#' wavelet periodogram analysed using a different wavelet to the wavelet that
+#' is assumed to generate the time series. The matrix returned is the one
+#' called \eqn{C^{(0,1)}} in McGonigle et al. (2022).
+#' @param J The dimension of the matrix required. Should be a positive integer.
+#' @param gen.filter.number The index of the generating wavelet used to compute
+#' the inner product matrix.
+#' @param an.filter.number The index of the analysing wavelet used to compute
+#' the inner product matrix.
+#' @param gen.family The family of generating wavelet used to compute the inner
+#' product matrix.
+#' @param an.family The family of analysing wavelet used to compute the inner
+#' product matrix.
+#' @return A J-dimensional square matrix giving the cross inner product
+#' autocorrelation wavelet matrix.
+#' @seealso \link{ewspec.trend}
+#' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
+#' locally stationary wavelet processes. \emph{Journal of Time Series
+#' Analysis}, 43(6), 895-917.
+#' @examples
+#' C <- Cmat.calc(
+#'   J = 5, gen.filter.number = 1, an.filter.number = 2,
+#'   gen.family = "DaubExPhase", an.family = "DaubExPhase"
+#' )
+#'
+#' @export Cmat.calc
 Cmat.calc <- function(J, gen.filter.number = 1, an.filter.number = 1,
                       gen.family = "DaubExPhase", an.family = "DaubExPhase") {
-
   # function that calculates the cross autocorrelation matrix C^(1,0)
 
   C_mat <- matrix(0, nrow = J, ncol = J)

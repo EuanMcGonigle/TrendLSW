@@ -1,3 +1,53 @@
+#' @title Compute localised autocovariance estimate from spectrum estimate.~
+#' @description Computes the local autocovariance and autocorrelation estimates, given an
+#' input of a spectrum estimate. Provides the same functionality as the
+#' function \code{lacf} from the locits package, but user provides the spectrum
+#' estimate in the argument.
+#' @param x The time series you wish to analyse.
+#' @param filter.number Wavelet filter number that generated the time series.
+#' @param family Wavelet family that generated the time series.
+#' @param spec.est Estimated spectrum from which the lacf estimate will be
+#' calculated.
+#' @param lag.max The maximum lag of acf required. If NULL then the same
+#' default as in the regular acf function is used.
+#' @return An object of class \code{lacf} which contains the autocovariance.
+#' @seealso \code{\link{lacf}}
+#' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
+#' locally stationary wavelet processes. \emph{Journal of Time Series
+#' Analysis}, 43(6), 895-917.
+#'
+#' Nason, G. P. (2013). A test for second‐order stationarity and approximate
+#' confidence intervals for localized autocovariances for locally stationary
+#' time series. \emph{Journal of the Royal Statistical Society: Series B
+#' (Statistical Methodology)}, \bold{75(5)}, 879--904.
+#' @examples
+#'
+#' ## ---- computes estimate of local autocovariance function using the ewspec.trend
+#' ## ---- function to compute the spectral estimate
+#'
+#' ## ---- example where LSW process is generated using the Haar wavelet
+#'
+#' spec <- wavethresh::cns(512)
+#' spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
+#'
+#' noise <- wavethresh::LSWsim(spec)
+#' trend <- seq(from = 0, to = 10, length = 512)
+#'
+#' x <- trend + noise
+#'
+#' ## ---- first estimate the spectrum using Daubechies EP4 wavelet:
+#'
+#' spec.est <- ewspec.trend(x,
+#'   an.filter.number = 4, an.family = "DaubExPhase",
+#'   gen.filter.number = 1, gen.family = "DaubExPhase"
+#' )
+#'
+#' #---- estimate the lacf specifying the Haar wavelet as the generating wavelet
+#'
+#' lacf.est <- lacf.calc(x = x, filter.number = 1, family = "DaubExPhase", spec.est = spec.est$S)
+#'
+#' plot.ts(lacf.est$lacf[, 1])
+#' @export
 lacf.calc <- function(x, filter.number = 10, family = "DaubLeAsymm",
                       spec.est, lag.max = NULL) {
   dsname <- deparse(substitute(x))

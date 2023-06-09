@@ -1,14 +1,34 @@
+#' @title Lagged Autocorrelation Wavelet Inner Product Calculation
+#' @description Computes the matrix of lagged autocorrelation wavelet inner
+#' products.
+#' @details Computes the lagged inner product matrix of the discrete
+#' non-decimated autocorrelation wavelets. This matrix is used in the
+#' calculation to correct the wavelet periodogram of the differenced time
+#' series. With \code{lag} \eqn{= \tau}, the matrix returned is the one called \eqn{A^\tau} in McGonigle et al.
+#' (2022).
+#' @param J The dimension of the matrix required. Should be a positive integer.
+#' @param filter.number The index of the wavelet used to compute the inner
+#' product matrix.
+#' @param family The family of wavelet used to compute the inner product
+#' matrix.
+#' @param lag The lag of matrix to calculate. A lag of 0 corresponds to the
+#' standard A matrix.
+#' @return A J-dimensional square matrix giving the lagged inner product
+#' autocorrelation wavelet matrix.
+#' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
+#' time-varying first and second-order structure of time series via wavelets
+#' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
+#' @examples
+#' A1 <- Atau.mat.calc(J = 5, filter.number = 1, family = "DaubExPhase", lag = 1)
+#' @export
+#' @seealso \link{ewspec.diff}
 Atau.mat.calc <- function(J, filter.number = 1, family = "DaubExPhase", lag = 1) {
-
   # function that calculates the lagged A matrix, A^tau, the innter product matrix at lag tau
 
   # initialise matrix:
 
   lagged_A_mat <- matrix(0, nrow = J, ncol = J)
 
-  # use the wavethresh function to calculate the autocorrelation wave matrix,
-  # subsetted to get the same form as above calculated, which is required
-  # to do the final calculation
   do.shift <- function(v, places, dir = "right") {
     vnew <- NULL
     d <- substring(dir, 1, 1)
