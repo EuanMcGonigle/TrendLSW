@@ -4,8 +4,7 @@
 #' @details Computes the lagged inner product matrix of the discrete
 #' non-decimated autocorrelation wavelets. This matrix is used in the
 #' calculation to correct the wavelet periodogram of the differenced time
-#' series. With \code{lag} \eqn{= \tau}, the matrix returned is the one called \eqn{A^\tau} in McGonigle et al.
-#' (2022).
+#' series. With \code{lag} \eqn{= \tau}, the matrix returned is the one called \eqn{A^\tau} in McGonigle et al. (2022).
 #' @param J The dimension of the matrix required. Should be a positive integer.
 #' @param filter.number The index of the wavelet used to compute the inner
 #' product matrix.
