@@ -4,3 +4,5 @@
 ^.*\.github$
 ^.*\.pdf$
 ^cran-comments\.md$
+^README\.Rmd$
+^\.github$
