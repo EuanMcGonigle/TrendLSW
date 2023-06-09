@@ -30,8 +30,7 @@ products.
 Computes the lagged inner product matrix of the discrete
 non-decimated autocorrelation wavelets. This matrix is used in the
 calculation to correct the wavelet periodogram of the differenced time
-series. With \code{lag} \eqn{= \tau}, the matrix returned is the one called \eqn{A^\tau} in McGonigle et al.
-(2022).
+series. With \code{lag} \eqn{= \tau}, the matrix returned is the one called \eqn{A^\tau} in McGonigle et al. (2022).
 }
 \examples{
 A1 <- Atau.mat.calc(J = 5, filter.number = 1, family = "DaubExPhase", lag = 1)
