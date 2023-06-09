@@ -15,8 +15,7 @@
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
-#'
-#' Nason, G. P. (2013). A test for second‐order stationarity and approximate
+#' Nason, G. P. (2013). A test for second-order stationarity and approximate
 #' confidence intervals for localized autocovariances for locally stationary
 #' time series. \emph{Journal of the Royal Statistical Society: Series B
 #' (Statistical Methodology)}, \bold{75(5)}, 879--904.
