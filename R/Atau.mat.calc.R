@@ -23,6 +23,19 @@
 #' @seealso \link{ewspec.diff}
 Atau.mat.calc <- function(J, filter.number = 1, family = "DaubExPhase", lag = 1) {
 
+  if (!is.numeric(lag)) {
+    stop("The lag parameter should be a positive integer.")
+  }
+  if ((length(lag) != 1) || (lag %% 1 != 0) || (lag < 1)) {
+    stop("The lag parameter should be a positive integer.")
+  }
+  if (!is.numeric(J)) {
+    stop("The parameter J should be a positive integer.")
+  }
+  if ((length(J) != 1) || (J %% 1 != 0) || (J < 1)) {
+    stop("The parameter J should be a positive integer.")
+  }
+
   lagged_A_mat <- matrix(0, nrow = J, ncol = J)
 
   Psi_mat<- wavethresh::PsiJmat(J = -J, filter.number = filter.number, family = family)
