@@ -29,7 +29,6 @@
 #' @export Cmat.calc
 Cmat.calc <- function(J, gen.filter.number = 1, an.filter.number = 1,
                       gen.family = "DaubExPhase", an.family = "DaubExPhase") {
-
   if (!is.numeric(J)) {
     stop("The parameter J should be a positive integer.")
   }
