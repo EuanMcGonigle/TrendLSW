@@ -24,9 +24,11 @@
 #'
 #' plot.ts(x.b)
 #' @export
-get.boundary.timeseries <- function(data, type = "TLSW") {
-  # this function takes a time series and produces a 4*data.len length series that adds
-  # boundary handling to both sides.
+get.boundary.timeseries <- function(data, type = c("TLSW", "LSW.diff")[1]) {
+
+  stopifnot("Error: type of boundary handling must be either 'TLSW' or
+            'LSW.diff'." = type == "TLSW" || type == "LSW.diff")
+
 
   data.len <- length(data)
   J <- wavethresh::IsPowerOfTwo(data.len)
