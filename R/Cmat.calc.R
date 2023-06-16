@@ -29,7 +29,14 @@
 #' @export Cmat.calc
 Cmat.calc <- function(J, gen.filter.number = 1, an.filter.number = 1,
                       gen.family = "DaubExPhase", an.family = "DaubExPhase") {
-  # function that calculates the cross autocorrelation matrix C^(1,0)
+
+  if (!is.numeric(J)) {
+    stop("The parameter J should be a positive integer.")
+  }
+  if ((length(J) != 1) || (J %% 1 != 0) || (J < 1)) {
+    stop("The parameter J should be a positive integer.")
+  }
+
 
   C_mat <- matrix(0, nrow = J, ncol = J)
 
