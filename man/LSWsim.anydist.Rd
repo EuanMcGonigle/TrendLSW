@@ -5,15 +5,22 @@
 \title{Simulate locally stationary wavelet processes with random innovations not
 necessarily Gaussian.}
 \usage{
-LSWsim.anydist(spec, distribution = "Normal")
+LSWsim.anydist(
+  spec,
+  distribution = c("norm", "pois", "exp", "chisq", "t")[1],
+  df = NULL
+)
 }
 \arguments{
 \item{spec}{An object of class wd which contains the spectrum for simulating
 an LSW process.}
 
 \item{distribution}{The distribution of the random variables used to
-simulate the process. Can be "Normal", "Exponential", "Chisquare" or
-"Poisson".}
+simulate the process. Can be "norm", "pois", "exp", "chisq" or
+"t".}
+
+\item{df}{The degrees of freedom, only used if \code{distribution = "chisq"}
+or \code{distribution = "t"}}
 }
 \value{
 A vector simulated from the spectral description given in the spec
@@ -31,7 +38,7 @@ spec <- wavethresh::cns(1024)
 
 spec <- wavethresh::putD(spec, level = 8, seq(from = 2, to = 8, length = 1024))
 
-x <- LSWsim.anydist(spec, distribution = "Exponential")
+x <- LSWsim.anydist(spec, distribution = "exp")
 
 plot.ts(x)
 }
