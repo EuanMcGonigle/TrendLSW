@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/EuanMcGonigle/TrendLSW/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EuanMcGonigle/TrendLSW/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/EuanMcGonigle/TrendLSW/branch/main/graph/badge.svg)](https://app.codecov.io/gh/EuanMcGonigle/TrendLSW?branch=main)
 <!-- badges: end -->
 
 Implements wavelet methods for analysis of nonstationary time series.
