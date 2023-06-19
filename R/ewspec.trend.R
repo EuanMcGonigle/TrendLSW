@@ -87,7 +87,7 @@
 #'   gen.filter.number = 1, gen.family = "DaubExPhase"
 #' )
 #'
-#' simple.spec.plot(spec.est$S)
+#' quick.spec.plot(spec.est$S)
 #' @export
 ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
                          gen.filter.number = an.filter.number, gen.family = an.family,
