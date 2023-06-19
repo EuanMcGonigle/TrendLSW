@@ -34,6 +34,13 @@ test_that("df is positive", {
   )
 })
 
+test_that("rate is positive", {
+  expect_error(
+    LSWsim.anydist(spec, rate = -2),
+    "The rate parameter must be positive."
+  )
+})
+
 test_that("df is bigger than 2 for t distribution", {
   expect_error(
     LSWsim.anydist(spec, df = 1, distribution = "t"),
