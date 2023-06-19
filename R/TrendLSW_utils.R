@@ -44,7 +44,8 @@ create.covmat <- function(lacf, data.len) {
 #' Analysis}, , 43(6), 895-917.
 #' @keywords internal
 #' @noRd
-trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLeAsymm", alpha = 0.95) {
+trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLeAsymm", alpha = 0.95,
+                        max.scale = floor(log2(length(trend.est)) * 0.7)) {
   # function to create confidence interval for the trend estimate
 
   data.len <- length(trend.est)
@@ -52,30 +53,30 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
   size <- 1 - alpha
   qval <- stats::qnorm(1 - size / 2)
 
+  J <- log2(data.len)
+
   cov.mat <- create.covmat(lacf.est, data.len)
 
   # calculate the wavelet transform matrix:
 
   W <- t(wavethresh::GenW(n = data.len, filter.number = filter.number, family = family))
 
-  scale <- log2(data.len)
-
   boundary_test <- c(rep(0, data.len - 1), 1)
 
   y_wd <- wavethresh::wd(boundary_test, family = family, filter.number = filter.number)
 
-  boundary_coefs <- list(1:scale)
+  boundary_coefs <- list()
 
-  for (i in (scale - 1):1) {
-    temp <- wavethresh::accessD(y_wd, level = i)
+  for (j in (J - 1):(J - max.scale)) {
+    temp <- wavethresh::accessD(y_wd, level = j)
 
-    boundary_coefs[[i]] <- (which(temp != 0))
+    boundary_coefs[[j]] <- (which(temp != 0))
   }
 
-  boundary_vec <- c(1, rep(0, data.len - 2), 1)
+  boundary_vec <- rep(1, data.len)
 
-  for (i in (scale - 1):3) {
-    boundary_vec[(data.len - 2^(i + 1) + 2):(data.len - 2^(i + 1) + 1 + 2^i)][boundary_coefs[[i]]] <- 1
+  for (j in (J - 1):(J - max.scale)) {
+    boundary_vec[(data.len - 2^(j + 1) + 2):(data.len - 2^(j + 1) + 1 + 2^j)][-boundary_coefs[[j]]] <- 0
   }
 
 
