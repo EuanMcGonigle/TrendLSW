@@ -1,5 +1,5 @@
 #' @title Shift a Vector
-#' @description Internal function for shifting a vecotr
+#' @description Internal function for shifting a vector
 #' @keywords internal
 #' @noRd
 
@@ -29,3 +29,29 @@ do.shift <- function(v, places, dir = "right") {
   }
   vnew
 }
+
+#' @title Compute Covariance Matrix
+#' @description Internal function for computing covariance matrix
+#' @keywords internal
+#' @noRd
+
+
+create.covmat <- function(lacf, data.len) {
+  lacf <- lacf$lacf
+
+  max.lag <- length(lacf[1, ])
+
+  cov.mat <- matrix(0, nrow = data.len, ncol = data.len)
+
+  for (row in 1:data.len) {
+    for (column in row:(min((max.lag - 1 + row), data.len))) {
+      cov.mat[row, column] <- lacf[row, (abs(column - row) + 1)]
+      cov.mat[column, row] <- cov.mat[row, column]
+    }
+  }
+
+  cov.mat
+}
+
+
+
