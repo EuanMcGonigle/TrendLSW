@@ -8,6 +8,7 @@ necessarily Gaussian.}
 LSWsim.anydist(
   spec,
   distribution = c("norm", "pois", "exp", "chisq", "t")[1],
+  rate = NULL,
   df = NULL
 )
 }
@@ -18,6 +19,9 @@ an LSW process.}
 \item{distribution}{The distribution of the random variables used to
 simulate the process. Can be "norm", "pois", "exp", "chisq" or
 "t".}
+
+\item{rate}{The rate parameter, only used if \code{distribution = "exp"}
+or \code{distribution = "pois"}}
 
 \item{df}{The degrees of freedom, only used if \code{distribution = "chisq"}
 or \code{distribution = "t"}}
