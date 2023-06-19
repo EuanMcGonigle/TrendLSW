@@ -8,6 +8,8 @@
 #' @param distribution The distribution of the random variables used to
 #' simulate the process. Can be "norm", "pois", "exp", "chisq" or
 #' "t".
+#' @param rate The rate parameter, only used if \code{distribution = "exp"}
+#' or \code{distribution = "pois"}
 #' @param df The degrees of freedom, only used if \code{distribution = "chisq"}
 #' or \code{distribution = "t"}
 #' @return A vector simulated from the spectral description given in the spec
@@ -23,7 +25,7 @@
 #'
 #' plot.ts(x)
 #' @export
-LSWsim.anydist <- function(spec, distribution = c("norm", "pois", "exp", "chisq", "t")[1], df = NULL) {
+LSWsim.anydist <- function(spec, distribution = c("norm", "pois", "exp", "chisq", "t")[1], rate = NULL, df = NULL) {
   if (any(spec$D < 0)) {
     stop("All spectral elements must be non-negative.")
   }
@@ -33,8 +35,8 @@ LSWsim.anydist <- function(spec, distribution = c("norm", "pois", "exp", "chisq"
   == "pois" || distribution == "exp" || distribution == "chisq" ||
     distribution == "t")
 
-  stopifnot("parameter df must be positive." = df >= 0)
-
+  stopifnot("parameter df must be positive." = df > 0)
+  stopifnot("The rate parameter must be positive." = rate > 0)
 
   if (is.null(df)) {
     if (distribution == "chisq") {
@@ -43,17 +45,23 @@ LSWsim.anydist <- function(spec, distribution = c("norm", "pois", "exp", "chisq"
       df <- 5
     }
   }
+  if (is.null(rate)) {
+    if (distribution == "exp" || distribution == "pois") {
+      rate <- 1
+    }
+  }
 
   stopifnot("for t distribution, parameter df must be greater than 2." = distribution != "t" || df > 2)
+
 
   nlev <- wavethresh::nlevelsWT(spec)
   len <- 2^nlev
   for (i in (nlev - 1):0) {
     v <- wavethresh::accessD(spec, level = i)
     if (distribution == "pois") {
-      v <- sqrt(v) * 2^(nlev - i) * (stats::rpois(len, 1) - 1)
+      v <- sqrt(v) * 2^(nlev - i) * (stats::rpois(len, rate) - rate)/(sqrt(rate))
     } else if (distribution == "exp") {
-      v <- sqrt(v) * 2^(nlev - i) * (stats::rexp(len, rate = 1) - 1)
+      v <- sqrt(v) * 2^(nlev - i) * (stats::rexp(len, rate = rate) - 1/rate)*rate
     } else if (distribution == "norm") {
       v <- sqrt(v) * 2^(nlev - i) * stats::rnorm(len, mean = 0, sd = 1)
     } else if (distribution == "chisq") {
