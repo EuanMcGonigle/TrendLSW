@@ -115,7 +115,7 @@ x <- trend + noise
 
 spec.est <- ewspec.diff(x, family = "DaubExPhase", filter.number = 1, max.scale = 7)
 
-simple.spec.plot(spec.est$S)
+quick.spec.plot(spec.est$S)
 }
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
