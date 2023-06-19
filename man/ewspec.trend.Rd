@@ -119,7 +119,7 @@ spec.est <- ewspec.trend(x,
   gen.filter.number = 1, gen.family = "DaubExPhase"
 )
 
-simple.spec.plot(spec.est$S)
+quick.spec.plot(spec.est$S)
 }
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
