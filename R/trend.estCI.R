@@ -27,23 +27,6 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
   size <- 1 - alpha
   qval <- stats::qnorm(1 - size / 2)
 
-  create.covmat <- function(lacf, data.len) {
-    lacf <- lacf$lacf
-
-    max.lag <- length(lacf[1, ])
-
-    cov.mat <- matrix(0, nrow = data.len, ncol = data.len)
-
-    for (row in 1:data.len) {
-      for (column in row:(min((max.lag - 1 + row), data.len))) {
-        cov.mat[row, column] <- lacf[row, (abs(column - row) + 1)]
-        cov.mat[column, row] <- cov.mat[row, column]
-      }
-    }
-
-    cov.mat
-  }
-
   cov.mat <- create.covmat(lacf.est, data.len)
 
   # calculate the wavelet transform matrix:
