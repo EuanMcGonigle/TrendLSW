@@ -81,7 +81,7 @@
 #'
 #' spec.est <- ewspec.diff(x, family = "DaubExPhase", filter.number = 1, max.scale = 7)
 #'
-#' simple.spec.plot(spec.est$S)
+#' quick.spec.plot(spec.est$S)
 #' @export
 ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase",
                         binwidth = floor(2 * sqrt(length(data))), diff.number = 1,
