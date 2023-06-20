@@ -19,9 +19,9 @@
 #'
 #' 3. The inverse wavelet transform is applied to obtain the final estimate.
 #' @param data The time series you want to estimate the trend function of.
-#' @param spec You must supply the estimate of the evolutionary wavelet
-#' spectrum of the time series. This is calculated using the function
-#' ewspec.diff, and selecting the S component from the returned list object.
+#' @param spec.est You must supply the estimate of the evolutionary wavelet
+#' spectrum of the time series. This is the output of the \code{ewspec.diff}
+#' function.
 #' @param filter.number Selects the index of the wavelet used in the estimation
 #' procedure. For Daubechies compactly supported wavelets the filter number is
 #' the number of vanishing moments.
@@ -57,37 +57,28 @@
 #'
 #' spec.est <- ewspec.diff(data = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
 #'
-#' trend.est <- wav.diff.trend.est(data = x, spec = spec.est$S)
+#' trend.est <- wav.diff.trend.est(data = x, spec = spec.est)
 #'
 #' plot.ts(x, lty = 1, col = 8)
 #' lines(sine_trend, col = 2, lwd = 2)
 #' lines(trend.est, col = 4, lwd = 2, lty = 2)
 #' @export
-wav.diff.trend.est <- function(data, spec, filter.number = 4, thresh.type = "soft",
+wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = "soft",
                                normal = TRUE, family = "DaubLeAsymm",
                                max.scale = floor(0.7 * log2(length(data))),
                                boundary.handle = FALSE) {
-  data.len <- length(data)
+  data.check <- ewspec.checks(
+    data = data, max.scale = max.scale, lag = 1,
+    binwidth = 1, boundary.handle = boundary.handle
+  )
 
-  if (max.scale %% 1 != 0) {
-    stop("max.scale parameter must be an integer.")
-  }
-  if (max.scale < 1 || max.scale > floor(log2(data.len))) {
-    warning("max.scale parameter is outside valid range. Resetting to default value.")
-    max.scale <- floor(log2(data.len) * 0.7)
-  }
+  data.len <- data.check$data.len
+  max.scale <- data.check$max.scale
+  boundary.handle <- data.check$boundary.handle
+  J <- data.check$J
+  dyadic <- data.check$dyadic
 
-  J <- wavethresh::IsPowerOfTwo(data.len)
-
-  if (is.na(J) == TRUE) {
-    warning("Data length is not power of two. Boundary correction has been applied.")
-    boundary.handle <- TRUE
-    dyadic <- FALSE
-    J <- floor(log2(data.len)) + 1
-  } else {
-    dyadic <- TRUE
-  }
-
+  spec <- spec.est$S
   # by default, do T.I. denoising:
 
   if (boundary.handle == TRUE) {
@@ -108,26 +99,6 @@ wav.diff.trend.est <- function(data, spec, filter.number = 4, thresh.type = "sof
     gen.filter.number = spec$filter$filter.number,
     an.family = family, gen.family = spec$filter$family
   )
-
-
-  replace.neg.values <- function(var.mat, max.scale) {
-    for (j in 1:max.scale) {
-      var.row <- var.mat[j, ]
-
-      if (sum(var.row <= 0) > 0) {
-        var.row[var.row < 0] <- 0
-        var.row0 <- which(var.row == 0)
-        var.row.non0 <- var.row[which(var.row != 0)]
-
-        for (i in 1:length(var.row0)) {
-          var.mat[j, (var.row0[i])] <- var.row.non0[which.min(abs(var.row0[i] - which(var.row != 0)))]
-        }
-      }
-    }
-
-    var.mat
-  }
-
 
   spec.mat <- matrix(0, nrow = max.scale, ncol = length(wavethresh::accessD(spec, level = 0)))
 
