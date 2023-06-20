@@ -101,11 +101,11 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
   # user chooses a maximum scale of the wavelet transform to analyse, and
   # binwidth of the running mean smoother.
 
-  if (sum(is.na(data)) != 0) {
+  if (any(is.na(data))) {
     stop("Data contains mising values.")
   }
-  if (!is.atomic(data)) {
-    stop("Data is not atomic")
+  if (!is.numeric(data)) {
+    stop("Data is not numeric")
   }
 
   data.len <- length(data)
@@ -148,7 +148,10 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
       inv <- solve(C)
     }
   } else {
-    inv <- mat
+    stopifnot("Supplied inverse matrix must be square" = nrow(mat) == ncol(mat))
+    stopifnot("Dimension of supplied inverse matrix must be larger than max.scale"
+              = nrow(mat) >= max.scale)
+    inv <- mat[1:max.scale,1:max.scale]
   }
 
   if (boundary.handle == TRUE) {
