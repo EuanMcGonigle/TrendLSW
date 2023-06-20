@@ -17,7 +17,7 @@ ewspec.diff(
   boundary.handle = FALSE,
   AutoReflect = FALSE,
   supply.inv.mat = FALSE,
-  inv = NULL
+  inv.mat = NULL
 )
 }
 \arguments{
@@ -59,7 +59,7 @@ leave as FALSE.}
 \item{supply.inv.mat}{Not intended for general use. If TRUE, user must supply the
 appropriate correction matrix.}
 
-\item{inv}{Not intended for general use. If supply.mat is TRUE, user must supply the
+\item{inv.mat}{Not intended for general use. If supply.mat is TRUE, user must supply the
 appropriate correction matrix used to correct the raw wavelet periodogram.
 Equal to \eqn{(2A-2A_1)^{-1}} for first differences.}
 }

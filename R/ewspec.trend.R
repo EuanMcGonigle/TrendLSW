@@ -46,9 +46,9 @@
 #' @param AutoReflect As in wavethresh. Decides whether or not the time series
 #' is reflected when computing the wavelet transform. Helps estimation at the
 #' boundaries.
-#' @param supply.mat Not intended for general use. If TRUE, user must supply the
+#' @param supply.inv.mat Not intended for general use. If TRUE, user must supply the
 #' appropriate correction matrix
-#' @param mat If supply.mat is TRUE, user must supply the appropriate
+#' @param inv.mat If supply.mat is TRUE, user must supply the appropriate
 #' correction matrix used to correct the raw wavelet periodogram. Equal to \eqn{C^{-1}}.
 #' @param boundary.handle Logical variable, if TRUE, the time series is
 #' boundary corrected, to get a more accurate spectrum estimate at the
@@ -93,7 +93,7 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
                          gen.filter.number = an.filter.number, gen.family = an.family,
                          binwidth = floor(2 * sqrt(length(data))),
                          max.scale = floor(log2(length(data)) * 0.7), WP.smooth = TRUE,
-                         AutoReflect = TRUE, supply.mat = FALSE, mat = NULL,
+                         AutoReflect = TRUE, supply.inv.mat = FALSE, inv.mat = NULL,
                          boundary.handle = TRUE) {
   # function that computes the spectral estimate of a time series that has a smooth trend
   # that can be zeroed out by the wavelet coefficients.
@@ -101,8 +101,10 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
   # user chooses a maximum scale of the wavelet transform to analyse, and
   # binwidth of the running mean smoother.
 
-  data.check <- ewspec.checks(data = data, max.scale = max.scale, lag = 1,
-                                     binwidth = binwidth, boundary.handle = boundary.handle)
+  data.check <- ewspec.checks(
+    data = data, max.scale = max.scale, lag = 1,
+    binwidth = binwidth, boundary.handle = boundary.handle
+  )
 
   data.len <- data.check$data.len
   max.scale <- data.check$max.scale
@@ -112,23 +114,20 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
 
   # calculate the appropriate correction matrix and its inverse:
 
-  if (supply.mat == FALSE) {
+  if (supply.inv.mat == FALSE) {
     if (an.filter.number == gen.filter.number && an.family == gen.family) {
       A <- wavethresh::ipndacw(J = -max.scale, filter.number = an.filter.number, family = an.family)
-      inv <- solve(A)
+      inv.mat <- solve(A)
     } else {
       C <- Cmat.calc(
         J = max.scale, gen.filter.number = gen.filter.number,
         an.filter.number = an.filter.number, gen.family = gen.family,
         an.family = an.family
       )
-      inv <- solve(C)
+      inv.mat <- solve(C)
     }
   } else {
-    stopifnot("Supplied inverse matrix must be square" = nrow(mat) == ncol(mat))
-    stopifnot("Dimension of supplied inverse matrix must be larger than max.scale"
-              = nrow(mat) >= max.scale)
-    inv <- mat[1:max.scale,1:max.scale]
+    inv.mat <- supply.mat.check(inv.mat = inv.mat, max.scale = max.scale)
   }
 
   if (boundary.handle == TRUE) {
@@ -141,93 +140,20 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
     binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = WP.smooth
   )
 
-  calc.final.spec <- function(spec, dyadic, data.len) {
-    if (dyadic == TRUE) {
-      final_spec <- wavethresh::cns(2^(spec$nlevels - 2),
-        filter.number = spec$filter$filter.number,
-        family = spec$filter$family
-      )
-
-      lower <- 2^(spec$nlevels - 2) + 2^(spec$nlevels - 3) + 1
-      upper <- 2^(spec$nlevels - 1) + 2^(spec$nlevels - 3)
-
-
-      for (j in 0:(spec$nlevels - 3)) {
-        bh_d <- wavethresh::accessD(spec, level = j + 2)[lower:upper]
-
-        final_spec <- wavethresh::putD(final_spec, level = j, bh_d)
-      }
-
-      return(final_spec)
-    } else {
-      est.spec.J <- spec$nlevels
-
-      final.spec.J <- floor(log2(data.len)) + 1
-
-      final_spec <- wavethresh::cns(2^final.spec.J,
-        filter.number = spec$filter$filter.number,
-        family = spec$filter$family
-      )
-
-      lower <- floor((2^est.spec.J - data.len) / 2)
-      upper <- lower + data.len - 1
-
-
-      for (j in 0:(final.spec.J - 1)) {
-        bh_d <- c(wavethresh::accessD(spec, level = j + (est.spec.J - final.spec.J))[lower:upper], rep(0, 2^final.spec.J + lower - upper - 1))
-
-        final_spec <- wavethresh::putD(final_spec, level = j, bh_d)
-      }
-
-      return(final_spec)
-    }
-  }
-
-
   # access smoothed, uncorrected wavelet periodogram:
 
   if (boundary.handle == TRUE) {
-    temp <- locits::ewspec3(rep(0, 2^J), filter.number = an.filter.number, family = an.family)
-
-    temp$SmoothWavPer <- calc.final.spec(data.wd$SmoothWavPer, dyadic = dyadic, data.len = data.len)
-    temp$WavPer <- calc.final.spec(data.wd$WavPer, dyadic = dyadic, data.len = data.len)
-
-    if (max.scale < J) {
-      for (j in 0:(J - 1 - max.scale)) {
-        temp$WavPer <- wavethresh::putD(temp$WavPer, level = j, rep(0, 2^J))
-        temp$SmoothWavPer <- wavethresh::putD(temp$SmoothWavPer, level = j, rep(0, 2^J))
-      }
-    }
-
-
-    data.wd <- temp
+    data.wd <- smooth.wav.per.calc(
+      data.wd = data.wd, J = J, data.len = data.len,
+      filter.number = an.filter.number, family = an.family,
+      dyadic = dyadic, max.scale = max.scale
+    )
   }
 
-  uncor.spec <- data.wd$SmoothWavPer
-
-  # perform correction: mutiply by inverse matrix, non-estimated scales are set to zero.
-
-  uncor.spec.mat <- matrix(0, nrow = max.scale, ncol = 2^J)
-
-  for (j in 1:max.scale) {
-    uncor.spec.mat[j, ] <- wavethresh::accessD(uncor.spec, level = J - j)
-  }
-
-  # perform correction step:
-
-  cor.spec.mat <- inv %*% uncor.spec.mat
-
-  # now fill in wd object with final spectrum estimate.
-
-  S <- wavethresh::cns(2^J, filter.number = gen.filter.number, family = gen.family)
-
-  for (j in 1:max.scale) {
-    S <- wavethresh::putD(S, level = J - j, cor.spec.mat[j, ])
-  }
-
-  # return final estimate, along with smoothed and unsmoothed periodogram:
-
-  l <- list(S = S, WavPer = data.wd$WavPer, SmoothWavPer = uncor.spec)
+  l <- S.calc(
+    data.wd = data.wd, max.scale = max.scale, J = J, inv.mat = inv.mat,
+    filter.number = gen.filter.number, family = gen.family
+  )
 
   return(l)
 }

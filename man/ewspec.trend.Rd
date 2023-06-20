@@ -14,8 +14,8 @@ ewspec.trend(
   max.scale = floor(log2(length(data)) * 0.7),
   WP.smooth = TRUE,
   AutoReflect = TRUE,
-  supply.mat = FALSE,
-  mat = NULL,
+  supply.inv.mat = FALSE,
+  inv.mat = NULL,
   boundary.handle = TRUE
 )
 }
@@ -52,10 +52,10 @@ wavelet periodogram.}
 is reflected when computing the wavelet transform. Helps estimation at the
 boundaries.}
 
-\item{supply.mat}{Not intended for general use. If TRUE, user must supply the
+\item{supply.inv.mat}{Not intended for general use. If TRUE, user must supply the
 appropriate correction matrix}
 
-\item{mat}{If supply.mat is TRUE, user must supply the appropriate
+\item{inv.mat}{If supply.mat is TRUE, user must supply the appropriate
 correction matrix used to correct the raw wavelet periodogram. Equal to \eqn{C^{-1}}.}
 
 \item{boundary.handle}{Logical variable, if TRUE, the time series is

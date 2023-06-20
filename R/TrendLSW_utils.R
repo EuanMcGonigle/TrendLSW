@@ -115,7 +115,6 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
 #' @keywords internal
 #' @noRd
 ewspec.checks <- function(data, max.scale, binwidth, lag, boundary.handle) {
-
   if (any(is.na(data))) {
     stop("Data contains mising values.")
   }
@@ -154,8 +153,130 @@ ewspec.checks <- function(data, max.scale, binwidth, lag, boundary.handle) {
     stop("The lag parameter should be a positive integer.")
   }
 
-  return(list(data.len = data.len,max.scale = max.scale, boundary.handle = boundary.handle,
-              J = J, dyadic = dyadic))
-
+  return(list(
+    data.len = data.len, max.scale = max.scale, boundary.handle = boundary.handle,
+    J = J, dyadic = dyadic
+  ))
 }
 
+
+#' @title Calculate Boundary Handled Spectrum
+#' @description Internal function for spectral estimation used when there is
+#' boundary handling
+#' @keywords internal
+#' @noRd
+
+calc.final.spec <- function(spec, dyadic, data.len) {
+  if (dyadic == TRUE) {
+    final_spec <- wavethresh::cns(2^(spec$nlevels - 2),
+      filter.number = spec$filter$filter.number,
+      family = spec$filter$family
+    )
+
+    lower <- 2^(spec$nlevels - 2) + 2^(spec$nlevels - 3) + 1
+    upper <- 2^(spec$nlevels - 1) + 2^(spec$nlevels - 3)
+
+
+    for (j in 0:(spec$nlevels - 3)) {
+      bh_d <- wavethresh::accessD(spec, level = j + 2)[lower:upper]
+
+      final_spec <- wavethresh::putD(final_spec, level = j, bh_d)
+    }
+
+    return(final_spec)
+  } else {
+    est.spec.J <- spec$nlevels
+
+    final.spec.J <- floor(log2(data.len)) + 1
+
+    final_spec <- wavethresh::cns(2^final.spec.J,
+      filter.number = spec$filter$filter.number,
+      family = spec$filter$family
+    )
+
+    lower <- floor((2^est.spec.J - data.len) / 2)
+    upper <- lower + data.len - 1
+
+
+    for (j in 0:(final.spec.J - 1)) {
+      bh_d <- c(wavethresh::accessD(spec, level = j + (est.spec.J - final.spec.J))[lower:upper], rep(0, 2^final.spec.J + lower - upper - 1))
+
+      final_spec <- wavethresh::putD(final_spec, level = j, bh_d)
+    }
+
+    return(final_spec)
+  }
+}
+
+#' @title Calculate Spectrum Estimate
+#' @description Internal function for calculating spectral estimate
+#' @keywords internal
+#' @noRd
+
+S.calc <- function(data.wd, max.scale, J, inv.mat, filter.number, family) {
+  # access smoothed,uncorrected wavelet periodogram:
+
+  uncor.spec <- data.wd$SmoothWavPer
+
+  # perform correction: mutiply by inverse matrix, non-estimated scales are set to zero.
+
+  uncor.spec.mat <- matrix(0, nrow = max.scale, ncol = 2^J)
+
+  for (j in 1:max.scale) {
+    uncor.spec.mat[j, ] <- wavethresh::accessD(uncor.spec, level = J - j)
+  }
+
+  # perform correction step:
+
+  cor.spec.mat <- inv.mat %*% uncor.spec.mat
+
+  # now fill in wd object with final spectrum estimate.
+
+  S <- wavethresh::cns(2^J, filter.number = filter.number, family = family)
+
+  for (j in 1:max.scale) {
+    S <- wavethresh::putD(S, level = J - j, cor.spec.mat[j, ])
+  }
+
+  # return final EWS estimate, along with smoothed and unsmoothed periodogram:
+
+  l <- list(S = S, WavPer = data.wd$WavPer, SmoothWavPer = uncor.spec)
+
+  return(l)
+}
+
+#' @title Calculate oundary Handled Smoothed Periodogram Estimate
+#' @description Internal function for calculating smoothed spectral estimate when
+#' boundary handling is used
+#' @keywords internal
+#' @noRd
+smooth.wav.per.calc <- function(data.wd, J, data.len, filter.number, family,
+                                dyadic, max.scale) {
+  temp <- locits::ewspec3(rep(0, 2^J), filter.number = filter.number, family = family)
+
+  temp$SmoothWavPer <- calc.final.spec(data.wd$SmoothWavPer, dyadic = dyadic, data.len = data.len)
+  temp$WavPer <- calc.final.spec(data.wd$WavPer, dyadic = dyadic, data.len = data.len)
+
+  if (max.scale < J) {
+    for (j in 0:(J - 1 - max.scale)) {
+      temp$WavPer <- wavethresh::putD(temp$WavPer, level = j, rep(0, 2^J))
+      temp$SmoothWavPer <- wavethresh::putD(temp$SmoothWavPer, level = j, rep(0, 2^J))
+    }
+  }
+
+  return(temp)
+}
+
+#' @title Matrix Error Checks
+#' @description Internal function for check user-supplied matrix
+#' @keywords internal
+#' @noRd
+supply.mat.check <- function(inv.mat, max.scale) {
+  stopifnot("Supplied inverse matrix must be square" = nrow(inv.mat) == ncol(inv.mat))
+  stopifnot(
+    "Dimension of supplied inverse matrix must be larger than max.scale" = nrow(inv.mat) >= max.scale
+  )
+  inv.mat <- inv.mat[1:max.scale, 1:max.scale]
+
+  return(inv.mat)
+}
