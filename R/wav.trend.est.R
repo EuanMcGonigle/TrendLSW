@@ -11,7 +11,7 @@
 #' @param max.scale Selects the coarsest scale of the wavelet transform to
 #' analyse to. Should be a value from 1 (finest) to J-1 (coarsest), where T=2^J
 #' is the length of the time series.
-#' @param type The type of wavelet transform used. By default, it is "dec"
+#' @param transform.type The type of wavelet transform used. By default, it is "dec"
 #' which is the standard discrete wavelet transform. Can also be "nondec",
 #' which uses a non-decimated wavelet transform.
 #' @param boundary.handle Can be \code{TRUE} or \code{FALSE}. If TRUE, the time
@@ -50,7 +50,7 @@
 #' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
 #' @export
 wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
-                          max.scale = floor(log2(length(data)) * 0.7), type = "dec",
+                          max.scale = floor(log2(length(data)) * 0.7), transform.type = "dec",
                           boundary.handle = FALSE, calc.confint = FALSE, sig.lvl = 0.05,
                           lag.max = floor(10 * (log10(length(data)))), ...) {
   # this function carries out wavelet thresholding of a time series to obtain a
@@ -80,9 +80,9 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
 
   boundary.test <- c(rep(0, data.len - 1), 1)
 
-  if (type == "dec") {
+  if (transform.type == "dec") {
     y.wd <- wavethresh::wd(boundary.test, family = family, filter.number = filter.number)
-  } else if (type == "nondec") {
+  } else if (transform.type == "nondec") {
     y.wd <- wavethresh::wd(boundary.test, family = family, filter.number = filter.number, type = "station")
   }
 
@@ -95,9 +95,9 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
   }
 
   # perform DWT on series
-  if (type == "dec") {
+  if (transform.type == "dec") {
     data.wd <- wavethresh::wd(data, filter.number = filter.number, family = family)
-  } else if (type == "nondec") {
+  } else if (transform.type == "nondec") {
     data.wd <- wavethresh::wd(data, filter.number = filter.number, family = family, type = "station")
   }
 
@@ -114,9 +114,9 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
   }
 
   # perform inverse transform on thresholded coefficients
-  if (type == "dec") {
+  if (transform.type == "dec") {
     data_wr <- wavethresh::wr(data.thresh)
-  } else if (type == "nondec") {
+  } else if (transform.type == "nondec") {
     data_wr <- wavethresh::AvBasis(wavethresh::convert(data.thresh))
   }
 
