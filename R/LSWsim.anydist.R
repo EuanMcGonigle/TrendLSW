@@ -1,8 +1,8 @@
-#' @title Simulate locally stationary wavelet processes with random innovations not
-#' necessarily Gaussian.
+#' @title Simulate Locally Stationary Wavelet Process with Specified
+#' Distribution of Random Innovations
 #' @description Simulates a locally stationary wavelet process given a spectrum and
-#' distribution for the random innovations. Extension of the LSWsim function
-#' from wavethresh.
+#' distribution for the random innovations. Extension of the \code{LSWsim} function
+#' from the \code{wavethresh} package.
 #' @param spec An object of class wd which contains the spectrum for simulating
 #' an LSW process.
 #' @param distribution The distribution of the random variables used to

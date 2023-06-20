@@ -1,5 +1,5 @@
-#' @title Estimation of Evolutionary Wavelet Spectrum for Non-Zero Mean Time Series
-#' via Differencing.
+#' @title Estimation of Evolutionary Wavelet Spectrum of Non-Zero Mean Time
+#' Series via Differencing.
 #' @description Estimates the evolutionary wavelet spectrum (EWS) of
 #' a time series that may include a trend component. The estimate is computed
 #' by taking the non-decimated wavelet transform of the first differenced time

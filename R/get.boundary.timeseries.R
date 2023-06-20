@@ -1,4 +1,4 @@
-#' @title Calculates Boundary Extended Time Series
+#' @title Calculate Boundary Extended Time Series
 #' @description A function to calculate the boundary extended time series, to be used within
 #' the \code{\link{ewspec.trend}}, \code{\link{ewspec.diff}},
 #' \code{\link{wav.trend.est}}, and \code{\link{wav.diff.trend.est}} functions.
