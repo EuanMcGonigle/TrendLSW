@@ -57,28 +57,19 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
   # trend estimate. All non-boundary wavelet coefficients up to a specified scale
   # are set to zero.
 
-  data.len <- length(data)
+  data.check <- ewspec.checks(
+    data = data, max.scale = max.scale, lag = 1,
+    binwidth = 1, boundary.handle = boundary.handle
+  )
 
-  if (max.scale %% 1 != 0) {
-    stop("max.scale parameter must be an integer.")
-  }
-  if (max.scale < 1 || max.scale > floor(log2(data.len))) {
-    warning("max.scale parameter is outside valid range. Resetting to default value.")
-    max.scale <- floor(log2(data.len) * 0.7)
-  }
+  data.len <- data.check$data.len
+  max.scale <- data.check$max.scale
+  boundary.handle <- data.check$boundary.handle
+  J <- data.check$J
+  dyadic <- data.check$dyadic
 
-  J <- wavethresh::IsPowerOfTwo(data.len)
-
-  if (is.na(J) == TRUE) {
-    warning("Data length is not power of two. Boundary correction has been applied.")
-    boundary.handle <- TRUE
-    dyadic <- FALSE
-    J <- floor(log2(data.len)) + 1
-  } else {
-    dyadic <- TRUE
-  }
+  orig.data <- data
   if (boundary.handle == TRUE) {
-    orig.data <- data
     data <- get.boundary.timeseries(data)
   }
   data.len <- length(data)
@@ -156,6 +147,8 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
       trend.est = data_wr, lacf.est = lacf.est, filter.number = filter.number,
       family = family, alpha = 1 - sig.lvl
     )
+    lower.conf <- trend.confint$lower.conf
+    upper.conf <- trend.confint$upper.conf
 
     if (boundary.handle == TRUE) {
       if (dyadic == TRUE) {
@@ -166,11 +159,13 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
         upper <- lower + length(orig.data) - 1
       }
       data_wr <- data_wr[lower:upper]
+      lower.conf <- lower.conf[lower:upper]
+      upper.conf <- upper.conf[lower:upper]
     }
 
     return(list(
       data = orig.data, filter.number = filter.number, family = family, trend.est = data_wr, calc.confint = calc.confint,
-      lower.conf = trend.confint$lower.conf[lower:upper], upper.conf = trend.confint$upper.conf[lower:upper],
+      lower.conf = lower.conf, upper.conf = upper.conf,
       sig.lvl = sig.lvl
     ))
   }
