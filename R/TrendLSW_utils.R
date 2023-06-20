@@ -109,3 +109,6 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
 
 
 
+
+
+
