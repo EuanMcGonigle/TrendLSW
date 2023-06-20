@@ -121,6 +121,7 @@ ewspec.checks <- function(data, max.scale, binwidth, lag, boundary.handle) {
   if (!is.numeric(data)) {
     stop("Data is not numeric")
   }
+  stopifnot("Parameter boundary.handle must be logical variable" = is.logical(boundary.handle))
 
   data.len <- length(data)
 
@@ -305,4 +306,19 @@ replace.neg.values <- function(var.mat, max.scale) {
   var.mat
 }
 
+
+#' @title Trend Estimation Error Checks
+#' @description Internal function for checking wav.trend.est
+#' @keywords internal
+#' @noRd
+trend.est.check <- function(transform.type, calc.confint) {
+
+  stopifnot("Parameter transform.type must be either 'dec' or 'nondec'" =
+              transform.type == "dec" || transform.type == "nondec")
+  stopifnot("Parameter calc.confint must be logical variable" = is.logical(calc.confint))
+
+  stopifnot("Only transform.type = 'dec' is supported for calculating confidence
+            intervals" = transform.type == "dec" || calc.confint == FALSE)
+
+}
 
