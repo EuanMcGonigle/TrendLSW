@@ -9,17 +9,18 @@
 #' @param family Selects the wavelet family to use. Recommended to only use the
 #' Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.
 #' @param max.scale Selects the coarsest scale of the wavelet transform to
-#' analyse to. Should be a value from 1 (finest) to J-1 (coarsest), where T=2^J
-#' is the length of the time series.
+#' analyse to. Should be a value from \eqn{1} (finest) to \eqn{J-1} (coarsest),
+#' where \eqn{T=2^J} is the length of the time series.
 #' @param transform.type The type of wavelet transform used. By default, it is "dec"
 #' which is the standard discrete wavelet transform. Can also be "nondec",
-#' which uses a non-decimated wavelet transform.
-#' @param boundary.handle Can be \code{TRUE} or \code{FALSE}. If TRUE, the time
+#' which uses a non-decimated wavelet transform, but a confidence interval
+#' cannot be calculated in this case.
+#' @param boundary.handle Logical variable. If \code{TRUE}, the time
 #' series is boundary corrected, to get a less variable trend estimate at the
-#' boundaries of the times series. If FALSE, no boundary correction is applied.
-#' @param calc.confint Can be \code{TRUE} or \code{FALSE}. If TRUE, a
-#' \code{(1-sig.lvl)} pointwise confidence interval is computed for the
-#' trend estimate.
+#' boundaries of the times series. If \code{FALSE}, no boundary correction is applied.
+#' @param calc.confint Logical variable, only to be used if \code{transform.type = TRUE}.
+#' If \code{TRUE}, a \code{(1-sig.lvl)} pointwise confidence interval is
+#' computed for the trend estimate.
 #' @param sig.lvl Used only if \code{calc.confint = TRUE}; a numeric value
 #' (\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
 #' confidence interval for the trend estimate is generated.
@@ -29,8 +30,15 @@
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.trend}}
 #' and \code{\link{lacf.calc}} calls, only to be used if \code{calc.confint =
 #' TRUE}.
-#' @return A vector of length length(data) containing the trend estimate.
-#' @seealso \code{\link{wav.diff.trend.est}}
+#' @return A \code{list} object containing the following fields:
+#' \item{data}{Input data}
+#' \item{filter.number, family}{Inpute wavelet parameters}
+#' \item{trend.est}{A vector of length \code{length(data)} containing the trend estimate}
+#' \item{calc.confint}{Input parameter}
+#' \item{lower.conf}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
+#' \item{upper.conf}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
+#' \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
+#' @seealso \code{\link{wav.diff.trend.est}}, \code{\link{ewspec.trend}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
