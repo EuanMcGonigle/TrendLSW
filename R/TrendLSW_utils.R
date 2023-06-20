@@ -106,3 +106,56 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
 
   return(l)
 }
+
+
+
+
+#' @title Spectral Estimation Error Checks
+#' @description Internal function for error checking for spectral estimation
+#' @keywords internal
+#' @noRd
+ewspec.checks <- function(data, max.scale, binwidth, lag, boundary.handle) {
+
+  if (any(is.na(data))) {
+    stop("Data contains mising values.")
+  }
+  if (!is.numeric(data)) {
+    stop("Data is not numeric")
+  }
+
+  data.len <- length(data)
+
+  if (max.scale %% 1 != 0) {
+    stop("max.scale parameter must be an integer.")
+  }
+  if (max.scale < 1 || max.scale > floor(log2(data.len))) {
+    warning("max.scale parameter is outside valid range. Resetting to default value.")
+    max.scale <- floor(log2(data.len) * 0.7)
+  }
+  if (binwidth %% 1 != 0) {
+    stop("binwidth parameter must be an integer.")
+  }
+
+  J <- wavethresh::IsPowerOfTwo(data.len)
+
+  if (is.na(J) == TRUE) {
+    warning("Data length is not power of two. Boundary correction has been applied.")
+    boundary.handle <- TRUE
+    dyadic <- FALSE
+    J <- floor(log2(data.len)) + 1
+  } else {
+    dyadic <- TRUE
+  }
+
+  if (!is.numeric(lag)) {
+    stop("The lag parameter should be a positive integer.")
+  }
+  if ((length(lag) != 1) || (lag %% 1 != 0) || (lag <= 0)) {
+    stop("The lag parameter should be a positive integer.")
+  }
+
+  return(list(data.len = data.len,max.scale = max.scale, boundary.handle = boundary.handle,
+              J = J, dyadic = dyadic))
+
+}
+

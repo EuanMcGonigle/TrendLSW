@@ -101,37 +101,14 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
   # user chooses a maximum scale of the wavelet transform to analyse, and
   # binwidth of the running mean smoother.
 
-  if (any(is.na(data))) {
-    stop("Data contains mising values.")
-  }
-  if (!is.numeric(data)) {
-    stop("Data is not numeric")
-  }
+  data.check <- ewspec.checks(data = data, max.scale = max.scale, lag = 1,
+                                     binwidth = binwidth, boundary.handle = boundary.handle)
 
-  data.len <- length(data)
-
-  if (max.scale %% 1 != 0) {
-    stop("max.scale parameter must be an integer.")
-  }
-  if (max.scale < 1 || max.scale > floor(log2(data.len))) {
-    warning("max.scale parameter is outside valid range. Resetting to default value.")
-    max.scale <- floor(log2(data.len) * 0.7)
-  }
-  if (binwidth %% 1 != 0) {
-    stop("binwidth parameter must be an integer.")
-  }
-
-  J <- wavethresh::IsPowerOfTwo(data.len)
-
-  if (is.na(J) == TRUE) {
-    warning("Data length is not power of two. Boundary correction has been applied.")
-    boundary.handle <- TRUE
-    dyadic <- FALSE
-    J <- floor(log2(data.len)) + 1
-  } else {
-    dyadic <- TRUE
-  }
-
+  data.len <- data.check$data.len
+  max.scale <- data.check$max.scale
+  boundary.handle <- data.check$boundary.handle
+  J <- data.check$J
+  dyadic <- data.check$dyadic
 
   # calculate the appropriate correction matrix and its inverse:
 
@@ -155,7 +132,7 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
   }
 
   if (boundary.handle == TRUE) {
-    data <- get.boundary.timeseries(data)
+    data <- get.boundary.timeseries(data, type = "TLSW")
   }
   # calculate raw wavelet periodogram which we need to correct:
 

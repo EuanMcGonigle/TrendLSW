@@ -90,40 +90,14 @@ ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase"
                         supply.inv.mat = FALSE, inv = NULL) {
   # function that computes the spectral estimate of a time series that has a trend.
 
-  # user chooses a maximum scale of the wavelet transform to analyse,
-  # binwidth of the running mean smoother, and the method of differencing.
+  data.check <- ewspec.checks(data = data, max.scale = max.scale, lag = lag,
+                              binwidth = binwidth, boundary.handle = boundary.handle)
 
-
-  if (sum(is.na(data)) != 0) {
-    stop("Data contains mising values.")
-  }
-  if (!is.atomic(data)) {
-    stop("Data is not atomic")
-  }
-
-  data.len <- length(data)
-
-  if (max.scale %% 1 != 0) {
-    stop("max.scale parameter must be an integer.")
-  }
-  if (max.scale < 1 || max.scale > floor(log2(data.len))) {
-    warning("max.scale parameter is outside valid range. Resetting to default value.")
-    max.scale <- floor(log2(data.len) * 0.7)
-  }
-  if (binwidth %% 1 != 0) {
-    stop("binwidth parameter must be an integer.")
-  }
-
-  J <- wavethresh::IsPowerOfTwo(data.len)
-
-  if (is.na(J) == TRUE) {
-    warning("Data length is not power of two. Boundary correction has been applied.")
-    boundary.handle <- TRUE
-    dyadic <- FALSE
-    J <- floor(log2(data.len)) + 1
-  } else {
-    dyadic <- TRUE
-  }
+  data.len <- data.check$data.len
+  max.scale <- data.check$max.scale
+  boundary.handle <- data.check$boundary.handle
+  J <- data.check$J
+  dyadic <- data.check$dyadic
 
   if (boundary.handle == TRUE) {
     data <- get.boundary.timeseries(data, type = "LSW.diff")
