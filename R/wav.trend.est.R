@@ -149,7 +149,7 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
 
     lacf.est <- lacf.calc(data,
       filter.number = spec.est$S$filter$filter.number, family = spec.est$S$filter$family,
-      lag.max = lag.max, spec.est = spec.est$S
+      lag.max = lag.max, spec.est = spec.est
     )
 
     trend.confint <- trend.estCI(
