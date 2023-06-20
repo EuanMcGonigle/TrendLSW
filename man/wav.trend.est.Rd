@@ -9,7 +9,7 @@ wav.trend.est(
   filter.number = 4,
   family = "DaubLeAsymm",
   max.scale = floor(log2(length(data)) * 0.7),
-  type = "dec",
+  transform.type = "dec",
   boundary.handle = FALSE,
   calc.confint = FALSE,
   sig.lvl = 0.05,
@@ -31,7 +31,7 @@ Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.}
 analyse to. Should be a value from 1 (finest) to J-1 (coarsest), where T=2^J
 is the length of the time series.}
 
-\item{type}{The type of wavelet transform used. By default, it is "dec"
+\item{transform.type}{The type of wavelet transform used. By default, it is "dec"
 which is the standard discrete wavelet transform. Can also be "nondec",
 which uses a non-decimated wavelet transform.}
 
