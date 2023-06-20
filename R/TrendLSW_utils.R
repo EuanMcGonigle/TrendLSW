@@ -280,3 +280,29 @@ supply.mat.check <- function(inv.mat, max.scale) {
 
   return(inv.mat)
 }
+
+
+#' @title Replace Negative Values in Variance Estimate
+#' @description Internal function to replace negative values in the variance
+#' estimate used in the \code{wav.diff.trend.est} function
+#' @keywords internal
+#' @noRd
+replace.neg.values <- function(var.mat, max.scale) {
+  for (j in 1:max.scale) {
+    var.row <- var.mat[j, ]
+
+    if (sum(var.row <= 0) > 0) {
+      var.row[var.row < 0] <- 0
+      var.row0 <- which(var.row == 0)
+      var.row.non0 <- var.row[which(var.row != 0)]
+
+      for (i in 1:length(var.row0)) {
+        var.mat[j, (var.row0[i])] <- var.row.non0[which.min(abs(var.row0[i] - which(var.row != 0)))]
+      }
+    }
+  }
+
+  var.mat
+}
+
+
