@@ -5,7 +5,7 @@ test_that("wav.trend.est executes", {
   expect_equal(class(x.t), "list")
 })
 
-test_that("wav..trend.est executes with boundary handling", {
+test_that("wav.trend.est executes with boundary handling", {
   skip_on_cran()
   x <- stats::rnorm(256)+seq(from = 0, to = 4, length = 256)
   x.t <- wav.trend.est(x, boundary.handle = TRUE)
@@ -15,7 +15,7 @@ test_that("wav..trend.est executes with boundary handling", {
 test_that("wav.trend.est executes with nondecimated tranform", {
   skip_on_cran()
   x <- stats::rnorm(256)+seq(from = 0, to = 4, length = 256)
-  x.t <- wav.trend.est(x,  type = "nondec")
+  x.t <- wav.trend.est(x,  transform.type = "nondec")
   expect_equal(class(x.t), "list")
 })
 
