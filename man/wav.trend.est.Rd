@@ -2,7 +2,7 @@
 % Please edit documentation in R/wav.trend.est.R
 \name{wav.trend.est}
 \alias{wav.trend.est}
-\title{Linear Wavelet Thresholding Trend Estimation of Second-Order Nonstationary}
+\title{Linear Wavelet Thresholding Trend Estimation of Time Series}
 \usage{
 wav.trend.est(
   data,

@@ -1,4 +1,4 @@
-#' @title Linear Wavelet Thresholding Trend Estimation of Second-Order Nonstationary
+#' @title Linear Wavelet Thresholding Trend Estimation of Time Series
 #' @description Computes the linear wavelet thresholding trend estimate for a
 #' time series that may be second-order nonstationary. The function calculates
 #' the wavelet transform of the time series, sets to zero the non-boundary

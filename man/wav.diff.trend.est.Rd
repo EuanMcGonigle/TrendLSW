@@ -2,8 +2,7 @@
 % Please edit documentation in R/wav.diff.trend.est.R
 \name{wav.diff.trend.est}
 \alias{wav.diff.trend.est}
-\title{Wavelet Thresholding Trend Estimation of Second-Order Nonstationary Time
-Series}
+\title{Wavelet Thresholding Trend Estimation of Time Series}
 \usage{
 wav.diff.trend.est(
   data,

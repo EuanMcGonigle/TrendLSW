@@ -2,8 +2,8 @@
 % Please edit documentation in R/ewspec.diff.R
 \name{ewspec.diff}
 \alias{ewspec.diff}
-\title{Estimation of Evolutionary Wavelet Spectrum for Non-Zero Mean Time Series
-via Differencing.}
+\title{Estimation of Evolutionary Wavelet Spectrum of Non-Zero Mean Time
+Series via Differencing.}
 \usage{
 ewspec.diff(
   data,

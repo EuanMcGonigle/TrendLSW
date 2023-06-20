@@ -2,7 +2,7 @@
 % Please edit documentation in R/get.boundary.timeseries.R
 \name{get.boundary.timeseries}
 \alias{get.boundary.timeseries}
-\title{Calculates Boundary Extended Time Series}
+\title{Calculate Boundary Extended Time Series}
 \usage{
 get.boundary.timeseries(data, type = c("TLSW", "LSW.diff")[1])
 }

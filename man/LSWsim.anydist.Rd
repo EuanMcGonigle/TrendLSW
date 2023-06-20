@@ -2,8 +2,8 @@
 % Please edit documentation in R/LSWsim.anydist.R
 \name{LSWsim.anydist}
 \alias{LSWsim.anydist}
-\title{Simulate locally stationary wavelet processes with random innovations not
-necessarily Gaussian.}
+\title{Simulate Locally Stationary Wavelet Process with Specified
+Distribution of Random Innovations}
 \usage{
 LSWsim.anydist(
   spec,
@@ -34,8 +34,8 @@ defined by spec.
 }
 \description{
 Simulates a locally stationary wavelet process given a spectrum and
-distribution for the random innovations. Extension of the LSWsim function
-from wavethresh.
+distribution for the random innovations. Extension of the \code{LSWsim} function
+from the \code{wavethresh} package.
 }
 \examples{
 spec <- wavethresh::cns(1024)

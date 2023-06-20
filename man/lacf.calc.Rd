@@ -2,14 +2,15 @@
 % Please edit documentation in R/lacf.calc.R
 \name{lacf.calc}
 \alias{lacf.calc}
-\title{Compute localised autocovariance estimate from spectrum estimate.~}
+\title{Compute Localised Autocovariance Estimate from Spectrum Estimate}
 \usage{
 lacf.calc(
   x,
   filter.number = 10,
   family = "DaubLeAsymm",
-  spec.est,
-  lag.max = NULL
+  spec.est = NULL,
+  lag.max = NULL,
+  ...
 )
 }
 \arguments{
@@ -20,10 +21,13 @@ lacf.calc(
 \item{family}{Wavelet family that generated the time series.}
 
 \item{spec.est}{Estimated spectrum from which the lacf estimate will be
-calculated.}
+calculated, the output of the \code{ewspec.trend} or \code{ewspec.diff} functions.}
 
 \item{lag.max}{The maximum lag of acf required. If NULL then the same
 default as in the regular acf function is used.}
+
+\item{...}{Further arguments to be passed to the \code{\link{ewspec.trend}}
+function for spectrum estimation, only to be used if \code{spec.est} is not supplied.}
 }
 \value{
 An object of class \code{lacf} which contains the autocovariance.
@@ -58,7 +62,7 @@ spec.est <- ewspec.trend(x,
 
 #---- estimate the lacf specifying the Haar wavelet as the generating wavelet
 
-lacf.est <- lacf.calc(x = x, filter.number = 1, family = "DaubExPhase", spec.est = spec.est$S)
+lacf.est <- lacf.calc(x = x, filter.number = 1, family = "DaubExPhase", spec.est = spec.est)
 
 plot.ts(lacf.est$lacf[, 1])
 }
