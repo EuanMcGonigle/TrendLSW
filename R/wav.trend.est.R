@@ -58,7 +58,8 @@
 #' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
 #' @export
 wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
-                          max.scale = floor(log2(length(data)) * 0.7), transform.type = "dec",
+                          max.scale = floor(log2(length(data)) * 0.7),
+                          transform.type = c("dec", "nondec")[1],
                           boundary.handle = FALSE, calc.confint = FALSE, sig.lvl = 0.05,
                           lag.max = floor(10 * (log10(length(data)))), ...) {
   # this function carries out wavelet thresholding of a time series to obtain a
@@ -75,6 +76,8 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
   boundary.handle <- data.check$boundary.handle
   J <- data.check$J
   dyadic <- data.check$dyadic
+
+  trend.est.check(transform.type = transform.type, calc.confint = calc.confint)
 
   orig.data <- data
   if (boundary.handle == TRUE) {
