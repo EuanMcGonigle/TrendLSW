@@ -14,8 +14,11 @@ test_that("lacf.calc executes with spectrum not supplied", {
 test_that("lacf.calc warns with large lag.max", {
   skip_on_cran()
   x <- stats::arima.sim(model = list(ar = 0.5), n = 512)
-  expect_warning(lacf.calc(x, filter.number = 1, family = "DaubExPhase",
-                           lag.max = 2^11),
-                 "lag.max too high. Have reset it to  511 . Higher lags are zero")
+  expect_warning(
+    lacf.calc(x,
+      filter.number = 1, family = "DaubExPhase",
+      lag.max = 2^11
+    ),
+    "lag.max too high. Have reset it to  511 . Higher lags are zero"
+  )
 })
-

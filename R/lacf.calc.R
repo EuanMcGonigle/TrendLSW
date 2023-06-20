@@ -51,11 +51,11 @@
 #' @export
 lacf.calc <- function(x, filter.number = 10, family = "DaubLeAsymm",
                       spec.est = NULL, lag.max = NULL, ...) {
-
-  if(is.null(spec.est)){
-    spec.est <- ewspec.trend(data = x, an.filter.number = filter.number, an.family = family,
-                             gen.filter.number = filter.number, gen.family = family, ...)
-
+  if (is.null(spec.est)) {
+    spec.est <- ewspec.trend(
+      data = x, an.filter.number = filter.number, an.family = family,
+      gen.filter.number = filter.number, gen.family = family, ...
+    )
   }
 
   dsname <- deparse(substitute(x))

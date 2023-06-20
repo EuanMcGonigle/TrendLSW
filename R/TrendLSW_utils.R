@@ -13,7 +13,7 @@ create.covmat <- function(lacf, data.len) {
 
   for (row in 1:data.len) {
     for (column in row:(min((max.lag - 1 + row), data.len))) {
-      cov.mat[row, column] <- lacf[floor((row+column)/2), (abs(column - row) + 1)]
+      cov.mat[row, column] <- lacf[floor((row + column) / 2), (abs(column - row) + 1)]
       cov.mat[column, row] <- cov.mat[row, column]
     }
   }
@@ -106,9 +106,3 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
 
   return(l)
 }
-
-
-
-
-
-

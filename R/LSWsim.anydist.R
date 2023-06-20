@@ -59,9 +59,9 @@ LSWsim.anydist <- function(spec, distribution = c("norm", "pois", "exp", "chisq"
   for (i in (nlev - 1):0) {
     v <- wavethresh::accessD(spec, level = i)
     if (distribution == "pois") {
-      v <- sqrt(v) * 2^(nlev - i) * (stats::rpois(len, rate) - rate)/(sqrt(rate))
+      v <- sqrt(v) * 2^(nlev - i) * (stats::rpois(len, rate) - rate) / (sqrt(rate))
     } else if (distribution == "exp") {
-      v <- sqrt(v) * 2^(nlev - i) * (stats::rexp(len, rate = rate) - 1/rate)*rate
+      v <- sqrt(v) * 2^(nlev - i) * (stats::rexp(len, rate = rate) - 1 / rate) * rate
     } else if (distribution == "norm") {
       v <- sqrt(v) * 2^(nlev - i) * stats::rnorm(len, mean = 0, sd = 1)
     } else if (distribution == "chisq") {
