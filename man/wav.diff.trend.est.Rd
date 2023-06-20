@@ -6,7 +6,7 @@
 \usage{
 wav.diff.trend.est(
   data,
-  spec,
+  spec.est,
   filter.number = 4,
   thresh.type = "soft",
   normal = TRUE,
@@ -18,9 +18,9 @@ wav.diff.trend.est(
 \arguments{
 \item{data}{The time series you want to estimate the trend function of.}
 
-\item{spec}{You must supply the estimate of the evolutionary wavelet
-spectrum of the time series. This is calculated using the function
-ewspec.diff, and selecting the S component from the returned list object.}
+\item{spec.est}{You must supply the estimate of the evolutionary wavelet
+spectrum of the time series. This is the output of the \code{ewspec.diff}
+function.}
 
 \item{filter.number}{Selects the index of the wavelet used in the estimation
 procedure. For Daubechies compactly supported wavelets the filter number is
@@ -83,7 +83,7 @@ x <- sine_trend + noise
 
 spec.est <- ewspec.diff(data = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
 
-trend.est <- wav.diff.trend.est(data = x, spec = spec.est$S)
+trend.est <- wav.diff.trend.est(data = x, spec = spec.est)
 
 plot.ts(x, lty = 1, col = 8)
 lines(sine_trend, col = 2, lwd = 2)
