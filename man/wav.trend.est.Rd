@@ -9,7 +9,7 @@ wav.trend.est(
   filter.number = 4,
   family = "DaubLeAsymm",
   max.scale = floor(log2(length(data)) * 0.7),
-  transform.type = "dec",
+  transform.type = c("dec", "nondec")[1],
   boundary.handle = FALSE,
   calc.confint = FALSE,
   sig.lvl = 0.05,
