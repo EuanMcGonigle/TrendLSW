@@ -1,4 +1,4 @@
-#' @title Compute localised autocovariance estimate from spectrum estimate.~
+#' @title Compute Localised Autocovariance Estimate from Spectrum Estimate
 #' @description Computes the local autocovariance and autocorrelation estimates, given an
 #' input of a spectrum estimate. Provides the same functionality as the
 #' function \code{lacf} from the locits package, but user provides the spectrum
@@ -7,9 +7,11 @@
 #' @param filter.number Wavelet filter number that generated the time series.
 #' @param family Wavelet family that generated the time series.
 #' @param spec.est Estimated spectrum from which the lacf estimate will be
-#' calculated.
+#' calculated, the output of the \code{ewspec.trend} or \code{ewspec.diff} functions.
 #' @param lag.max The maximum lag of acf required. If NULL then the same
 #' default as in the regular acf function is used.
+#' @param ... Further arguments to be passed to the \code{\link{ewspec.trend}}
+#' function for spectrum estimation, only to be used if \code{spec.est} is not supplied.
 #' @return An object of class \code{lacf} which contains the autocovariance.
 #' @seealso \code{\link{lacf}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
@@ -43,16 +45,23 @@
 #'
 #' #---- estimate the lacf specifying the Haar wavelet as the generating wavelet
 #'
-#' lacf.est <- lacf.calc(x = x, filter.number = 1, family = "DaubExPhase", spec.est = spec.est$S)
+#' lacf.est <- lacf.calc(x = x, filter.number = 1, family = "DaubExPhase", spec.est = spec.est)
 #'
 #' plot.ts(lacf.est$lacf[, 1])
 #' @export
 lacf.calc <- function(x, filter.number = 10, family = "DaubLeAsymm",
-                      spec.est, lag.max = NULL) {
+                      spec.est = NULL, lag.max = NULL, ...) {
+
+  if(is.null(spec.est)){
+    spec.est <- ewspec.trend(data = x, an.filter.number = filter.number, an.family = family,
+                             gen.filter.number = filter.number, gen.family = family, ...)
+
+  }
+
   dsname <- deparse(substitute(x))
 
-  S <- spec.est
-  SmoothWP <- spec.est
+  S <- spec.est$S
+  SmoothWP <- spec.est$SmoothWavPer
 
   J <- S$nlevels
   Smat <- matrix(S$D, nrow = length(x), ncol = J)
