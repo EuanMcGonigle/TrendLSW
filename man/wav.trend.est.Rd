@@ -52,9 +52,8 @@ confidence interval for the trend estimate is generated.}
 specifying the maximum lag to which the local autocovariance function is
 estimated.}
 
-\item{...}{Further arguments to be passed to the \code{\link{ewspec.trend}}
-and \code{\link{lacf.calc}} calls, only to be used if \code{calc.confint =
-TRUE}.}
+\item{...}{Further arguments to be passed to the \code{\link{ewspec.trend}} call,
+only to be used if \code{calc.confint = TRUE}.}
 }
 \value{
 A \code{list} object containing the following fields:
