@@ -12,7 +12,11 @@ wav.diff.trend.est(
   normal = TRUE,
   family = "DaubLeAsymm",
   max.scale = floor(0.7 * log2(length(data))),
-  boundary.handle = FALSE
+  boundary.handle = FALSE,
+  calc.confint = FALSE,
+  reps = 199,
+  sig.lvl = 0.05,
+  ...
 )
 }
 \arguments{
@@ -42,6 +46,19 @@ scales.}
 
 \item{boundary.handle}{Logical variable, decides if boundary handling should
 be applied to the time series before estimation.}
+
+\item{calc.confint}{Logical variable. If \code{TRUE}, a bootstrapped \code{(1-sig.lvl)}
+pointwise confidence interval is computed for the trend estimate.}
+
+\item{reps}{Used only if \code{calc.confint = TRUE}; the number of bootstrap
+replications used to calcualte the confidence interval.}
+
+\item{sig.lvl}{Used only if \code{calc.confint = TRUE}; a numeric value
+(\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
+confidence interval for the trend estimate is generated.}
+
+\item{...}{Further arguments to be passed to the \code{\link{ewspec.diff}}
+call, only to be used if \code{calc.confint = TRUE}.}
 }
 \value{
 A vector of length \code{length(data)} containing the trend estimate.
