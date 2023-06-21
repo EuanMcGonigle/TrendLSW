@@ -44,6 +44,10 @@ create.covmat <- function(lacf, data.len) {
 #' Analysis}, , 43(6), 895-917.
 #' @keywords internal
 #' @noRd
+#'
+#'
+#'
+#'
 trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLeAsymm", sig.lvl = 0.05,
                         max.scale = floor(log2(length(trend.est)) * 0.7)) {
   # function to create confidence interval for the trend estimate
@@ -106,6 +110,52 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
   return(l)
 }
 
+
+#' @title Calculate Bootstrapped Confidence Intervals Of Wavelet-Based Trend Estimate
+#' @description Internal function to calculate appropriate confidence intervals
+#' for the nonlinear wavelet thresholding trend estimate, based on a given
+#' trend estimate and spectral estimate of the time series.
+#' @keywords internal
+#' @noRd
+trend.estCI.diff <- function(data, trend.est, spec.est, filter.number = 4, thresh.type = "soft",
+                             normal = TRUE, family = "DaubLeAsymm", max.scale = floor(log2(length(data)) * 0.7),
+                             boundary.handle = TRUE, reps = 199, sig.lvl = 0.05, ...){
+
+  trend.mat <- matrix(0, nrow = reps, ncol = length(data))
+
+  spec <- spec.est$S
+
+  spec$D[spec$D<0] <- 0
+
+  A <- wavethresh::ipndacw(J = -max.scale, filter.number = spec$filter$filter.number,
+                           family = spec$filter$family)
+  A1 <- Atau.mat.calc(J = max.scale, filter.number = spec$filter$filter.number,
+                      family = spec$filter$family, lag = spec.est$lag)
+
+  inv.mat <- solve(2*A-2*A1)
+
+  for (i in 1:reps){
+
+    rep.data <- trend.est + wavethresh::LSWsim(spec)[1:length(data)]
+
+    rep.spec <- suppressWarnings(ewspec.diff(rep.data,  filter.number = spec$filter$filter.number,
+                            family = spec$filter$family,
+                            max.scale = max.scale, boundary.handle = FALSE,
+                            supply.inv.mat = TRUE, inv.mat = inv.mat, ...))
+
+    rep.trend <- suppressWarnings(wav.diff.trend.est(data = rep.data, spec.est = rep.spec, filter.number = filter.number,
+                                   family = family, max.scale = max.scale, boundary.handle = boundary.handle,
+                                   thresh.type = thresh.type, normal = normal, calc.confint = FALSE))
+
+    trend.mat[i,] <- rep.trend
+
+  }
+
+  conf.int <- apply(trend.mat, 2, FUN = stats::quantile, probs = c(sig.lvl/2, (1-sig.lvl/2)))
+
+  return(conf.int)
+
+}
 
 
 
