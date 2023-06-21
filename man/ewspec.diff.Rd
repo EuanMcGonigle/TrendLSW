@@ -65,7 +65,6 @@ Equal to \eqn{(2A-2A_1)^{-1}} for first differences.}
 }
 \value{
 A list object, containing the following fields:
-\itemize{
  \item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of
 class wd and so can be plotted and printed in the usual way using wavethresh
 functionality. }
@@ -74,7 +73,7 @@ data. The EWS estimate (above) is the smoothed corrected version of the
 wavelet periodogram.}
 \item{SmoothWavPer}{ The smoothed, un-corrected raw
 wavelet periodogram of the input data. }
-}
+\item{binwidth, lag, diff.number, max.scale, boundary.handle}{Input parameters}
 }
 \description{
 Estimates the evolutionary wavelet spectrum (EWS) of
