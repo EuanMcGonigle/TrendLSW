@@ -37,6 +37,15 @@
 #' scales.
 #' @param boundary.handle Logical variable, decides if boundary handling should
 #' be applied to the time series before estimation.
+#' @param calc.confint Logical variable. If \code{TRUE}, a bootstrapped \code{(1-sig.lvl)}
+#' pointwise confidence interval is computed for the trend estimate.
+#' @param sig.lvl Used only if \code{calc.confint = TRUE}; a numeric value
+#' (\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
+#' confidence interval for the trend estimate is generated.
+#' @param reps Used only if \code{calc.confint = TRUE}; the number of bootstrap
+#' replications used to calcualte the confidence interval.
+#' @param ...  Further arguments to be passed to the \code{\link{ewspec.diff}}
+#' call, only to be used if \code{calc.confint = TRUE}.
 #' @return A vector of length \code{length(data)} containing the trend estimate.
 #' @seealso %% ~~objects to See Also as \code{\link{help}}, ~~~
 #' \code{\link{ewspec.diff}}, \code{\link{wav.trend.est}}
@@ -66,7 +75,8 @@
 wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = "soft",
                                normal = TRUE, family = "DaubLeAsymm",
                                max.scale = floor(0.7 * log2(length(data))),
-                               boundary.handle = FALSE) {
+                               boundary.handle = FALSE, calc.confint = FALSE,
+                               reps = 199, sig.lvl = 0.05, ...) {
   data.check <- ewspec.checks(
     data = data, max.scale = max.scale, lag = 1,
     binwidth = 1, boundary.handle = boundary.handle
@@ -168,7 +178,6 @@ wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = 
       trend.est <- trend.est[lower:upper]
     }
 
-    return(trend.est)
   } else {
     # threshold the wavelet coefficients using the variance estimate and user
     # inputted rules
@@ -198,6 +207,18 @@ wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = 
 
     trend.est <- wavethresh::AvBasis(wavethresh::convert(data.wd.thresh))
 
+
+  }
+
+  if(calc.confint == TRUE){
+    trend.confint <- trend.estCI.diff(data = data, trend.est = trend.est, spec.est = spec.est,
+                                      filter.number = filter.number, thresh.type = thresh.type,
+                                      normal = normal, boundary.handle = boundary.handle,
+                                      family = family, max.scale = max.scale,
+                                      reps = reps, sig.lvl = sig.lvl, ...)
+    return(list(trend.est = trend.est, conf.int <- trend.confint))
+  } else{
     return(trend.est)
   }
+
 }
