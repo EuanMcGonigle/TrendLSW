@@ -156,7 +156,7 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
 
     trend.confint <- trend.estCI(
       trend.est = data_wr, lacf.est = lacf.est, filter.number = filter.number,
-      family = family, alpha = 1 - sig.lvl
+      family = family, sig.lvl = sig.lvl
     )
     lower.conf <- trend.confint$lower.conf
     upper.conf <- trend.confint$upper.conf
