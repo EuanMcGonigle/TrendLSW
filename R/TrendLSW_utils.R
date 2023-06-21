@@ -142,8 +142,8 @@ trend.estCI.diff <- function(data, trend.est, spec.est, filter.number = 4, thres
 
     rep.spec <- suppressWarnings(ewspec.diff(rep.data,
       filter.number = spec$filter$filter.number,
-      family = spec$filter$family,
-      max.scale = max.scale, boundary.handle = FALSE,
+      family = spec$filter$family, binwidth = spec$binwidth,
+      max.scale = spec$max.scale, boundary.handle = FALSE,
       supply.inv.mat = TRUE, inv.mat = inv.mat, ...
     ))
 
