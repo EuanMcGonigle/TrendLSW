@@ -51,6 +51,9 @@
 #' @export
 lacf.calc <- function(x, filter.number = 10, family = "DaubLeAsymm",
                       spec.est = NULL, lag.max = NULL, ...) {
+
+  stopifnot("Paramter lag.max should be a nonegative integer." = lag.max>=0)
+
   if (is.null(spec.est)) {
     spec.est <- ewspec.trend(
       data = x, an.filter.number = filter.number, an.family = family,
