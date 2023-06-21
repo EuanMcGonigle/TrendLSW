@@ -55,7 +55,7 @@
 #' boundaries of the times series. If FALSE, no boundary correction is applied.
 #' Recommended to use TRUE.
 #' @return A list object, containing the following fields:
-#' \itemize{\item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of
+#' \item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of
 #' class wd and so can be plotted and printed in the usual way using wavethresh
 #' functionality. }
 #' \item{WavPer}{ The raw wavelet periodogram of the input
@@ -63,7 +63,7 @@
 #' wavelet periodogram. }
 #' \item{SmoothWavPer}{ The smoothed, un-corrected raw
 #' wavelet periodogram of the input data. }
-#' }
+#' \item{binwidth, max.scale, boundary.handle}{Input parameters}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
@@ -154,6 +154,10 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
     data.wd = data.wd, max.scale = max.scale, J = J, inv.mat = inv.mat,
     filter.number = gen.filter.number, family = gen.family
   )
+
+  l$binwidth <- binwidth
+  l$boundary.handle <- boundary.handle
+  l$max.scale <- max.scale
 
   return(l)
 }

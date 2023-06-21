@@ -27,7 +27,7 @@ test_that("lacf.calc rejects negative lag.max", {
   skip_on_cran()
   x <- stats::rnorm(64)
   expect_error(
-    lacf.calc(x,lag.max = -4),
+    lacf.calc(x, lag.max = -4),
     "Paramter lag.max should be a nonegative integer."
   )
 })

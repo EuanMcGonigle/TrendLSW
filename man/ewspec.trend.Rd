@@ -65,7 +65,7 @@ Recommended to use TRUE.}
 }
 \value{
 A list object, containing the following fields:
-\itemize{\item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of
+\item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of
 class wd and so can be plotted and printed in the usual way using wavethresh
 functionality. }
 \item{WavPer}{ The raw wavelet periodogram of the input
@@ -73,7 +73,7 @@ data. The EWS estimate (above) is the smoothed corrected version of the raw
 wavelet periodogram. }
 \item{SmoothWavPer}{ The smoothed, un-corrected raw
 wavelet periodogram of the input data. }
-}
+\item{binwidth, max.scale, boundary.handle}{Input parameters}
 }
 \description{
 Computes the evolutionary wavelet spectrum (EWS) estimate from

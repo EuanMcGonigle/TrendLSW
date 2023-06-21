@@ -177,7 +177,6 @@ wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = 
       }
       trend.est <- trend.est[lower:upper]
     }
-
   } else {
     # threshold the wavelet coefficients using the variance estimate and user
     # inputted rules
@@ -206,19 +205,18 @@ wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = 
     # invert the thresholded object to get trend estimate:
 
     trend.est <- wavethresh::AvBasis(wavethresh::convert(data.wd.thresh))
-
-
   }
 
-  if(calc.confint == TRUE){
-    trend.confint <- trend.estCI.diff(data = data, trend.est = trend.est, spec.est = spec.est,
-                                      filter.number = filter.number, thresh.type = thresh.type,
-                                      normal = normal, boundary.handle = boundary.handle,
-                                      family = family, max.scale = max.scale,
-                                      reps = reps, sig.lvl = sig.lvl, ...)
+  if (calc.confint == TRUE) {
+    trend.confint <- trend.estCI.diff(
+      data = data, trend.est = trend.est, spec.est = spec.est,
+      filter.number = filter.number, thresh.type = thresh.type,
+      normal = normal, boundary.handle = boundary.handle,
+      family = family, max.scale = max.scale,
+      reps = reps, sig.lvl = sig.lvl, ...
+    )
     return(list(trend.est = trend.est, conf.int <- trend.confint))
-  } else{
+  } else {
     return(trend.est)
   }
-
 }

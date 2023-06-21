@@ -116,7 +116,7 @@ ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase"
     diff.data <- c(diff.data, rep(0, lag))
   } else if (diff.number == 2) {
     diff.data <- c(diff(diff(data)), 0, 0)
-    if(lag!=1){
+    if (lag != 1) {
       lag <- 1
       warning("When diff.number = 1, only lag = 1 is supported. Resetting lag to be 1.")
     }

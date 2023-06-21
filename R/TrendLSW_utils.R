@@ -119,42 +119,46 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
 #' @noRd
 trend.estCI.diff <- function(data, trend.est, spec.est, filter.number = 4, thresh.type = "soft",
                              normal = TRUE, family = "DaubLeAsymm", max.scale = floor(log2(length(data)) * 0.7),
-                             boundary.handle = TRUE, reps = 199, sig.lvl = 0.05, ...){
-
+                             boundary.handle = TRUE, reps = 199, sig.lvl = 0.05, ...) {
   trend.mat <- matrix(0, nrow = reps, ncol = length(data))
 
   spec <- spec.est$S
 
-  spec$D[spec$D<0] <- 0
+  spec$D[spec$D < 0] <- 0
 
-  A <- wavethresh::ipndacw(J = -max.scale, filter.number = spec$filter$filter.number,
-                           family = spec$filter$family)
-  A1 <- Atau.mat.calc(J = max.scale, filter.number = spec$filter$filter.number,
-                      family = spec$filter$family, lag = spec.est$lag)
+  A <- wavethresh::ipndacw(
+    J = -max.scale, filter.number = spec$filter$filter.number,
+    family = spec$filter$family
+  )
+  A1 <- Atau.mat.calc(
+    J = max.scale, filter.number = spec$filter$filter.number,
+    family = spec$filter$family, lag = spec.est$lag
+  )
 
-  inv.mat <- solve(2*A-2*A1)
+  inv.mat <- solve(2 * A - 2 * A1)
 
-  for (i in 1:reps){
-
+  for (i in 1:reps) {
     rep.data <- trend.est + wavethresh::LSWsim(spec)[1:length(data)]
 
-    rep.spec <- suppressWarnings(ewspec.diff(rep.data,  filter.number = spec$filter$filter.number,
-                            family = spec$filter$family,
-                            max.scale = max.scale, boundary.handle = FALSE,
-                            supply.inv.mat = TRUE, inv.mat = inv.mat, ...))
+    rep.spec <- suppressWarnings(ewspec.diff(rep.data,
+      filter.number = spec$filter$filter.number,
+      family = spec$filter$family,
+      max.scale = max.scale, boundary.handle = FALSE,
+      supply.inv.mat = TRUE, inv.mat = inv.mat, ...
+    ))
 
-    rep.trend <- suppressWarnings(wav.diff.trend.est(data = rep.data, spec.est = rep.spec, filter.number = filter.number,
-                                   family = family, max.scale = max.scale, boundary.handle = boundary.handle,
-                                   thresh.type = thresh.type, normal = normal, calc.confint = FALSE))
+    rep.trend <- suppressWarnings(wav.diff.trend.est(
+      data = rep.data, spec.est = rep.spec, filter.number = filter.number,
+      family = family, max.scale = max.scale, boundary.handle = boundary.handle,
+      thresh.type = thresh.type, normal = normal, calc.confint = FALSE
+    ))
 
-    trend.mat[i,] <- rep.trend
-
+    trend.mat[i, ] <- rep.trend
   }
 
-  conf.int <- apply(trend.mat, 2, FUN = stats::quantile, probs = c(sig.lvl/2, (1-sig.lvl/2)))
+  conf.int <- apply(trend.mat, 2, FUN = stats::quantile, probs = c(sig.lvl / 2, (1 - sig.lvl / 2)))
 
   return(conf.int)
-
 }
 
 
@@ -361,13 +365,12 @@ replace.neg.values <- function(var.mat, max.scale) {
 #' @keywords internal
 #' @noRd
 trend.est.check <- function(transform.type, calc.confint) {
-
-  stopifnot("Parameter transform.type must be either 'dec' or 'nondec'" =
-              transform.type == "dec" || transform.type == "nondec")
+  stopifnot(
+    "Parameter transform.type must be either 'dec' or 'nondec'" =
+      transform.type == "dec" || transform.type == "nondec"
+  )
   stopifnot("Parameter calc.confint must be logical variable" = is.logical(calc.confint))
 
   stopifnot("Only transform.type = 'dec' is supported for calculating confidence
             intervals" = transform.type == "dec" || calc.confint == FALSE)
-
 }
-
