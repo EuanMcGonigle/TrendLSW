@@ -140,11 +140,12 @@ trend.estCI.diff <- function(data, trend.est, spec.est, filter.number = 4, thres
   for (i in 1:reps) {
     rep.data <- trend.est + wavethresh::LSWsim(spec)[1:length(data)]
 
-    rep.spec <- suppressWarnings(ewspec.diff(rep.data,
+    rep.spec <- suppressWarnings(ewspec.diff(rep.data, lag = spec.est$lag,
       filter.number = spec$filter$filter.number,
-      family = spec$filter$family, binwidth = spec$binwidth,
-      max.scale = spec$max.scale, boundary.handle = FALSE,
-      supply.inv.mat = TRUE, inv.mat = inv.mat, ...
+      family = spec$filter$family, binwidth = spec.est$binwidth,
+      max.scale = spec.est$max.scale, boundary.handle = spec.est$boundary.handle,
+      supply.inv.mat = TRUE, inv.mat = inv.mat,
+      diff.number = spec.est$diff.number, ...
     ))
 
     rep.trend <- suppressWarnings(wav.diff.trend.est(
