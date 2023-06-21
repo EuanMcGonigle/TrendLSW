@@ -209,13 +209,13 @@ wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = 
 
   if (calc.confint == TRUE) {
     trend.confint <- trend.estCI.diff(
-      data = data, trend.est = trend.est, spec.est = spec.est,
+      data = orig.data, trend.est = trend.est, spec.est = spec.est,
       filter.number = filter.number, thresh.type = thresh.type,
       normal = normal, boundary.handle = boundary.handle,
       family = family, max.scale = max.scale,
       reps = reps, sig.lvl = sig.lvl, ...
     )
-    return(list(trend.est = trend.est, conf.int <- trend.confint))
+    return(list(trend.est = trend.est, conf.int = trend.confint))
   } else {
     return(trend.est)
   }
