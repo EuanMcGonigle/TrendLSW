@@ -27,9 +27,8 @@
 #' @param lag.max Used only if \code{calc.confint = TRUE}; a positive integer
 #' specifying the maximum lag to which the local autocovariance function is
 #' estimated.
-#' @param ...  Further arguments to be passed to the \code{\link{ewspec.trend}}
-#' and \code{\link{lacf.calc}} calls, only to be used if \code{calc.confint =
-#' TRUE}.
+#' @param ...  Further arguments to be passed to the \code{\link{ewspec.trend}} call,
+#' only to be used if \code{calc.confint = TRUE}.
 #' @return A \code{list} object containing the following fields:
 #' \item{data}{Input data}
 #' \item{filter.number, family}{Inpute wavelet parameters}
