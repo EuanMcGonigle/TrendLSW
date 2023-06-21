@@ -53,7 +53,6 @@
 #' appropriate correction matrix used to correct the raw wavelet periodogram.
 #' Equal to \eqn{(2A-2A_1)^{-1}} for first differences.
 #' @return A list object, containing the following fields:
-#' \itemize{
 #'  \item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of
 #' class wd and so can be plotted and printed in the usual way using wavethresh
 #' functionality. }
@@ -62,7 +61,7 @@
 #' wavelet periodogram.}
 #' \item{SmoothWavPer}{ The smoothed, un-corrected raw
 #' wavelet periodogram of the input data. }
-#' }
+#' \item{binwidth, lag, diff.number, max.scale, boundary.handle}{Input parameters}
 #' @seealso \code{\link{ewspec}}, \code{\link{ewspec3}},
 #' \code{\link{ewspec.trend}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
@@ -157,6 +156,12 @@ ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase"
     data.wd = data.wd, max.scale = max.scale, J = J, inv.mat = inv.mat,
     filter.number = filter.number, family = family
   )
+
+  l$binwidth <- binwidth
+  l$lag <- lag
+  l$diff.number <- diff.number
+  l$boundary.handle <- boundary.handle
+  l$max.scale <- max.scale
 
   return(l)
 }
