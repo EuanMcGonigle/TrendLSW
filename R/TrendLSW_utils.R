@@ -44,14 +44,13 @@ create.covmat <- function(lacf, data.len) {
 #' Analysis}, , 43(6), 895-917.
 #' @keywords internal
 #' @noRd
-trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLeAsymm", alpha = 0.95,
+trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLeAsymm", sig.lvl = 0.05,
                         max.scale = floor(log2(length(trend.est)) * 0.7)) {
   # function to create confidence interval for the trend estimate
 
   data.len <- length(trend.est)
 
-  size <- 1 - alpha
-  qval <- stats::qnorm(1 - size / 2)
+  qval <- stats::qnorm(1 - sig.lvl / 2)
 
   J <- log2(data.len)
 
