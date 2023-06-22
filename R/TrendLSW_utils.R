@@ -127,11 +127,11 @@ trend.estCI.diff <- function(data, trend.est, spec.est, filter.number = 4, thres
   spec$D[spec$D < 0] <- 0
 
   A <- wavethresh::ipndacw(
-    J = -max.scale, filter.number = spec$filter$filter.number,
+    J = -spec.est$max.scale, filter.number = spec$filter$filter.number,
     family = spec$filter$family
   )
   A1 <- Atau.mat.calc(
-    J = max.scale, filter.number = spec$filter$filter.number,
+    J = spec.est$max.scale, filter.number = spec$filter$filter.number,
     family = spec$filter$family, lag = spec.est$lag
   )
 
