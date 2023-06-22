@@ -91,8 +91,8 @@ wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = 
   spec <- spec.est$S
   # by default, do T.I. denoising:
 
+  orig.data <- data
   if (boundary.handle == TRUE) {
-    orig.data <- data
     data <- get.boundary.timeseries(data)
   }
 
