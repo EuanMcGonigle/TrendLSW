@@ -66,7 +66,7 @@ lacf.calc <- function(x, filter.number = 10, family = "DaubLeAsymm",
   SmoothWP <- spec.est$SmoothWavPer
 
   J <- S$nlevels
-  Smat <- matrix(S$D, nrow = length(x), ncol = J)
+  Smat <- matrix(S$D, nrow = 2^J, ncol = J)[1:length(x),]
   Psi <- wavethresh::PsiJmat(-J, filter.number = filter.number, family = family)
   nc <- ncol(Psi)
   L <- (nc - 1) / 2
