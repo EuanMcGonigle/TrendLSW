@@ -2,7 +2,7 @@
 
 export(Atau.mat.calc)
 export(Cmat.calc)
-export(LSWsim.anydist)
+export(TLSW.sim)
 export(ewspec.diff)
 export(ewspec.trend)
 export(get.boundary.timeseries)
