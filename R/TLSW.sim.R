@@ -41,11 +41,14 @@ TLSW.sim<- function(trend = NULL, spec, distribution = c("norm", "pois", "exp", 
   stopifnot("parameter df must be positive." = df > 0)
   stopifnot("The rate parameter must be positive." = rate > 0)
 
+  nlev <- wavethresh::nlevelsWT(spec)
+  len <- 2^nlev
+
   if(is.null(trend)) {
-    trend <- rep(0, 2^(spec$nlevels))
+    trend <- rep(0, len)
   }
   stopifnot("Error: length of trend function does not match dimension of spectrum." =
-              2^(spec$nlevels) == length(trend))
+              len == length(trend))
 
   if (is.null(df)) {
     if (distribution == "chisq") {
@@ -62,9 +65,6 @@ TLSW.sim<- function(trend = NULL, spec, distribution = c("norm", "pois", "exp", 
 
   stopifnot("for t distribution, parameter df must be greater than 2." = distribution != "t" || df > 2)
 
-
-  nlev <- wavethresh::nlevelsWT(spec)
-  len <- 2^nlev
   for (i in (nlev - 1):0) {
     v <- wavethresh::accessD(spec, level = i)
     if (distribution == "pois") {
@@ -80,5 +80,6 @@ TLSW.sim<- function(trend = NULL, spec, distribution = c("norm", "pois", "exp", 
     }
     spec <- wavethresh::putD(spec, level = i, v = v)
   }
-  wavethresh::AvBasis(wavethresh::convert(spec))
+  x <- trend + wavethresh::AvBasis(wavethresh::convert(spec))
+  return(x)
 }
