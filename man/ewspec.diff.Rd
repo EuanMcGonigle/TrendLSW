@@ -6,13 +6,13 @@
 Series via Differencing.}
 \usage{
 ewspec.diff(
-  data,
+  x,
   lag = 1,
   filter.number = 1,
   family = "DaubExPhase",
-  binwidth = floor(2 * sqrt(length(data))),
+  binwidth = floor(2 * sqrt(length(x))),
   diff.number = 1,
-  max.scale = floor(log2(length(data)) * 0.7),
+  max.scale = floor(log2(length(x)) * 0.7),
   WP.smooth = TRUE,
   boundary.handle = FALSE,
   AutoReflect = FALSE,
@@ -21,7 +21,7 @@ ewspec.diff(
 )
 }
 \arguments{
-\item{data}{The time series you wish to analyse.}
+\item{x}{The time series you wish to analyse.}
 
 \item{lag}{An integer indicating which lag to use for differencing.}
 

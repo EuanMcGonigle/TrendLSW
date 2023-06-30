@@ -4,15 +4,15 @@
 #' @noRd
 
 
-create.covmat <- function(lacf, data.len) {
+create.covmat <- function(lacf, x.len) {
   lacf <- lacf$lacf
 
   max.lag <- length(lacf[1, ])
 
-  cov.mat <- matrix(0, nrow = data.len, ncol = data.len)
+  cov.mat <- matrix(0, nrow = x.len, ncol = x.len)
 
-  for (row in 1:data.len) {
-    for (column in row:(min((max.lag - 1 + row), data.len))) {
+  for (row in 1:x.len) {
+    for (column in row:(min((max.lag - 1 + row), x.len))) {
       cov.mat[row, column] <- lacf[floor((row + column) / 2), (abs(column - row) + 1)]
       cov.mat[column, row] <- cov.mat[row, column]
     }
@@ -52,19 +52,19 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
                         max.scale = floor(log2(length(trend.est)) * 0.7)) {
   # function to create confidence interval for the trend estimate
 
-  data.len <- length(trend.est)
+  x.len <- length(trend.est)
 
   qval <- stats::qnorm(1 - sig.lvl / 2)
 
-  J <- log2(data.len)
+  J <- log2(x.len)
 
-  cov.mat <- create.covmat(lacf.est, data.len)
+  cov.mat <- create.covmat(lacf.est, x.len)
 
   # calculate the wavelet transform matrix:
 
-  W <- t(wavethresh::GenW(n = data.len, filter.number = filter.number, family = family))
+  W <- t(wavethresh::GenW(n = x.len, filter.number = filter.number, family = family))
 
-  boundary_test <- c(rep(0, data.len - 1), 1)
+  boundary_test <- c(rep(0, x.len - 1), 1)
 
   y_wd <- wavethresh::wd(boundary_test, family = family, filter.number = filter.number)
 
@@ -76,10 +76,10 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
     boundary_coefs[[j]] <- (which(temp != 0))
   }
 
-  boundary_vec <- rep(1, data.len)
+  boundary_vec <- rep(1, x.len)
 
   for (j in (J - 1):(J - max.scale)) {
-    boundary_vec[(data.len - 2^(j + 1) + 2):(data.len - 2^(j + 1) + 1 + 2^j)][-boundary_coefs[[j]]] <- 0
+    boundary_vec[(x.len - 2^(j + 1) + 2):(x.len - 2^(j + 1) + 1 + 2^j)][-boundary_coefs[[j]]] <- 0
   }
 
 
@@ -117,10 +117,10 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
 #' trend estimate and spectral estimate of the time series.
 #' @keywords internal
 #' @noRd
-trend.estCI.diff <- function(data, trend.est, spec.est, filter.number = 4, thresh.type = "soft",
-                             normal = TRUE, family = "DaubLeAsymm", max.scale = floor(log2(length(data)) * 0.7),
+trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.type = "soft",
+                             normal = TRUE, family = "DaubLeAsymm", max.scale = floor(log2(length(x)) * 0.7),
                              boundary.handle = TRUE, reps = 199, sig.lvl = 0.05, ...) {
-  trend.mat <- matrix(0, nrow = reps, ncol = length(data))
+  trend.mat <- matrix(0, nrow = reps, ncol = length(x))
 
   spec <- spec.est$S
 
@@ -138,9 +138,10 @@ trend.estCI.diff <- function(data, trend.est, spec.est, filter.number = 4, thres
   inv.mat <- solve(2 * A - 2 * A1)
 
   for (i in 1:reps) {
-    rep.data <- trend.est + wavethresh::LSWsim(spec)[1:length(data)]
+    rep.x <- trend.est + wavethresh::LSWsim(spec)[1:length(x)]
 
-    rep.spec <- suppressWarnings(ewspec.diff(rep.data, lag = spec.est$lag,
+    rep.spec <- suppressWarnings(ewspec.diff(rep.x,
+      lag = spec.est$lag,
       filter.number = spec$filter$filter.number,
       family = spec$filter$family, binwidth = spec.est$binwidth,
       max.scale = spec.est$max.scale, boundary.handle = spec.est$boundary.handle,
@@ -149,7 +150,7 @@ trend.estCI.diff <- function(data, trend.est, spec.est, filter.number = 4, thres
     ))
 
     rep.trend <- suppressWarnings(wav.diff.trend.est(
-      data = rep.data, spec.est = rep.spec, filter.number = filter.number,
+      x = rep.x, spec.est = rep.spec, filter.number = filter.number,
       family = family, max.scale = max.scale, boundary.handle = boundary.handle,
       thresh.type = thresh.type, normal = normal, calc.confint = FALSE
     ))
@@ -168,35 +169,35 @@ trend.estCI.diff <- function(data, trend.est, spec.est, filter.number = 4, thres
 #' @description Internal function for error checking for spectral estimation
 #' @keywords internal
 #' @noRd
-ewspec.checks <- function(data, max.scale, binwidth, lag, boundary.handle) {
-  if (any(is.na(data))) {
+ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle) {
+  if (any(is.na(x))) {
     stop("Data contains mising values.")
   }
-  if (!is.numeric(data)) {
+  if (!is.numeric(x)) {
     stop("Data is not numeric")
   }
   stopifnot("Parameter boundary.handle must be logical variable" = is.logical(boundary.handle))
 
-  data.len <- length(data)
+  x.len <- length(x)
 
   if (max.scale %% 1 != 0) {
     stop("max.scale parameter must be an integer.")
   }
-  if (max.scale < 1 || max.scale > floor(log2(data.len))) {
+  if (max.scale < 1 || max.scale > floor(log2(x.len))) {
     warning("max.scale parameter is outside valid range. Resetting to default value.")
-    max.scale <- floor(log2(data.len) * 0.7)
+    max.scale <- floor(log2(x.len) * 0.7)
   }
   if (binwidth %% 1 != 0) {
     stop("binwidth parameter must be an integer.")
   }
 
-  J <- wavethresh::IsPowerOfTwo(data.len)
+  J <- wavethresh::IsPowerOfTwo(x.len)
 
   if (is.na(J) == TRUE) {
     warning("Data length is not power of two. Boundary correction has been applied.")
     boundary.handle <- TRUE
     dyadic <- FALSE
-    J <- floor(log2(data.len)) + 1
+    J <- floor(log2(x.len)) + 1
   } else {
     dyadic <- TRUE
   }
@@ -209,7 +210,7 @@ ewspec.checks <- function(data, max.scale, binwidth, lag, boundary.handle) {
   }
 
   return(list(
-    data.len = data.len, max.scale = max.scale, boundary.handle = boundary.handle,
+    x.len = x.len, max.scale = max.scale, boundary.handle = boundary.handle,
     J = J, dyadic = dyadic
   ))
 }
@@ -221,7 +222,7 @@ ewspec.checks <- function(data, max.scale, binwidth, lag, boundary.handle) {
 #' @keywords internal
 #' @noRd
 
-calc.final.spec <- function(spec, dyadic, data.len) {
+calc.final.spec <- function(spec, dyadic, x.len) {
   if (dyadic == TRUE) {
     final_spec <- wavethresh::cns(2^(spec$nlevels - 2),
       filter.number = spec$filter$filter.number,
@@ -242,15 +243,15 @@ calc.final.spec <- function(spec, dyadic, data.len) {
   } else {
     est.spec.J <- spec$nlevels
 
-    final.spec.J <- floor(log2(data.len)) + 1
+    final.spec.J <- floor(log2(x.len)) + 1
 
     final_spec <- wavethresh::cns(2^final.spec.J,
       filter.number = spec$filter$filter.number,
       family = spec$filter$family
     )
 
-    lower <- floor((2^est.spec.J - data.len) / 2)
-    upper <- lower + data.len - 1
+    lower <- floor((2^est.spec.J - x.len) / 2)
+    upper <- lower + x.len - 1
 
 
     for (j in 0:(final.spec.J - 1)) {
@@ -268,10 +269,10 @@ calc.final.spec <- function(spec, dyadic, data.len) {
 #' @keywords internal
 #' @noRd
 
-S.calc <- function(data.wd, max.scale, J, inv.mat, filter.number, family) {
+S.calc <- function(x.wd, max.scale, J, inv.mat, filter.number, family) {
   # access smoothed,uncorrected wavelet periodogram:
 
-  uncor.spec <- data.wd$SmoothWavPer
+  uncor.spec <- x.wd$SmoothWavPer
 
   # perform correction: mutiply by inverse matrix, non-estimated scales are set to zero.
 
@@ -295,7 +296,7 @@ S.calc <- function(data.wd, max.scale, J, inv.mat, filter.number, family) {
 
   # return final EWS estimate, along with smoothed and unsmoothed periodogram:
 
-  l <- list(S = S, WavPer = data.wd$WavPer, SmoothWavPer = uncor.spec)
+  l <- list(S = S, WavPer = x.wd$WavPer, SmoothWavPer = uncor.spec)
 
   return(l)
 }
@@ -305,12 +306,12 @@ S.calc <- function(data.wd, max.scale, J, inv.mat, filter.number, family) {
 #' boundary handling is used
 #' @keywords internal
 #' @noRd
-smooth.wav.per.calc <- function(data.wd, J, data.len, filter.number, family,
+smooth.wav.per.calc <- function(x.wd, J, x.len, filter.number, family,
                                 dyadic, max.scale) {
   temp <- locits::ewspec3(rep(0, 2^J), filter.number = filter.number, family = family)
 
-  temp$SmoothWavPer <- calc.final.spec(data.wd$SmoothWavPer, dyadic = dyadic, data.len = data.len)
-  temp$WavPer <- calc.final.spec(data.wd$WavPer, dyadic = dyadic, data.len = data.len)
+  temp$SmoothWavPer <- calc.final.spec(x.wd$SmoothWavPer, dyadic = dyadic, x.len = x.len)
+  temp$WavPer <- calc.final.spec(x.wd$WavPer, dyadic = dyadic, x.len = x.len)
 
   if (max.scale < J) {
     for (j in 0:(J - 1 - max.scale)) {

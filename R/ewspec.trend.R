@@ -23,7 +23,7 @@
 #'
 #' The final estimate, stored in the S component, can be plotted using the plot
 #' function, please see the example below.
-#' @param data The time series you wish to analyse.
+#' @param x The time series you wish to analyse.
 #' @param an.filter.number The index number for the wavelet used to analyse the
 #' time series. For the "DaubExPhase" family, the filter number can be between
 #' 1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to
@@ -54,6 +54,8 @@
 #' boundary corrected, to get a more accurate spectrum estimate at the
 #' boundaries of the times series. If FALSE, no boundary correction is applied.
 #' Recommended to use TRUE.
+#' @param smooth.type String indicating which type of smoothing to use on wavelet periodogram.
+#' Can be \code{"mean"}, \code{"median"}, or \code{"epanechnikov"}.
 #' @return A list object, containing the following fields:
 #' \item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of
 #' class wd and so can be plotted and printed in the usual way using wavethresh
@@ -89,10 +91,10 @@
 #'
 #' quick.spec.plot(spec.est$S)
 #' @export
-ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
+ewspec.trend <- function(x, an.filter.number = 10, an.family = "DaubLeAsymm",
                          gen.filter.number = an.filter.number, gen.family = an.family,
-                         binwidth = floor(2 * sqrt(length(data))),
-                         max.scale = floor(log2(length(data)) * 0.7), WP.smooth = TRUE,
+                         binwidth = floor(2 * sqrt(length(x))),
+                         max.scale = floor(log2(length(x)) * 0.7), WP.smooth = TRUE,
                          AutoReflect = TRUE, supply.inv.mat = FALSE, inv.mat = NULL,
                          boundary.handle = TRUE, smooth.type = c("mean", "median")[1]) {
   # function that computes the spectral estimate of a time series that has a smooth trend
@@ -101,16 +103,16 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
   # user chooses a maximum scale of the wavelet transform to analyse, and
   # binwidth of the running mean smoother.
 
-  data.check <- ewspec.checks(
-    data = data, max.scale = max.scale, lag = 1,
+  x.check <- ewspec.checks(
+    x = x, max.scale = max.scale, lag = 1,
     binwidth = binwidth, boundary.handle = boundary.handle
   )
 
-  data.len <- data.check$data.len
-  max.scale <- data.check$max.scale
-  boundary.handle <- data.check$boundary.handle
-  J <- data.check$J
-  dyadic <- data.check$dyadic
+  x.len <- x.check$x.len
+  max.scale <- x.check$max.scale
+  boundary.handle <- x.check$boundary.handle
+  J <- x.check$J
+  dyadic <- x.check$dyadic
 
   # calculate the appropriate correction matrix and its inverse:
 
@@ -131,35 +133,35 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
   }
 
   if (boundary.handle == TRUE) {
-    data <- get.boundary.timeseries(data, type = "TLSW")
+    x <- get.boundary.timeseries(x, type = "TLSW")
   }
   # calculate raw wavelet periodogram which we need to correct:
 
-  if(smooth.type =="median"){
-    WP.smooth = FALSE
+  if (smooth.type == "median") {
+    WP.smooth <- FALSE
   }
-  data.wd <- locits::ewspec3(data,
+  x.wd <- locits::ewspec3(x,
     filter.number = an.filter.number, family = an.family,
     binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = WP.smooth
   )
-  if(smooth.type=="median") {
+  if (smooth.type == "median") {
     for (j in 1:max.scale) {
-      data.wd$SmoothWavPer <- putD(data.wd$SmoothWavPer, level = J - j, 2.125*runmed(accessD(data.wd$WavPer,level = J-j), k = binwidth))
+      x.wd$SmoothWavPer <- wavethresh::putD(x.wd$SmoothWavPer, level = J - j, 2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J - j), k = binwidth))
     }
   }
 
   # access smoothed, uncorrected wavelet periodogram:
 
   if (boundary.handle == TRUE) {
-    data.wd <- smooth.wav.per.calc(
-      data.wd = data.wd, J = J, data.len = data.len,
+    x.wd <- smooth.wav.per.calc(
+      x.wd = x.wd, J = J, x.len = x.len,
       filter.number = an.filter.number, family = an.family,
       dyadic = dyadic, max.scale = max.scale
     )
   }
 
   l <- S.calc(
-    data.wd = data.wd, max.scale = max.scale, J = J, inv.mat = inv.mat,
+    x.wd = x.wd, max.scale = max.scale, J = J, inv.mat = inv.mat,
     filter.number = gen.filter.number, family = gen.family
   )
 

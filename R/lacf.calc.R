@@ -55,7 +55,7 @@ lacf.calc <- function(x, filter.number = 10, family = "DaubLeAsymm",
 
   if (is.null(spec.est)) {
     spec.est <- ewspec.trend(
-      data = x, an.filter.number = filter.number, an.family = family,
+      x = x, an.filter.number = filter.number, an.family = family,
       gen.filter.number = filter.number, gen.family = family, ...
     )
   }
@@ -66,7 +66,7 @@ lacf.calc <- function(x, filter.number = 10, family = "DaubLeAsymm",
   SmoothWP <- spec.est$SmoothWavPer
 
   J <- S$nlevels
-  Smat <- matrix(S$D, nrow = 2^J, ncol = J)[1:length(x),]
+  Smat <- matrix(S$D, nrow = 2^J, ncol = J)[1:length(x), ]
   Psi <- wavethresh::PsiJmat(-J, filter.number = filter.number, family = family)
   nc <- ncol(Psi)
   L <- (nc - 1) / 2

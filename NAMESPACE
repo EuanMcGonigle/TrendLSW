@@ -2,6 +2,7 @@
 
 export(Atau.mat.calc)
 export(Cmat.calc)
+export(TLSW.est)
 export(TLSW.sim)
 export(ewspec.diff)
 export(ewspec.trend)

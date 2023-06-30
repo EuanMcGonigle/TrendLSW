@@ -2,7 +2,7 @@
 #' @description Computes the linear wavelet thresholding trend estimate for a
 #' time series that may be second-order nonstationary. The function calculates
 #' the wavelet transform of the time series, sets to zero the non-boundary
-#' @param data The time series you want to estimate the trend function of.
+#' @param x The time series you want to estimate the trend function of.
 #' @param filter.number Selects the index of the wavelet used in the estimation
 #' procedure. For Daubechies compactly supported wavelets the filter number is
 #' the number of vanishing moments.
@@ -30,9 +30,9 @@
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.trend}} call,
 #' only to be used if \code{calc.confint = TRUE}.
 #' @return A \code{list} object containing the following fields:
-#' \item{data}{Input data}
+#' \item{x}{Input data}
 #' \item{filter.number, family}{Inpute wavelet parameters}
-#' \item{trend.est}{A vector of length \code{length(data)} containing the trend estimate}
+#' \item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
 #' \item{calc.confint}{Input parameter}
 #' \item{lower.conf}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
 #' \item{upper.conf}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
@@ -56,39 +56,39 @@
 #' lines(trend, col = 2, lwd = 2)
 #' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
 #' @export
-wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
-                          max.scale = floor(log2(length(data)) * 0.7),
+wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
+                          max.scale = floor(log2(length(x)) * 0.7),
                           transform.type = c("dec", "nondec")[1],
                           boundary.handle = FALSE, calc.confint = FALSE, sig.lvl = 0.05,
-                          lag.max = floor(10 * (log10(length(data)))), ...) {
+                          lag.max = floor(10 * (log10(length(x)))), ...) {
   # this function carries out wavelet thresholding of a time series to obtain a
   # trend estimate. All non-boundary wavelet coefficients up to a specified scale
   # are set to zero.
 
-  data.check <- ewspec.checks(
-    data = data, max.scale = max.scale, lag = 1,
+  x.check <- ewspec.checks(
+    x = x, max.scale = max.scale, lag = 1,
     binwidth = 1, boundary.handle = boundary.handle
   )
 
-  data.len <- data.check$data.len
-  max.scale <- data.check$max.scale
-  boundary.handle <- data.check$boundary.handle
-  J <- data.check$J
-  dyadic <- data.check$dyadic
+  x.len <- x.check$x.len
+  max.scale <- x.check$max.scale
+  boundary.handle <- x.check$boundary.handle
+  J <- x.check$J
+  dyadic <- x.check$dyadic
 
   trend.est.check(transform.type = transform.type, calc.confint = calc.confint)
 
-  orig.data <- data
+  orig.x <- x
   if (boundary.handle == TRUE) {
-    data <- get.boundary.timeseries(data)
+    x <- get.boundary.timeseries(x)
   }
-  data.len <- length(data)
-  J <- wavethresh::IsPowerOfTwo(data.len)
+  x.len <- length(x)
+  J <- wavethresh::IsPowerOfTwo(x.len)
 
 
   # below code determines the boundary coefficients for a given wavelet
 
-  boundary.test <- c(rep(0, data.len - 1), 1)
+  boundary.test <- c(rep(0, x.len - 1), 1)
 
   if (transform.type == "dec") {
     y.wd <- wavethresh::wd(boundary.test, family = family, filter.number = filter.number)
@@ -106,28 +106,28 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
 
   # perform DWT on series
   if (transform.type == "dec") {
-    data.wd <- wavethresh::wd(data, filter.number = filter.number, family = family)
+    x.wd <- wavethresh::wd(x, filter.number = filter.number, family = family)
   } else if (transform.type == "nondec") {
-    data.wd <- wavethresh::wd(data, filter.number = filter.number, family = family, type = "station")
+    x.wd <- wavethresh::wd(x, filter.number = filter.number, family = family, type = "station")
   }
 
-  data.thresh <- data.wd
+  x.thresh <- x.wd
 
   # set to zero the non-boundary coefficients
 
   for (j in (J - 1):(J - max.scale)) {
-    temp <- wavethresh::accessD(data.wd, level = j)
+    temp <- wavethresh::accessD(x.wd, level = j)
 
     temp[-boundary.coefs[[j]]] <- 0
 
-    data.thresh <- wavethresh::putD(data.thresh, temp, level = j)
+    x.thresh <- wavethresh::putD(x.thresh, temp, level = j)
   }
 
   # perform inverse transform on thresholded coefficients
   if (transform.type == "dec") {
-    data_wr <- wavethresh::wr(data.thresh)
+    x_wr <- wavethresh::wr(x.thresh)
   } else if (transform.type == "nondec") {
-    data_wr <- wavethresh::AvBasis(wavethresh::convert(data.thresh))
+    x_wr <- wavethresh::AvBasis(wavethresh::convert(x.thresh))
   }
 
   # subset the longer estimate to get the true estimate
@@ -139,22 +139,22 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
         lower <- 2^(J - 2) + 2^(J - 3) + 1
         upper <- 2^(J - 1) + 2^(J - 3)
       } else {
-        lower <- floor((data.len - length(orig.data)) / 2)
-        upper <- lower + length(orig.data) - 1
+        lower <- floor((x.len - length(orig.x)) / 2)
+        upper <- lower + length(orig.x) - 1
       }
-      data_wr <- data_wr[lower:upper]
+      x_wr <- x_wr[lower:upper]
     }
-    return(list(data = orig.data, filter.number = filter.number, family = family, trend.est = data_wr, calc.confint = calc.confint))
+    return(list(x = orig.x, filter.number = filter.number, family = family, trend.est = x_wr, calc.confint = calc.confint))
   } else {
-    spec.est <- ewspec.trend(data, max.scale = max.scale, ..., boundary.handle = FALSE, AutoReflect = FALSE)
+    spec.est <- ewspec.trend(x, max.scale = max.scale, ..., boundary.handle = FALSE, AutoReflect = FALSE)
 
-    lacf.est <- lacf.calc(data,
+    lacf.est <- lacf.calc(x,
       filter.number = spec.est$S$filter$filter.number, family = spec.est$S$filter$family,
       lag.max = lag.max, spec.est = spec.est
     )
 
     trend.confint <- trend.estCI(
-      trend.est = data_wr, lacf.est = lacf.est, filter.number = filter.number,
+      trend.est = x_wr, lacf.est = lacf.est, filter.number = filter.number,
       family = family, sig.lvl = sig.lvl
     )
     lower.conf <- trend.confint$lower.conf
@@ -165,16 +165,16 @@ wav.trend.est <- function(data, filter.number = 4, family = "DaubLeAsymm",
         lower <- 2^(J - 2) + 2^(J - 3) + 1
         upper <- 2^(J - 1) + 2^(J - 3)
       } else {
-        lower <- floor((data.len - length(orig.data)) / 2)
-        upper <- lower + length(orig.data) - 1
+        lower <- floor((x.len - length(orig.x)) / 2)
+        upper <- lower + length(orig.x) - 1
       }
-      data_wr <- data_wr[lower:upper]
+      x_wr <- x_wr[lower:upper]
       lower.conf <- lower.conf[lower:upper]
       upper.conf <- upper.conf[lower:upper]
     }
 
     return(list(
-      data = orig.data, filter.number = filter.number, family = family, trend.est = data_wr, calc.confint = calc.confint,
+      x = orig.x, filter.number = filter.number, family = family, trend.est = x_wr, calc.confint = calc.confint,
       lower.conf = lower.conf, upper.conf = upper.conf,
       sig.lvl = sig.lvl
     ))

@@ -5,13 +5,13 @@
 \title{Wavelet Thresholding Trend Estimation of Time Series}
 \usage{
 wav.diff.trend.est(
-  data,
+  x,
   spec.est,
   filter.number = 4,
   thresh.type = "soft",
   normal = TRUE,
   family = "DaubLeAsymm",
-  max.scale = floor(0.7 * log2(length(data))),
+  max.scale = floor(0.7 * log2(length(x))),
   boundary.handle = FALSE,
   calc.confint = FALSE,
   reps = 199,
@@ -20,7 +20,7 @@ wav.diff.trend.est(
 )
 }
 \arguments{
-\item{data}{The time series you want to estimate the trend function of.}
+\item{x}{The time series you want to estimate the trend function of.}
 
 \item{spec.est}{You must supply the estimate of the evolutionary wavelet
 spectrum of the time series. This is the output of the \code{ewspec.diff}
@@ -31,7 +31,7 @@ procedure. For Daubechies compactly supported wavelets the filter number is
 the number of vanishing moments.}
 
 \item{thresh.type}{The type of thresholding function used. Currently only
-"soft" and "hard" are available. Recommended to use "soft".}
+"soft" and "hard" are available.}
 
 \item{normal}{If TRUE, uses a threshold assuming the data are normally
 distributed. If FALSE, uses a larger threshold to reflect non-normality.}
@@ -61,7 +61,7 @@ confidence interval for the trend estimate is generated.}
 call, only to be used if \code{calc.confint = TRUE}.}
 }
 \value{
-A vector of length \code{length(data)} containing the trend estimate.
+A vector of length \code{length(x)} containing the trend estimate.
 }
 \description{
 Computes the wavelet thresholding trend estimate for a time
@@ -98,9 +98,9 @@ sine_trend <- -2 * sin(seq(from = 0, to = 2 * pi, length = 1024)) -
 
 x <- sine_trend + noise
 
-spec.est <- ewspec.diff(data = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
+spec.est <- ewspec.diff(x = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
 
-trend.est <- wav.diff.trend.est(data = x, spec = spec.est)
+trend.est <- wav.diff.trend.est(x = x, spec = spec.est)
 
 plot.ts(x, lty = 1, col = 8)
 lines(sine_trend, col = 2, lwd = 2)

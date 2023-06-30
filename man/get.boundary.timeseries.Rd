@@ -4,10 +4,10 @@
 \alias{get.boundary.timeseries}
 \title{Calculate Boundary Extended Time Series}
 \usage{
-get.boundary.timeseries(data, type = c("TLSW", "LSW.diff")[1])
+get.boundary.timeseries(x, type = c("TLSW", "LSW.diff")[1])
 }
 \arguments{
-\item{data}{The time series used to calculate the boundary extended version.}
+\item{x}{The time series used to calculate the boundary extended version.}
 
 \item{type}{The type of boundary handling used. Either "TLSW" for boundary
 handling as described in McGonigle, E. T., Killick, R., and Nunes, M. (2022)

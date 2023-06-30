@@ -22,7 +22,7 @@
 #'
 #' The final estimate, stored in the S component, can be plotted using the plot
 #' function, please see the example below.
-#' @param data The time series you wish to analyse.
+#' @param x The time series you wish to analyse.
 #' @param lag An integer indicating which lag to use for differencing.
 #' @param filter.number The index number for the wavelet used to analyse the
 #' time series. For the "DaubExPhase" family, the filter number can be between
@@ -82,29 +82,29 @@
 #'
 #' quick.spec.plot(spec.est$S)
 #' @export
-ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase",
-                        binwidth = floor(2 * sqrt(length(data))), diff.number = 1,
-                        max.scale = floor(log2(length(data)) * 0.7), WP.smooth = TRUE,
+ewspec.diff <- function(x, lag = 1, filter.number = 1, family = "DaubExPhase",
+                        binwidth = floor(2 * sqrt(length(x))), diff.number = 1,
+                        max.scale = floor(log2(length(x)) * 0.7), WP.smooth = TRUE,
                         boundary.handle = FALSE, AutoReflect = FALSE,
                         supply.inv.mat = FALSE, inv.mat = NULL) {
   # function that computes the spectral estimate of a time series that has a trend.
 
-  data.check <- ewspec.checks(
-    data = data, max.scale = max.scale, lag = lag,
+  x.check <- ewspec.checks(
+    x = x, max.scale = max.scale, lag = lag,
     binwidth = binwidth, boundary.handle = boundary.handle
   )
 
-  data.len <- data.check$data.len
-  max.scale <- data.check$max.scale
-  boundary.handle <- data.check$boundary.handle
-  J <- data.check$J
-  dyadic <- data.check$dyadic
+  x.len <- x.check$x.len
+  max.scale <- x.check$max.scale
+  boundary.handle <- x.check$boundary.handle
+  J <- x.check$J
+  dyadic <- x.check$dyadic
 
   if (boundary.handle == TRUE) {
-    data <- get.boundary.timeseries(data, type = "LSW.diff")
+    x <- get.boundary.timeseries(x, type = "LSW.diff")
   }
 
-  # difference data to remove trend/seasonality and calculate the appropriate correction matrix
+  # difference x to remove trend/seasonality and calculate the appropriate correction matrix
   # and its inverse:
   if (diff.number != 1 && diff.number != 2) {
     diff.number <- 1
@@ -112,10 +112,10 @@ ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase"
   }
 
   if (diff.number == 1) {
-    diff.data <- c(diff(data, lag))
-    diff.data <- c(diff.data, rep(0, lag))
+    diff.x <- c(diff(x, lag))
+    diff.x <- c(diff.x, rep(0, lag))
   } else if (diff.number == 2) {
-    diff.data <- c(diff(diff(data)), 0, 0)
+    diff.x <- c(diff(diff(x)), 0, 0)
     if (lag != 1) {
       lag <- 1
       warning("When diff.number = 1, only lag = 1 is supported. Resetting lag to be 1.")
@@ -138,14 +138,14 @@ ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase"
 
   # calculate raw wavelet periodogram which we need to correct:
 
-  data.wd <- locits::ewspec3(diff.data,
+  x.wd <- locits::ewspec3(diff.x,
     filter.number = filter.number, family = family,
     binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = WP.smooth
   )
 
   if (boundary.handle == TRUE) {
-    data.wd <- smooth.wav.per.calc(
-      data.wd = data.wd, J = J, data.len = data.len,
+    x.wd <- smooth.wav.per.calc(
+      x.wd = x.wd, J = J, x.len = x.len,
       filter.number = filter.number, family = family,
       dyadic = dyadic, max.scale = max.scale
     )
@@ -153,7 +153,7 @@ ewspec.diff <- function(data, lag = 1, filter.number = 1, family = "DaubExPhase"
 
 
   l <- S.calc(
-    data.wd = data.wd, max.scale = max.scale, J = J, inv.mat = inv.mat,
+    x.wd = x.wd, max.scale = max.scale, J = J, inv.mat = inv.mat,
     filter.number = filter.number, family = family
   )
 

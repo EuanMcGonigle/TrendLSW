@@ -22,13 +22,13 @@
 #'
 #' spec <- wavethresh::putD(spec, level = 8, seq(from = 2, to = 8, length = 1024))
 #'
-#' trend <- sin(pi*(seq(from = 0, to = 4, length = 1024)))
+#' trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
 #'
 #' x <- TLSW.sim(trend = trend, spec = spec, distribution = "exp")
 #'
 #' plot.ts(x)
 #' @export
-TLSW.sim<- function(trend = NULL, spec, distribution = c("norm", "pois", "exp", "chisq", "t")[1], rate = NULL, df = NULL) {
+TLSW.sim <- function(trend = NULL, spec, distribution = c("norm", "pois", "exp", "chisq", "t")[1], rate = NULL, df = NULL) {
   if (any(spec$D < 0)) {
     stop("All spectral elements must be non-negative.")
   }
@@ -44,11 +44,13 @@ TLSW.sim<- function(trend = NULL, spec, distribution = c("norm", "pois", "exp", 
   nlev <- wavethresh::nlevelsWT(spec)
   len <- 2^nlev
 
-  if(is.null(trend)) {
+  if (is.null(trend)) {
     trend <- rep(0, len)
   }
-  stopifnot("Error: length of trend function does not match dimension of spectrum." =
-              len == length(trend))
+  stopifnot(
+    "Error: length of trend function does not match dimension of spectrum." =
+      len == length(trend)
+  )
 
   if (is.null(df)) {
     if (distribution == "chisq") {

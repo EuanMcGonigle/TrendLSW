@@ -5,20 +5,20 @@
 \title{Linear Wavelet Thresholding Trend Estimation of Time Series}
 \usage{
 wav.trend.est(
-  data,
+  x,
   filter.number = 4,
   family = "DaubLeAsymm",
-  max.scale = floor(log2(length(data)) * 0.7),
+  max.scale = floor(log2(length(x)) * 0.7),
   transform.type = c("dec", "nondec")[1],
   boundary.handle = FALSE,
   calc.confint = FALSE,
   sig.lvl = 0.05,
-  lag.max = floor(10 * (log10(length(data)))),
+  lag.max = floor(10 * (log10(length(x)))),
   ...
 )
 }
 \arguments{
-\item{data}{The time series you want to estimate the trend function of.}
+\item{x}{The time series you want to estimate the trend function of.}
 
 \item{filter.number}{Selects the index of the wavelet used in the estimation
 procedure. For Daubechies compactly supported wavelets the filter number is
@@ -57,9 +57,9 @@ only to be used if \code{calc.confint = TRUE}.}
 }
 \value{
 A \code{list} object containing the following fields:
-\item{data}{Input data}
+\item{x}{Input data}
 \item{filter.number, family}{Inpute wavelet parameters}
-\item{trend.est}{A vector of length \code{length(data)} containing the trend estimate}
+\item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
 \item{calc.confint}{Input parameter}
 \item{lower.conf}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
 \item{upper.conf}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}

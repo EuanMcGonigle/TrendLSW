@@ -45,7 +45,7 @@ spec <- wavethresh::cns(1024)
 
 spec <- wavethresh::putD(spec, level = 8, seq(from = 2, to = 8, length = 1024))
 
-trend <- sin(pi*(seq(from = 0, to = 4, length = 1024)))
+trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
 
 x <- TLSW.sim(trend = trend, spec = spec, distribution = "exp")
 

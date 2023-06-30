@@ -5,22 +5,23 @@
 \title{Estimation of Evolutionary Wavelet Spectrum for Non-Zero Mean Time Series}
 \usage{
 ewspec.trend(
-  data,
+  x,
   an.filter.number = 10,
   an.family = "DaubLeAsymm",
   gen.filter.number = an.filter.number,
   gen.family = an.family,
-  binwidth = floor(2 * sqrt(length(data))),
-  max.scale = floor(log2(length(data)) * 0.7),
+  binwidth = floor(2 * sqrt(length(x))),
+  max.scale = floor(log2(length(x)) * 0.7),
   WP.smooth = TRUE,
   AutoReflect = TRUE,
   supply.inv.mat = FALSE,
   inv.mat = NULL,
-  boundary.handle = TRUE
+  boundary.handle = TRUE,
+  smooth.type = c("mean", "median")[1]
 )
 }
 \arguments{
-\item{data}{The time series you wish to analyse.}
+\item{x}{The time series you wish to analyse.}
 
 \item{an.filter.number}{The index number for the wavelet used to analyse the
 time series. For the "DaubExPhase" family, the filter number can be between
@@ -62,6 +63,9 @@ correction matrix used to correct the raw wavelet periodogram. Equal to \eqn{C^{
 boundary corrected, to get a more accurate spectrum estimate at the
 boundaries of the times series. If FALSE, no boundary correction is applied.
 Recommended to use TRUE.}
+
+\item{smooth.type}{String indicating which type of smoothing to use on wavelet periodogram.
+Can be \code{"mean"}, \code{"median"}, or \code{"epanechnikov"}.}
 }
 \value{
 A list object, containing the following fields:

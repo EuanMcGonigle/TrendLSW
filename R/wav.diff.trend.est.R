@@ -18,7 +18,7 @@
 #' the \code{spec} argument.
 #'
 #' 3. The inverse wavelet transform is applied to obtain the final estimate.
-#' @param data The time series you want to estimate the trend function of.
+#' @param x The time series you want to estimate the trend function of.
 #' @param spec.est You must supply the estimate of the evolutionary wavelet
 #' spectrum of the time series. This is the output of the \code{ewspec.diff}
 #' function.
@@ -26,7 +26,7 @@
 #' procedure. For Daubechies compactly supported wavelets the filter number is
 #' the number of vanishing moments.
 #' @param thresh.type The type of thresholding function used. Currently only
-#' "soft" and "hard" are available. Recommended to use "soft".
+#' "soft" and "hard" are available.
 #' @param normal If TRUE, uses a threshold assuming the data are normally
 #' distributed. If FALSE, uses a larger threshold to reflect non-normality.
 #' @param family Selects the wavelet family to use. Recommended to only use the
@@ -46,7 +46,7 @@
 #' replications used to calcualte the confidence interval.
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.diff}}
 #' call, only to be used if \code{calc.confint = TRUE}.
-#' @return A vector of length \code{length(data)} containing the trend estimate.
+#' @return A vector of length \code{length(x)} containing the trend estimate.
 #' @seealso %% ~~objects to See Also as \code{\link{help}}, ~~~
 #' \code{\link{ewspec.diff}}, \code{\link{wav.trend.est}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
@@ -64,43 +64,43 @@
 #'
 #' x <- sine_trend + noise
 #'
-#' spec.est <- ewspec.diff(data = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
+#' spec.est <- ewspec.diff(x = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
 #'
-#' trend.est <- wav.diff.trend.est(data = x, spec = spec.est)
+#' trend.est <- wav.diff.trend.est(x = x, spec = spec.est)
 #'
 #' plot.ts(x, lty = 1, col = 8)
 #' lines(sine_trend, col = 2, lwd = 2)
 #' lines(trend.est, col = 4, lwd = 2, lty = 2)
 #' @export
-wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = "soft",
+wav.diff.trend.est <- function(x, spec.est, filter.number = 4, thresh.type = "soft",
                                normal = TRUE, family = "DaubLeAsymm",
-                               max.scale = floor(0.7 * log2(length(data))),
+                               max.scale = floor(0.7 * log2(length(x))),
                                boundary.handle = FALSE, calc.confint = FALSE,
                                reps = 199, sig.lvl = 0.05, ...) {
-  data.check <- ewspec.checks(
-    data = data, max.scale = max.scale, lag = 1,
+  x.check <- ewspec.checks(
+    x = x, max.scale = max.scale, lag = 1,
     binwidth = 1, boundary.handle = boundary.handle
   )
 
-  data.len <- data.check$data.len
-  max.scale <- data.check$max.scale
-  boundary.handle <- data.check$boundary.handle
-  J <- data.check$J
-  dyadic <- data.check$dyadic
+  x.len <- x.check$x.len
+  max.scale <- x.check$max.scale
+  boundary.handle <- x.check$boundary.handle
+  J <- x.check$J
+  dyadic <- x.check$dyadic
 
   spec <- spec.est$S
   # by default, do T.I. denoising:
 
-  orig.data <- data
+  orig.x <- x
   if (boundary.handle == TRUE) {
-    data <- get.boundary.timeseries(data)
+    x <- get.boundary.timeseries(x)
   }
 
-  data.len <- length(data)
-  J <- wavethresh::IsPowerOfTwo(data.len)
+  x.len <- length(x)
+  J <- wavethresh::IsPowerOfTwo(x.len)
 
 
-  data.wd <- wavethresh::wd(data, filter.number = filter.number, family = family, type = "station")
+  x.wd <- wavethresh::wd(x, filter.number = filter.number, family = family, type = "station")
 
   # calculate C to use in variance estimate of wavelet coefficients
 
@@ -122,33 +122,33 @@ wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = 
 
   var.mat <- replace.neg.values(var.mat, max.scale)
 
-  data.wd.thresh <- data.wd
+  x.wd.thresh <- x.wd
 
 
   if (boundary.handle == TRUE) {
     # below code determines the boundary coefficients for a given wavelet
 
-    boundary.test <- c(rep(0, data.len - 1), 1)
+    boundary.test <- c(rep(0, x.len - 1), 1)
 
     y.wd <- wavethresh::wd(boundary.test, family = family, filter.number = filter.number, type = "station")
 
     # create EWS estimate matrix
 
-    bc.var.mat <- matrix(0, nrow = max.scale, ncol = data.len)
+    bc.var.mat <- matrix(0, nrow = max.scale, ncol = x.len)
 
-    lower <- floor((data.len - length(orig.data)) / 2)
-    upper <- lower + length(orig.data) - 1
+    lower <- floor((x.len - length(orig.x)) / 2)
+    upper <- lower + length(orig.x) - 1
 
-    bc.var.mat[, lower:upper] <- var.mat[, 1:length(orig.data)]
+    bc.var.mat[, lower:upper] <- var.mat[, 1:length(orig.x)]
 
 
     for (j in 1:max.scale) {
-      dj <- wavethresh::accessD(data.wd, level = J - j)
+      dj <- wavethresh::accessD(x.wd, level = J - j)
 
       if (normal == TRUE) {
-        thresh <- sqrt(2 * bc.var.mat[j, ] * log(data.len))
+        thresh <- sqrt(2 * bc.var.mat[j, ] * log(x.len))
       } else {
-        thresh <- sqrt(bc.var.mat[j, ]) * log(data.len)
+        thresh <- sqrt(bc.var.mat[j, ]) * log(x.len)
       }
 
       temp1 <- dj
@@ -160,20 +160,20 @@ wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = 
         temp1[abs(dj) >= thresh] <- sign(temp2) * (abs(temp2) - thresh[abs(dj) >= thresh])
       }
 
-      data.wd.thresh <- wavethresh::putD(data.wd.thresh, level = J - j, temp1)
+      x.wd.thresh <- wavethresh::putD(x.wd.thresh, level = J - j, temp1)
     }
 
     # invert the thresholded object to get trend estimate:
 
-    trend.est <- wavethresh::AvBasis(wavethresh::convert(data.wd.thresh))
+    trend.est <- wavethresh::AvBasis(wavethresh::convert(x.wd.thresh))
 
     if (boundary.handle == TRUE) {
       if (dyadic == TRUE) {
         lower <- 2^(J - 2) + 2^(J - 3) + 1
         upper <- 2^(J - 1) + 2^(J - 3)
       } else {
-        lower <- floor((data.len - length(orig.data)) / 2)
-        upper <- lower + length(orig.data) - 1
+        lower <- floor((x.len - length(orig.x)) / 2)
+        upper <- lower + length(orig.x) - 1
       }
       trend.est <- trend.est[lower:upper]
     }
@@ -182,12 +182,12 @@ wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = 
     # inputted rules
 
     for (j in 1:max.scale) {
-      dj <- wavethresh::accessD(data.wd, level = J - j)
+      dj <- wavethresh::accessD(x.wd, level = J - j)
 
       if (normal == TRUE) {
-        thresh <- sqrt(2 * var.mat[j, ] * log(data.len))
+        thresh <- sqrt(2 * var.mat[j, ] * log(x.len))
       } else {
-        thresh <- sqrt(var.mat[j, ]) * log(data.len)
+        thresh <- sqrt(var.mat[j, ]) * log(x.len)
       }
 
       temp1 <- dj
@@ -199,17 +199,17 @@ wav.diff.trend.est <- function(data, spec.est, filter.number = 4, thresh.type = 
         temp1[abs(dj) >= thresh] <- sign(temp2) * (abs(temp2) - thresh[abs(dj) >= thresh])
       }
 
-      data.wd.thresh <- wavethresh::putD(data.wd.thresh, level = J - j, temp1)
+      x.wd.thresh <- wavethresh::putD(x.wd.thresh, level = J - j, temp1)
     }
 
     # invert the thresholded object to get trend estimate:
 
-    trend.est <- wavethresh::AvBasis(wavethresh::convert(data.wd.thresh))
+    trend.est <- wavethresh::AvBasis(wavethresh::convert(x.wd.thresh))
   }
 
   if (calc.confint == TRUE) {
     trend.confint <- trend.estCI.diff(
-      data = orig.data, trend.est = trend.est, spec.est = spec.est,
+      x = orig.x, trend.est = trend.est, spec.est = spec.est,
       filter.number = filter.number, thresh.type = thresh.type,
       normal = normal, boundary.handle = boundary.handle,
       family = family, max.scale = max.scale,
