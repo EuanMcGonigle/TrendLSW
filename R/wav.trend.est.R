@@ -146,7 +146,7 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
     }
     return(list(x = orig.x, filter.number = filter.number, family = family, trend.est = x_wr, calc.confint = calc.confint))
   } else {
-    spec.est <- ewspec.trend(x, max.scale = max.scale, ..., boundary.handle = FALSE, AutoReflect = FALSE)
+    spec.est <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
 
     lacf.est <- lacf.calc(x,
       filter.number = spec.est$S$filter$filter.number, family = spec.est$S$filter$family,
