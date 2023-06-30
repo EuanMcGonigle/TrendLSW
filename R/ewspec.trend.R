@@ -94,7 +94,7 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
                          binwidth = floor(2 * sqrt(length(data))),
                          max.scale = floor(log2(length(data)) * 0.7), WP.smooth = TRUE,
                          AutoReflect = TRUE, supply.inv.mat = FALSE, inv.mat = NULL,
-                         boundary.handle = TRUE) {
+                         boundary.handle = TRUE, smooth.type = c("mean", "median")[1]) {
   # function that computes the spectral estimate of a time series that has a smooth trend
   # that can be zeroed out by the wavelet coefficients.
 
@@ -135,10 +135,18 @@ ewspec.trend <- function(data, an.filter.number = 10, an.family = "DaubLeAsymm",
   }
   # calculate raw wavelet periodogram which we need to correct:
 
+  if(smooth.type =="median"){
+    WP.smooth = FALSE
+  }
   data.wd <- locits::ewspec3(data,
     filter.number = an.filter.number, family = an.family,
     binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = WP.smooth
   )
+  if(smooth.type=="median") {
+    for (j in 1:max.scale) {
+      data.wd$SmoothWavPer <- putD(data.wd$SmoothWavPer, level = J - j, 2.125*runmed(accessD(data.wd$WavPer,level = J-j), k = binwidth))
+    }
+  }
 
   # access smoothed, uncorrected wavelet periodogram:
 
