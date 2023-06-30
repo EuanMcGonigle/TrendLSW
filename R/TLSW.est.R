@@ -89,7 +89,7 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.numb
     supply.inv.mat <- TRUE
   }
 
-  if(do.trend.est == TRUE && T.est.type == "nonlinear"){
+  if(do.trend.est == TRUE && (T.est.type == "nonlinear" || T.confint == TRUE)){
     do.spec.est <- TRUE
   }
 
