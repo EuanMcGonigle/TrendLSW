@@ -21,7 +21,7 @@ TLSW.est(
   WP.do.diff = FALSE,
   WP.lag = 1,
   WP.diff.number = 1,
-  T.est.type = c("linear", "nonlinear"),
+  T.est.type = c("linear", "nonlinear")[1],
   T.filter.number = 4,
   T.family = "DaubLeAsymm",
   T.transform = c("dec", "nondec")[1],
@@ -86,13 +86,13 @@ only applicable if \code{WP.do.dif = TRUE}. A first difference is recommended as
 
 \item{T.est.type}{String indicating type of wavelet thrsholding used. Can be "linear", which means
 that all non-boundary wavelet coefficients are set to zero, or "nonlinear", where
-each wavelet coefficients is thresholded using a time-varying, noise-dependent threshold.}
+each wavelet coefficient is thresholded using a time-varying, noise-dependent threshold.}
 
 \item{T.filter.number}{The index number for the wavelet used for trend estimation.}
 
 \item{T.family}{The family of the wavelet used for trend estimation.}
 
-\item{T.transform}{String giving the type of wavelet transform used for trend esitmation.
+\item{T.transform}{String giving the type of wavelet transform used for trend estimation.
 Can be "dec", in which case a standard (decimated) wavelet transform is used, or "nondec",
 in which case a nondecimated transform is used.}
 
@@ -102,13 +102,13 @@ boundary corrected when estimating the trend.}
 \item{T.max.scale}{Integer variable, selects the number of scales of the wavelet transform to
 apply thresholding to for trend estimation.}
 
-\item{T.confint}{Logical variable. If \code{TRUE}, a \code{(1-sig.lvl)} pointwise confidence interval is
+\item{T.confint}{Logical variable. If \code{TRUE}, a \code{(1-T.sig.lvl)} pointwise confidence interval is
 computed for the trend estimate. For \code{T.est.type = "linear"}, this is
 computed using the asymptotic distribution of the trend estimator,
 whilst for \code{T.est.type = "nonlinear"}, it is computed via bootstrapping.}
 
 \item{T.sig.lvl}{Used only if \code{T.confint = TRUE}; a numeric value
-(\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
+(\code{0 <= T.sig.lvl <= 1}) with which a \code{(1-T.sig.lvl)} pointwise
 confidence interval for the trend estimate is generated.}
 
 \item{T.lacf.max.lag}{Used only if \code{T.est.type = "linear"} and  \code{calc.confint = TRUE};
@@ -131,6 +131,6 @@ An object of class \code{"TLSW"}
 \description{
 Using wavelet-based methods, estimates the trend and evolutionary
 wavelet spectrum (EWS) of a nonstationary time series. For trend estimation, either
-a linear or nonlinear wavelet thresholding estimator can be computed. Specrtal
+a linear or nonlinear wavelet thresholding estimator can be computed. Spectral
  estimation can be performed with or without differencing the times series first.
 }
