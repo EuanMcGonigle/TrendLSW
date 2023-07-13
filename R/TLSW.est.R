@@ -76,7 +76,7 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.numb
                      WP.max.scale = floor(log2(length(x)) * 0.7),
                      WP.boundary.handle = TRUE, WP.inv.mat = NULL,
                      WP.do.diff = FALSE, WP.lag = 1, WP.diff.number = 1,
-                     T.est.type = c("linear", "nonlinear"), T.filter.number = 4,
+                     T.est.type = c("linear", "nonlinear")[1], T.filter.number = 4,
                      T.family = "DaubLeAsymm", T.transform = c("dec", "nondec")[1],
                      T.boundary.handle = TRUE, T.max.scale = floor(log2(length(x)) * 0.7),
                      T.confint = FALSE, T.sig.lvl = 0.05, T.lacf.max.lag = floor(10 * (log10(length(x)))),
