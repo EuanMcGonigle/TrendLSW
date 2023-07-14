@@ -169,6 +169,9 @@ ewspec.trend <- function(x, an.filter.number = 10, an.family = "DaubLeAsymm",
   l$boundary.handle <- boundary.handle
   l$max.scale <- max.scale
   l$WP.smooth <- WP.smooth
+  if(WP.smooth == TRUE){
+    l$smooth.type <- smooth.type
+  }
 
   return(l)
 }
