@@ -11,6 +11,7 @@ wav.diff.trend.est(
   thresh.type = "soft",
   normal = TRUE,
   family = "DaubLeAsymm",
+  transform.type = c("dec", "nondec")[2],
   max.scale = floor(0.7 * log2(length(x))),
   boundary.handle = FALSE,
   calc.confint = FALSE,
@@ -38,6 +39,10 @@ distributed. If FALSE, uses a larger threshold to reflect non-normality.}
 
 \item{family}{Selects the wavelet family to use. Recommended to only use the
 Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.}
+
+\item{transform.type}{String giving the type of wavelet transform used.
+Can be "dec", in which case a standard (decimated) wavelet transform is used, or "nondec",
+in which case a nondecimated transform is used.}
 
 \item{max.scale}{Selects the number of scales of the wavelet transform to
 apply thresholding to. Should be a value from 1 (finest) to J-1 (coarsest),
@@ -104,7 +109,7 @@ trend.est <- wav.diff.trend.est(x = x, spec = spec.est)
 
 plot.ts(x, lty = 1, col = 8)
 lines(sine_trend, col = 2, lwd = 2)
-lines(trend.est, col = 4, lwd = 2, lty = 2)
+lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
 }
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
