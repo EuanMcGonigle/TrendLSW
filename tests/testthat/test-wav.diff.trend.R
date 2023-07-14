@@ -3,7 +3,7 @@ test_that("wav.diff.trend.est executes", {
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
   x.s <- ewspec.diff(x)
   x.t <- wav.diff.trend.est(x, x.s)
-  expect_equal(class(x.t), "numeric")
+  expect_equal(class(x.t), "list")
 })
 
 test_that("wav.diff.trend.est executes with boundary handling", {
@@ -11,7 +11,7 @@ test_that("wav.diff.trend.est executes with boundary handling", {
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
   x.s <- ewspec.diff(x)
   x.t <- wav.diff.trend.est(x, x.s, boundary.handle = TRUE)
-  expect_equal(class(x.t), "numeric")
+  expect_equal(class(x.t), "list")
 })
 
 test_that("wav.diff.trend.est executes with non-dyadic data", {
@@ -29,7 +29,7 @@ test_that("wav.diff.trend.est executes with hard thresholding", {
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
   x.s <- ewspec.diff(x)
   x.t <- wav.diff.trend.est(x, x.s, thresh.type = "hard")
-  expect_equal(class(x.t), "numeric")
+  expect_equal(class(x.t), "list")
 })
 
 test_that("wav.diff.trend.est executes with normal = FALSE", {
@@ -37,7 +37,7 @@ test_that("wav.diff.trend.est executes with normal = FALSE", {
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
   x.s <- ewspec.diff(x)
   x.t <- wav.diff.trend.est(x, x.s, normal = FALSE)
-  expect_equal(class(x.t), "numeric")
+  expect_equal(class(x.t), "list")
 })
 
 test_that("wav.diff.trend.est executes with normal = FALSE and boundary handling", {
@@ -45,7 +45,7 @@ test_that("wav.diff.trend.est executes with normal = FALSE and boundary handling
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
   x.s <- ewspec.diff(x)
   x.t <- wav.diff.trend.est(x, x.s, normal = FALSE, boundary.handle = TRUE)
-  expect_equal(class(x.t), "numeric")
+  expect_equal(class(x.t), "list")
 })
 
 test_that("wav.diff.trend.est executes with calc.confint = TRUE", {
