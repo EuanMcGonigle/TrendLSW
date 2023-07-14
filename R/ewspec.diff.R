@@ -162,6 +162,7 @@ ewspec.diff <- function(x, lag = 1, filter.number = 1, family = "DaubExPhase",
   l$diff.number <- diff.number
   l$boundary.handle <- boundary.handle
   l$max.scale <- max.scale
+  l$WP.smooth <- WP.smooth
 
   return(l)
 }
