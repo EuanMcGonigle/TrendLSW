@@ -18,6 +18,7 @@
 #' the \code{spec} argument.
 #'
 #' 3. The inverse wavelet transform is applied to obtain the final estimate.
+#'
 #' @param x The time series you want to estimate the trend function of.
 #' @param spec.est You must supply the estimate of the evolutionary wavelet
 #' spectrum of the time series. This is the output of the \code{ewspec.diff}
@@ -31,6 +32,9 @@
 #' distributed. If FALSE, uses a larger threshold to reflect non-normality.
 #' @param family Selects the wavelet family to use. Recommended to only use the
 #' Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.
+#' @param transform.type String giving the type of wavelet transform used.
+#' Can be "dec", in which case a standard (decimated) wavelet transform is used, or "nondec",
+#' in which case a nondecimated transform is used.
 #' @param max.scale Selects the number of scales of the wavelet transform to
 #' apply thresholding to. Should be a value from 1 (finest) to J-1 (coarsest),
 #' where T=2^J is the length of the time series. Recommended to use 2J/3
@@ -70,10 +74,11 @@
 #'
 #' plot.ts(x, lty = 1, col = 8)
 #' lines(sine_trend, col = 2, lwd = 2)
-#' lines(trend.est, col = 4, lwd = 2, lty = 2)
+#' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
 #' @export
 wav.diff.trend.est <- function(x, spec.est, filter.number = 4, thresh.type = "soft",
                                normal = TRUE, family = "DaubLeAsymm",
+                               transform.type = c("dec", "nondec")[2],
                                max.scale = floor(0.7 * log2(length(x))),
                                boundary.handle = FALSE, calc.confint = FALSE,
                                reps = 199, sig.lvl = 0.05, ...) {
@@ -215,8 +220,14 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, thresh.type = "so
       family = family, max.scale = max.scale,
       reps = reps, sig.lvl = sig.lvl, ...
     )
-    return(list(trend.est = trend.est, conf.int = trend.confint))
+    return(list(trend.est = trend.est, conf.int = trend.confint,
+                filter.number = filter.number, family = family,
+                transform.type = transform.type, max.scale = max.scale,
+                calc.confint = calc.confint,
+                sig.lvl = sig.lvl, boundary.handle = boundary.handle))
   } else {
-    return(trend.est)
+    return(list(trend.est = trend.est, filter.number = filter.number, family = family,
+                transform.type = transform.type, max.scale = max.scale,
+                calc.confint = calc.confint, boundary.handle = boundary.handle))
   }
 }
