@@ -155,7 +155,7 @@ trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.t
       thresh.type = thresh.type, normal = normal, calc.confint = FALSE
     ))
 
-    trend.mat[i, ] <- rep.trend
+    trend.mat[i, ] <- rep.trend$trend.est
   }
 
   conf.int <- apply(trend.mat, 2, FUN = stats::quantile, probs = c(sig.lvl / 2, (1 - sig.lvl / 2)))
