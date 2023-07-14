@@ -80,7 +80,7 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.numb
                      T.family = "DaubLeAsymm", T.transform = c("dec", "nondec")[1],
                      T.boundary.handle = TRUE, T.max.scale = floor(log2(length(x)) * 0.7),
                      T.confint = FALSE, T.sig.lvl = 0.05, T.lacf.max.lag = floor(10 * (log10(length(x)))),
-                     T.reps = 199, T.thresh.type = c("soft", "hard")[1], T.thresh.normal = TRUE) {
+                     T.reps = 199, T.thresh.type = c("soft", "hard")[2], T.thresh.normal = TRUE) {
   stopifnot("Both the do.spec.est and do.trend.est parameters have been set to FALSE,
             at least one should be TRUE." = do.spec.est == TRUE || do.trend.est == TRUE)
   if (is.null(WP.inv.mat)) {
@@ -132,16 +132,19 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.numb
          boundary.handle = T.boundary.handle, calc.confint = T.confint,
         reps = T.reps, sig.lvl = T.sig.lvl
       )
+      x.trend$T.thresh.type <- T.thresh.type
     }
+    x.trend$T.est.type <- T.est.type
+    x.trend$T.transform <- T.transform
   }
 
 
-  if (do.spec.est == FALSE) {
-    out <- list(x = x, do.spec.est = do.spec.est, do.trend.est = do.trend.est, trend = x.trend)
-  } else if (do.trend.est == FALSE) {
-    out <- list(x = x, do.spec.est = do.spec.est, do.trend.est = do.trend.est)
-  } else {
+  if (do.spec.est == TRUE && do.trend.est == TRUE) {
     out <- list(x = x, do.spec.est = do.spec.est, spec = x.spec, do.trend.est = do.trend.est, trend = x.trend)
+  } else if (do.trend.est == FALSE) {
+    out <- list(x = x, do.spec.est = do.spec.est, spec = x.spec, do.trend.est = do.trend.est)
+  } else {
+    out <- list(x = x, do.spec.est = do.spec.est, do.trend.est = do.trend.est, trend = x.trend)
   }
 
   class(out) <- "TLSW"
