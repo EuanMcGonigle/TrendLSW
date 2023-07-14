@@ -168,6 +168,7 @@ ewspec.trend <- function(x, an.filter.number = 10, an.family = "DaubLeAsymm",
   l$binwidth <- binwidth
   l$boundary.handle <- boundary.handle
   l$max.scale <- max.scale
+  l$WP.smooth <- WP.smooth
 
   return(l)
 }
