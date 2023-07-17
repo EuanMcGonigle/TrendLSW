@@ -73,10 +73,9 @@
 #'
 #' set.seed(2352)
 #'
-#' noise <- wavethresh::LSWsim(spec)
 #' trend <- c(seq(from = 0, to = 4, length = 400), seq(from = 4, to = 0, length = 624))
 #'
-#' x <- trend + noise
+#' x <- TLSW.sim(trend = trend, spec = spec)
 #'
 #' spec.est <- ewspec.diff(x, family = "DaubExPhase", filter.number = 1, max.scale = 7)
 #'
