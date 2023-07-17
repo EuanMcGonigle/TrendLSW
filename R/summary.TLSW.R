@@ -24,6 +24,21 @@
 #' @export
 #'
 #' @examples
+#' # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
+#'
+#' spec <- wavethresh::cns(512)
+#' spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
+#'
+#' trend <- seq(from = 0, to = 5, length = 512)
+#'
+#' set.seed(1)
+#'
+#' x <- TLSW.sim(trend = trend, spec = spec)
+#'
+#' x.TLSW <- TLSW.est(x)
+#'
+#' summary(x.TLSW)
+#'
 summary.TLSW <- function(object, ...) {
   if (object$do.spec.est == TRUE) {
     cat("Spectral estimation was performed:\n")
