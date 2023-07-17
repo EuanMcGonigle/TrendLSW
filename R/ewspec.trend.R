@@ -62,7 +62,7 @@
 #' functionality. }
 #' \item{WavPer}{ The raw wavelet periodogram of the input
 #' data. The EWS estimate (above) is the smoothed corrected version of the raw
-#' wavelet periodogram. }
+#' wavelet periodogram.}
 #' \item{SmoothWavPer}{ The smoothed, un-corrected raw
 #' wavelet periodogram of the input data. }
 #' \item{binwidth, max.scale, boundary.handle}{Input parameters}
