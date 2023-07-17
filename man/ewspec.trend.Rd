@@ -113,10 +113,9 @@ function, please see the example below.
 spec <- wavethresh::cns(512)
 spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
 
-noise <- wavethresh::LSWsim(spec)
 trend <- seq(from = 0, to = 5, length = 512)
 
-x <- trend + noise
+x <- TLSW.sim(trend = trend, spec = spec)
 
 spec.est <- ewspec.trend(x,
   an.filter.number = 4, an.family = "DaubExPhase",
