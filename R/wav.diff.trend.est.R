@@ -60,8 +60,7 @@
 #' \item{reps}{Returned if \code{calc.confint = TRUE}. The number of bootstrap replicates used to compute
 #'  pointwise confidence interval}
 #' \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
-#' @seealso %% ~~objects to See Also as \code{\link{help}}, ~~~
-#' \code{\link{ewspec.diff}}, \code{\link{wav.trend.est}}
+#' @seealso \code{\link{ewspec.diff}}, \code{\link{wav.trend.est}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
