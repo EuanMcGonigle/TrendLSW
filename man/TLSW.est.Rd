@@ -31,7 +31,7 @@ TLSW.est(
   T.sig.lvl = 0.05,
   T.lacf.max.lag = floor(10 * (log10(length(x)))),
   T.reps = 199,
-  T.thresh.type = c("soft", "hard")[2],
+  T.thresh.type = c("hard", "soft")[1],
   T.thresh.normal = TRUE
 )
 }
