@@ -8,9 +8,9 @@ wav.diff.trend.est(
   x,
   spec.est,
   filter.number = 4,
-  thresh.type = "soft",
-  normal = TRUE,
   family = "DaubLeAsymm",
+  thresh.type = c("hard", "soft")[1],
+  normal = TRUE,
   transform.type = c("dec", "nondec")[2],
   max.scale = floor(0.7 * log2(length(x))),
   boundary.handle = FALSE,
@@ -31,14 +31,14 @@ function.}
 procedure. For Daubechies compactly supported wavelets the filter number is
 the number of vanishing moments.}
 
+\item{family}{Selects the wavelet family to use. Recommended to only use the
+Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.}
+
 \item{thresh.type}{The type of thresholding function used. Currently only
 "soft" and "hard" are available.}
 
 \item{normal}{If TRUE, uses a threshold assuming the data are normally
 distributed. If FALSE, uses a larger threshold to reflect non-normality.}
-
-\item{family}{Selects the wavelet family to use. Recommended to only use the
-Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.}
 
 \item{transform.type}{String giving the type of wavelet transform used.
 Can be "dec", in which case a standard (decimated) wavelet transform is used, or "nondec",
@@ -66,7 +66,16 @@ confidence interval for the trend estimate is generated.}
 call, only to be used if \code{calc.confint = TRUE}.}
 }
 \value{
-A vector of length \code{length(x)} containing the trend estimate.
+A \code{list} object containing the following fields:
+\item{x}{Input data}
+\item{filter.number, family}{Input wavelet parameters}
+\item{transform.type, max,scale, thresh.type, normal, boundary.handle, calc.confint}{Input parameters}
+\item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
+\item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
+\item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
+\item{reps}{Returned if \code{calc.confint = TRUE}. The number of bootstrap replicates used to compute
+ pointwise confidence interval}
+\item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
 }
 \description{
 Computes the wavelet thresholding trend estimate for a time
