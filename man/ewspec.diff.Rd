@@ -3,7 +3,7 @@
 \name{ewspec.diff}
 \alias{ewspec.diff}
 \title{Estimation of Evolutionary Wavelet Spectrum of Non-Zero Mean Time
-Series via Differencing.}
+Series via Differencing}
 \usage{
 ewspec.diff(
   x,
