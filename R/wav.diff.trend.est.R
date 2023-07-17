@@ -50,7 +50,16 @@
 #' replications used to calcualte the confidence interval.
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.diff}}
 #' call, only to be used if \code{calc.confint = TRUE}.
-#' @return A vector of length \code{length(x)} containing the trend estimate.
+#' @return A \code{list} object containing the following fields:
+#' \item{x}{Input data}
+#' \item{filter.number, family}{Input wavelet parameters}
+#' \item{transform.type, max.scale, thresh.type, normal, boundary.handle, calc.confint}{Input parameters}
+#' \item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
+#' \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
+#' \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
+#' \item{reps}{Returned if \code{calc.confint = TRUE}. The number of bootstrap replicates used to compute
+#'  pointwise confidence interval}
+#' \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
 #' @seealso %% ~~objects to See Also as \code{\link{help}}, ~~~
 #' \code{\link{ewspec.diff}}, \code{\link{wav.trend.est}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
@@ -76,8 +85,8 @@
 #' lines(sine_trend, col = 2, lwd = 2)
 #' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
 #' @export
-wav.diff.trend.est <- function(x, spec.est, filter.number = 4, thresh.type = "soft",
-                               normal = TRUE, family = "DaubLeAsymm",
+wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeAsymm",
+                               thresh.type = c("hard","soft")[1], normal = TRUE,
                                transform.type = c("dec", "nondec")[2],
                                max.scale = floor(0.7 * log2(length(x))),
                                boundary.handle = FALSE, calc.confint = FALSE,
@@ -220,14 +229,22 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, thresh.type = "so
       family = family, max.scale = max.scale,
       reps = reps, sig.lvl = sig.lvl, ...
     )
-    return(list(trend.est = trend.est, conf.int = trend.confint,
-                filter.number = filter.number, family = family,
-                transform.type = transform.type, max.scale = max.scale,
-                calc.confint = calc.confint,
-                sig.lvl = sig.lvl, boundary.handle = boundary.handle))
+    return(list(
+      x = orig.x, filter.number = filter.number, family = family,
+      transform.type = transform.type, max.scale = max.scale,
+      thresh.type = thresh.type, normal = normal,
+      boundary.handle = boundary.handle, calc.confint = calc.confint,
+      trend.est = trend.est,
+      lower.confint = trend.confint[1, ], upper.confint = trend.confint[2, ],
+      reps = reps, sig.lvl = sig.lvl
+    ))
   } else {
-    return(list(trend.est = trend.est, filter.number = filter.number, family = family,
-                transform.type = transform.type, max.scale = max.scale,
-                calc.confint = calc.confint, boundary.handle = boundary.handle))
+    return(list(
+      x = orig.x, filter.number = filter.number, family = family,
+      transform.type = transform.type, max.scale = max.scale,
+      thresh.type = thresh.type, normal = normal,
+      boundary.handle = boundary.handle, calc.confint = calc.confint,
+      trend.est = trend.est
+    ))
   }
 }
