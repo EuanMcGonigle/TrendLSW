@@ -28,14 +28,13 @@
 #' specifying the maximum lag to which the local autocovariance function is
 #' estimated.
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.trend}} call,
-#' only to be used if \code{calc.confint = TRUE}.
 #' @return A \code{list} object containing the following fields:
 #' \item{x}{Input data}
-#' \item{filter.number, family}{Inpute wavelet parameters}
+#' \item{filter.number, family}{Input wavelet parameters}
+#' \item{transform.type, max.scale, boundary.handle, calc.confint}{Input parameters}
 #' \item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
-#' \item{calc.confint}{Input parameter}
-#' \item{lower.conf}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
-#' \item{upper.conf}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
+#' \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
+#' \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
 #' \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
 #' @seealso \code{\link{wav.diff.trend.est}}, \code{\link{ewspec.trend}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
@@ -144,8 +143,12 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
       }
       x_wr <- x_wr[lower:upper]
     }
-    return(list(x = orig.x, filter.number = filter.number, family = family, trend.est = x_wr, calc.confint = calc.confint,
-                transform.type = transform.type, max.scale = max.scale, boundary.handle = boundary.handle))
+    return(list(
+      x = orig.x, filter.number = filter.number, family = family,
+      transform.type = transform.type, max.scale = max.scale,
+      boundary.handle = boundary.handle, calc.confint = calc.confint,
+      trend.est = x_wr
+    ))
   } else {
     spec.est <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
 
@@ -176,9 +179,9 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
 
     return(list(
       x = orig.x, filter.number = filter.number, family = family, transform.type = transform.type,
-      max.scale = max.scale, trend.est = x_wr, calc.confint = calc.confint,
-      lower.conf = lower.conf, upper.conf = upper.conf,
-      sig.lvl = sig.lvl, boundary.handle = boundary.handle
+      max.scale = max.scale, boundary.handle = boundary.handle, calc.confint = calc.confint,
+      trend.est = x_wr, lower.confint = lower.conf, upper.confint = upper.conf,
+      sig.lvl = sig.lvl
     ))
   }
 }
