@@ -69,7 +69,7 @@ call, only to be used if \code{calc.confint = TRUE}.}
 A \code{list} object containing the following fields:
 \item{x}{Input data}
 \item{filter.number, family}{Input wavelet parameters}
-\item{transform.type, max,scale, thresh.type, normal, boundary.handle, calc.confint}{Input parameters}
+\item{transform.type, max.scale, thresh.type, normal, boundary.handle, calc.confint}{Input parameters}
 \item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
 \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
 \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
@@ -106,18 +106,17 @@ spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, len
 
 set.seed(120)
 
-noise <- wavethresh::LSWsim(spec)
-sine_trend <- -2 * sin(seq(from = 0, to = 2 * pi, length = 1024)) -
+sine.trend <- -2 * sin(seq(from = 0, to = 2 * pi, length = 1024)) -
   1.5 * cos(seq(from = 0, to = pi, length = 1024))
 
-x <- sine_trend + noise
+x <- TLSW.sim(trend = sine.trend, spec = spec)
 
 spec.est <- ewspec.diff(x = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
 
 trend.est <- wav.diff.trend.est(x = x, spec = spec.est)
 
 plot.ts(x, lty = 1, col = 8)
-lines(sine_trend, col = 2, lwd = 2)
+lines(sine.trend, col = 2, lwd = 2)
 lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
 }
 \references{
