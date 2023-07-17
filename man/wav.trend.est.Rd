@@ -52,17 +52,16 @@ confidence interval for the trend estimate is generated.}
 specifying the maximum lag to which the local autocovariance function is
 estimated.}
 
-\item{...}{Further arguments to be passed to the \code{\link{ewspec.trend}} call,
-only to be used if \code{calc.confint = TRUE}.}
+\item{...}{Further arguments to be passed to the \code{\link{ewspec.trend}} call,}
 }
 \value{
 A \code{list} object containing the following fields:
 \item{x}{Input data}
-\item{filter.number, family}{Inpute wavelet parameters}
+\item{filter.number, family}{Input wavelet parameters}
+\item{transform.type, max,scale, boundary.handle, calc.confint}{Input parameters}
 \item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
-\item{calc.confint}{Input parameter}
-\item{lower.conf}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
-\item{upper.conf}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
+\item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
+\item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
 \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
 }
 \description{
