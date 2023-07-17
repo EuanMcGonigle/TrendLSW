@@ -66,6 +66,15 @@
 #' if \code{TRUE}, uses a threshold assuming the data are normally
 #' distributed. If \code{FALSE}, uses a larger threshold to reflect non-normality.
 #' @return An object of class \code{"TLSW"}
+#' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
+#' time-varying first and second-order structure of time series via wavelets
+#' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
+#'
+#' McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
+#' locally stationary wavelet processes. \emph{Journal of Time Series
+#' Analysis}, 43(6), 895-917.
+#' @seealso \code{\link{ewspec.trend}}, \code{\link{ewspec.diff}},
+#' \code{\link{wav.trend.est}}, \code{\link{wav.diff.trend.est}},
 #' @examples
 #' @export
 TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.number = 4,
@@ -138,11 +147,11 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.numb
 
 
   if (do.spec.est == TRUE && do.trend.est == TRUE) {
-    out <- list(x = x, do.spec.est = do.spec.est, spec = x.spec, do.trend.est = do.trend.est, trend = x.trend)
+    out <- list(x = x, do.spec.est = do.spec.est, spec.est = x.spec, do.trend.est = do.trend.est, trend.est = x.trend)
   } else if (do.trend.est == FALSE) {
-    out <- list(x = x, do.spec.est = do.spec.est, spec = x.spec, do.trend.est = do.trend.est)
+    out <- list(x = x, do.spec.est = do.spec.est, spec.est = x.spec, do.trend.est = do.trend.est)
   } else {
-    out <- list(x = x, do.spec.est = do.spec.est, do.trend.est = do.trend.est, trend = x.trend)
+    out <- list(x = x, do.spec.est = do.spec.est, do.trend.est = do.trend.est, trend.est = x.trend)
   }
 
   class(out) <- "TLSW"
