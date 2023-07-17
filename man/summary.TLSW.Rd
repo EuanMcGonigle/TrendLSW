@@ -26,6 +26,23 @@ estimation is performed, then the type of wavelet thresholding and transform
 used is printed, as well as the maximum wavelet scale used, whether or not boundary handling was used,
 and the significance of the confidence interval if it was calculated.
 }
+\examples{
+# simulates an example time series and estimates its trend and evolutionary wavelet spectrum
+
+spec <- wavethresh::cns(512)
+spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
+
+trend <- seq(from = 0, to = 5, length = 512)
+
+set.seed(1)
+
+x <- TLSW.sim(trend = trend, spec = spec)
+
+x.TLSW <- TLSW.est(x)
+
+summary(x.TLSW)
+
+}
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 time-varying first and second-order structure of time series via wavelets
