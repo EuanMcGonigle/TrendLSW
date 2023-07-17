@@ -126,6 +126,13 @@ trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.t
 
   spec$D[spec$D < 0] <- 0
 
+  if (is.null(spec.est$lag)) {
+    spec.est$lag <- 1
+  }
+  if (is.null(spec.est$diff.number)) {
+    spec.est$diff.number <- 1
+  }
+
   A <- wavethresh::ipndacw(
     J = -spec.est$max.scale, filter.number = spec$filter$filter.number,
     family = spec$filter$family
