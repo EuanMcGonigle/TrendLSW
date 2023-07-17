@@ -80,7 +80,7 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.numb
                      T.family = "DaubLeAsymm", T.transform = c("dec", "nondec")[1],
                      T.boundary.handle = TRUE, T.max.scale = floor(log2(length(x)) * 0.7),
                      T.confint = FALSE, T.sig.lvl = 0.05, T.lacf.max.lag = floor(10 * (log10(length(x)))),
-                     T.reps = 199, T.thresh.type = c("soft", "hard")[2], T.thresh.normal = TRUE) {
+                     T.reps = 199, T.thresh.type = c("hard", "soft")[1], T.thresh.normal = TRUE) {
   stopifnot("Both the do.spec.est and do.trend.est parameters have been set to FALSE,
             at least one should be TRUE." = do.spec.est == TRUE || do.trend.est == TRUE)
   if (is.null(WP.inv.mat)) {
@@ -89,7 +89,7 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.numb
     supply.inv.mat <- TRUE
   }
 
-  if(do.trend.est == TRUE && (T.est.type == "nonlinear" || T.confint == TRUE)){
+  if (do.trend.est == TRUE && (T.est.type == "nonlinear" || T.confint == TRUE)) {
     do.spec.est <- TRUE
   }
 
@@ -129,13 +129,11 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.numb
         x = x, spec.est = x.spec, filter.number = T.filter.number,
         family = T.family, max.scale = T.max.scale,
         thresh.type = T.thresh.type, normal = T.thresh.normal,
-         boundary.handle = T.boundary.handle, calc.confint = T.confint,
+        boundary.handle = T.boundary.handle, calc.confint = T.confint,
         reps = T.reps, sig.lvl = T.sig.lvl
       )
-      x.trend$T.thresh.type <- T.thresh.type
     }
     x.trend$T.est.type <- T.est.type
-    x.trend$T.transform <- T.transform
   }
 
 
