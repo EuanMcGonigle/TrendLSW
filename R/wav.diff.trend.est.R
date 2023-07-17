@@ -71,18 +71,17 @@
 #'
 #' set.seed(120)
 #'
-#' noise <- wavethresh::LSWsim(spec)
-#' sine_trend <- -2 * sin(seq(from = 0, to = 2 * pi, length = 1024)) -
+#' sine.trend <- -2 * sin(seq(from = 0, to = 2 * pi, length = 1024)) -
 #'   1.5 * cos(seq(from = 0, to = pi, length = 1024))
 #'
-#' x <- sine_trend + noise
+#' x <- TLSW.sim(trend = sine.trend, spec = spec)
 #'
 #' spec.est <- ewspec.diff(x = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
 #'
 #' trend.est <- wav.diff.trend.est(x = x, spec = spec.est)
 #'
 #' plot.ts(x, lty = 1, col = 8)
-#' lines(sine_trend, col = 2, lwd = 2)
+#' lines(sine.trend, col = 2, lwd = 2)
 #' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
 #' @export
 wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeAsymm",
