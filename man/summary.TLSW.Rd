@@ -7,10 +7,34 @@
 \method{summary}{TLSW}(object, ...)
 }
 \arguments{
-\item{object}{a \code{TLSW} object}
+\item{object}{A \code{TLSW} object.}
 
-\item{...}{not in use}
+\item{...}{Other arguments.}
+}
+\value{
+None
 }
 \description{
-Summary method for objects of class \code{TLSW}
+Summary method for objects of class \code{TLSW}.
+}
+\details{
+Prints out information about a \code{TLSW} object. If spectral
+estimation was performed, then the type of smoothing and binwidth is printed,
+along with the differencing performed if it is used, the maximum wavelet
+scale analysed, and whether or not boundary handling was used. If trend
+estimation is performed, then the type of wavelet thresholding and transform
+used is printed, as well as the maximum wavelet scale used, whether or not boundary handling was used,
+and the significance of the confidence interval if it was calculated.
+}
+\references{
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
+time-varying first and second-order structure of time series via wavelets
+and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
+
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
+locally stationary wavelet processes. \emph{Journal of Time Series
+Analysis}, 43(6), 895-917.
+}
+\seealso{
+\code{\link{TLSW.est}}, \code{\link{print.TLSW}}
 }
