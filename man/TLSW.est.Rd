@@ -134,3 +134,16 @@ wavelet spectrum (EWS) of a nonstationary time series. For trend estimation, eit
 a linear or nonlinear wavelet thresholding estimator can be computed. Spectral
  estimation can be performed with or without differencing the times series first.
 }
+\references{
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
+time-varying first and second-order structure of time series via wavelets
+and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
+
+McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
+locally stationary wavelet processes. \emph{Journal of Time Series
+Analysis}, 43(6), 895-917.
+}
+\seealso{
+\code{\link{ewspec.trend}}, \code{\link{ewspec.diff}},
+\code{\link{wav.trend.est}}, \code{\link{wav.diff.trend.est}},
+}
