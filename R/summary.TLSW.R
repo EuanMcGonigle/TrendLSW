@@ -1,4 +1,4 @@
-#' @title Summary of output provided by the \code{TLSW.est} function
+#' @title Summary of Output Provided by the \code{TLSW.est} Function
 #' @description Summary method for objects of class \code{TLSW}.
 #'
 #' @details Prints out information about a \code{TLSW} object. If spectral
