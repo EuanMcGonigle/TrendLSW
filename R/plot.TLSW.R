@@ -1,10 +1,13 @@
-#' Title
+#' @title Plot Trend and/or Spectrum Information in a \code{TLSW} Object
+#'
+#' @description Plots information contained within a \code{TLSWß} object.
+#'
 #'
 #' @param x A \code{TLSW} object
 #' @param plot.type A string object indicating what is to be plotted. Can be "trend", in which case
 #' the trend estimate (and associated confidence intervals if calculated) are plotted, or "spec",
-#' in which case the spectral esitmate is plotted, or "both", in which case both estimates are plotted.
-#' @param ... not in use
+#' in which case the spectral estimate is plotted, or "both", in which case both estimates are plotted.
+#' @param ... Additional plotting arguments used for the spectrum plotting.
 #'
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
@@ -15,8 +18,7 @@
 #' Analysis}, 43(6), 895-917.
 #' @export
 #'
-#' @importFrom graphics lines
-#' @importFrom graphics par
+#' @importFrom graphics lines par polygon
 #' @examples
 #' # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
 #'
@@ -70,7 +72,7 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1], ...) {
     max.plot.scale <- wavethresh::nlevelsWT(x$spec.est$S)
 
     wavethresh::plot.wd(x$spec.est$S, ylabchars = (1:max.plot.scale),
-                        xlab = "Time", ylab = "Scale", main = "", sub = "")
+                        xlab = "Time", ylab = "Scale", main = "", sub = "", ...)
   }
 
 
