@@ -1,4 +1,4 @@
-#' @title Prints an object of class \code{TLSW}
+#' @title Print an Object of Class \code{TLSW}
 #'
 #' @description Prints a \code{TLSW} object, giving summary information.
 #'
