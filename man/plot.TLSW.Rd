@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot.TLSW.R
 \name{plot.TLSW}
 \alias{plot.TLSW}
-\title{Title}
+\title{Plot Trend and/or Spectrum Information in a \code{TLSW} Object}
 \usage{
 \method{plot}{TLSW}(x, plot.type = c("both", "trend", "spec")[1], ...)
 }
@@ -11,12 +11,12 @@
 
 \item{plot.type}{A string object indicating what is to be plotted. Can be "trend", in which case
 the trend estimate (and associated confidence intervals if calculated) are plotted, or "spec",
-in which case the spectral esitmate is plotted, or "both", in which case both estimates are plotted.}
+in which case the spectral estimate is plotted, or "both", in which case both estimates are plotted.}
 
-\item{...}{not in use}
+\item{...}{Additional plotting arguments used for the spectrum plotting.}
 }
 \description{
-Title
+Plots information contained within a \code{TLSWß} object.
 }
 \examples{
 # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
