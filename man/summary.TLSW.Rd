@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.TLSW.R
 \name{summary.TLSW}
 \alias{summary.TLSW}
-\title{Summary of output provided by the \code{TLSW.est} function}
+\title{Summary of Output Provided by the \code{TLSW.est} Function}
 \usage{
 \method{summary}{TLSW}(object, ...)
 }
