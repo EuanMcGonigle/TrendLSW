@@ -2,7 +2,7 @@
 % Please edit documentation in R/print.TLSW.R
 \name{print.TLSW}
 \alias{print.TLSW}
-\title{Prints an object of class \code{TLSW}}
+\title{Print an Object of Class \code{TLSW}}
 \usage{
 \method{print}{TLSW}(x, ...)
 }
