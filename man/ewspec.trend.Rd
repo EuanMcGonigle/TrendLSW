@@ -6,18 +6,18 @@
 \usage{
 ewspec.trend(
   x,
-  an.filter.number = 10,
-  an.family = "DaubLeAsymm",
+  an.filter.number = 4,
+  an.family = "DaubExPhase",
   gen.filter.number = an.filter.number,
   gen.family = an.family,
   binwidth = floor(2 * sqrt(length(x))),
   max.scale = floor(log2(length(x)) * 0.7),
   WP.smooth = TRUE,
+  smooth.type = c("mean", "median", "epanechnikov")[1],
   AutoReflect = TRUE,
   supply.inv.mat = FALSE,
   inv.mat = NULL,
-  boundary.handle = TRUE,
-  smooth.type = c("mean", "median")[1]
+  boundary.handle = TRUE
 )
 }
 \arguments{
@@ -49,6 +49,9 @@ and boundary effects.}
 \item{WP.smooth}{Argument that dictates if smoothing is performed on the raw
 wavelet periodogram.}
 
+\item{smooth.type}{String indicating which type of smoothing to use on wavelet periodogram.
+Can be \code{"mean"}, \code{"median"}, or \code{"epanechnikov"}.}
+
 \item{AutoReflect}{As in wavethresh. Decides whether or not the time series
 is reflected when computing the wavelet transform. Helps estimation at the
 boundaries.}
@@ -63,9 +66,6 @@ correction matrix used to correct the raw wavelet periodogram. Equal to \eqn{C^{
 boundary corrected, to get a more accurate spectrum estimate at the
 boundaries of the times series. If FALSE, no boundary correction is applied.
 Recommended to use TRUE.}
-
-\item{smooth.type}{String indicating which type of smoothing to use on wavelet periodogram.
-Can be \code{"mean"}, \code{"median"}, or \code{"epanechnikov"}.}
 }
 \value{
 A list object, containing the following fields:
