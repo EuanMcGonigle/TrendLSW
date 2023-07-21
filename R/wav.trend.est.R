@@ -64,9 +64,10 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
   # trend estimate. All non-boundary wavelet coefficients up to a specified scale
   # are set to zero.
 
-  x.check <- ewspec.checks(
-    x = x, max.scale = max.scale, lag = 1,
-    binwidth = 1, boundary.handle = boundary.handle
+  x.check <- trend.est.checks(
+    x = x, max.scale = max.scale, boundary.handle = boundary.handle,
+    transform.type = transform.type, calc.confint = calc.confint,
+    reps = 2, sig.lvl = sig.lvl, est.type = "linear"
   )
 
   x.len <- x.check$x.len
@@ -74,8 +75,6 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
   boundary.handle <- x.check$boundary.handle
   J <- x.check$J
   dyadic <- x.check$dyadic
-
-  trend.est.check(transform.type = transform.type, calc.confint = calc.confint)
 
   orig.x <- x
   if (boundary.handle == TRUE) {
