@@ -7,13 +7,6 @@
 #' @param x The time series you wish to analyse.
 #' @param do.spec.est Logical variable, indicating whether spectral estimation is to be performed on the time series.
 #' @param do.trend.est Logical variable, indicating whether trend estimation is to be performed on the time series.
-#' @param gen.filter.number The index number for the wavelet that generates the
-#' stochastic component of the time series. For the "DaubExPhase" family, the filter number can be between
-#' 1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to 10.
-#' @param gen.family The family of the generating wavelet. It is recommended to
-#' use either the Daubechies Extremal Phase family, or the Daubechies Least
-#' Asymmetric family, corresponding to the "DaubExPhase" or the "DaubLeAsymm"
-#' options.
 #' @param WP.filter.number The index number for the wavelet used for spectrum estimation.
 #' @param WP.family The family of the wavelet used for spectrum estimation.
 #' @param WP.smooth A logical variable to indicate whether smoothing is performed on the wavelet periodogram.
@@ -65,6 +58,14 @@
 #' @param T.thresh.normal Logical variable, used only if \code{T.est.type = "nonlinear"};
 #' if \code{TRUE}, uses a threshold assuming the data are normally
 #' distributed. If \code{FALSE}, uses a larger threshold to reflect non-normality.
+#' @param gen.filter.number The index number for the wavelet that generates the
+#' stochastic component of the time series. For the "DaubExPhase" family, the filter number can be between
+#' 1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to 10.
+#' Recommended to leave as the default, set to the same as \code{WP.filter.number}.
+#' @param gen.family The family of the generating wavelet. It is recommended to
+#' use either the Daubechies Extremal Phase family, or the Daubechies Least
+#' Asymmetric family, corresponding to the "DaubExPhase" or the "DaubLeAsymm"
+#' options. Recommended to leave as the default, set to the same as \code{WP.family}.
 #' @return An object of class \code{"TLSW"}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
@@ -92,8 +93,7 @@
 #' summary(x.TLSW)
 #'
 #' @export
-TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.number = 4,
-                     gen.family = "DaubExPhase", WP.filter.number = 4,
+TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE,  WP.filter.number = 4,
                      WP.family = "DaubExPhase", WP.smooth = TRUE,
                      WP.smooth.type = c("mean", "median", "epanechnikov")[1],
                      WP.binwidth = floor(2 * sqrt(length(x))),
@@ -104,7 +104,8 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE, gen.filter.numb
                      T.family = "DaubLeAsymm", T.transform = c("dec", "nondec")[1],
                      T.boundary.handle = TRUE, T.max.scale = floor(log2(length(x)) * 0.7),
                      T.confint = FALSE, T.sig.lvl = 0.05, T.lacf.max.lag = floor(10 * (log10(length(x)))),
-                     T.reps = 199, T.thresh.type = c("hard", "soft")[1], T.thresh.normal = TRUE) {
+                     T.reps = 199, T.thresh.type = c("hard", "soft")[1], T.thresh.normal = TRUE,
+                     gen.filter.number = WP.filter.number, gen.family = WP.family) {
   stopifnot("Both the do.spec.est and do.trend.est parameters have been set to FALSE,
             at least one should be TRUE." = do.spec.est == TRUE || do.trend.est == TRUE)
   if (is.null(WP.inv.mat)) {
