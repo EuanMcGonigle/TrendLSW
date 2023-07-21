@@ -118,7 +118,8 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
 #' @keywords internal
 #' @noRd
 trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.type = "soft",
-                             normal = TRUE, family = "DaubLeAsymm", max.scale = floor(log2(length(x)) * 0.7),
+                             normal = TRUE, transform.type = c("dec", "nondec")[2],
+                             family = "DaubLeAsymm", max.scale = floor(log2(length(x)) * 0.7),
                              boundary.handle = TRUE, reps = 199, sig.lvl = 0.05, ...) {
   trend.mat <- matrix(0, nrow = reps, ncol = length(x))
 
@@ -158,7 +159,8 @@ trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.t
 
     rep.trend <- suppressWarnings(wav.diff.trend.est(
       x = rep.x, spec.est = rep.spec, filter.number = filter.number,
-      family = family, max.scale = max.scale, boundary.handle = boundary.handle,
+      family = family, max.scale = max.scale, transform.type = transform.type,
+      boundary.handle = boundary.handle,
       thresh.type = thresh.type, normal = normal, calc.confint = FALSE
     ))
 
