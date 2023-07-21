@@ -85,3 +85,24 @@ test_that("max.scale isn't too large", {
     "max.scale parameter is outside valid range. Resetting to default value."
   )
 })
+
+test_that("ewspec.trend executes with mean smoothing", {
+  skip_on_cran()
+  x <- stats::rnorm(256)
+  x.s <- ewspec.trend(x, smooth.type = "median")
+  expect_equal(class(x.s), "list")
+})
+
+test_that("ewspec.trend executes with epanechnikov smoothing", {
+  skip_on_cran()
+  x <- stats::rnorm(256)
+  x.s <- ewspec.trend(x, smooth.type =  "epanechnikov")
+  expect_equal(class(x.s), "list")
+})
+
+test_that("ewspec.trend recognises smoothing", {
+  skip_on_cran()
+  x <- stats::rnorm(256)
+  expect_error(ewspec.trend(x, smooth.type =  "bartlett"),
+               "Smoothing type must be one of 'mean', 'median', or 'epanechnikov'.")
+})
