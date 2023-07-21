@@ -41,6 +41,8 @@
 #' time series. The default setting is \eqn{0.7J}, to control for bias.
 #' @param WP.smooth Argument that dictates if smoothing is performed on the raw
 #' wavelet periodogram.
+#' @param smooth.type String indicating which type of smoothing to use on wavelet periodogram.
+#' Can be \code{"mean"}, \code{"median"}, or \code{"epanechnikov"}.
 #' @param boundary.handle Logical variable, if TRUE, then boundary handling
 #' will be applied when computing the periodogram. Recommended to set as FALSE,
 #' will be set as TRUE automatically if non-dyadic data is used.
@@ -81,16 +83,18 @@
 #'
 #' quick.spec.plot(spec.est$S)
 #' @export
-ewspec.diff <- function(x, lag = 1, filter.number = 1, family = "DaubExPhase",
+ewspec.diff <- function(x, lag = 1, filter.number = 4, family = "DaubExPhase",
                         binwidth = floor(2 * sqrt(length(x))), diff.number = 1,
                         max.scale = floor(log2(length(x)) * 0.7), WP.smooth = TRUE,
+                        smooth.type = c("mean", "median", "epanechnikov")[1],
                         boundary.handle = FALSE, AutoReflect = FALSE,
                         supply.inv.mat = FALSE, inv.mat = NULL) {
   # function that computes the spectral estimate of a time series that has a trend.
 
   x.check <- ewspec.checks(
     x = x, max.scale = max.scale, lag = lag,
-    binwidth = binwidth, boundary.handle = boundary.handle
+    binwidth = binwidth, boundary.handle = boundary.handle,
+    WP.smooth = WP.smooth, smooth.type = smooth.type
   )
 
   x.len <- x.check$x.len
