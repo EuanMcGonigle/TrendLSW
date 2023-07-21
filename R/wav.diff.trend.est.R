@@ -53,7 +53,7 @@
 #' @return A \code{list} object containing the following fields:
 #' \item{x}{Input data}
 #' \item{filter.number, family}{Input wavelet parameters}
-#' \item{transform.type, max.scale, thresh.type, normal, boundary.handle, calc.confint}{Input parameters}
+#' \item{transform.type, max.scale, boundary.handle, thresh.type, normal,  calc.confint}{Input parameters}
 #' \item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
 #' \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
 #' \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
@@ -231,8 +231,8 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeA
     return(list(
       x = orig.x, filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
-      thresh.type = thresh.type, normal = normal,
-      boundary.handle = boundary.handle, calc.confint = calc.confint,
+      boundary.handle = boundary.handle, thresh.type = thresh.type,
+      normal = normal, calc.confint = calc.confint,
       trend.est = trend.est,
       lower.confint = trend.confint[1, ], upper.confint = trend.confint[2, ],
       reps = reps, sig.lvl = sig.lvl
@@ -241,9 +241,8 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeA
     return(list(
       x = orig.x, filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
-      thresh.type = thresh.type, normal = normal,
-      boundary.handle = boundary.handle, calc.confint = calc.confint,
-      trend.est = trend.est
+      boundary.handle = boundary.handle, thresh.type = thresh.type, normal = normal,
+      calc.confint = calc.confint, trend.est = trend.est
     ))
   }
 }

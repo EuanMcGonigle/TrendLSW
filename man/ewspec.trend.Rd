@@ -77,7 +77,7 @@ data. The EWS estimate (above) is the smoothed corrected version of the raw
 wavelet periodogram.}
 \item{SmoothWavPer}{ The smoothed, un-corrected raw
 wavelet periodogram of the input data. }
-\item{binwidth, max.scale, boundary.handle}{Input parameters}
+\item{max.scale, boundary.handle, WP.smooth, smooth.type, binwidth}{Input parameters}
 }
 \description{
 Computes the evolutionary wavelet spectrum (EWS) estimate from

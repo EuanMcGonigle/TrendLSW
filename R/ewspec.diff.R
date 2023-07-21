@@ -63,7 +63,7 @@
 #' wavelet periodogram.}
 #' \item{SmoothWavPer}{ The smoothed, un-corrected raw
 #' wavelet periodogram of the input data. }
-#' \item{binwidth, lag, diff.number, max.scale, boundary.handle}{Input parameters}
+#' \item{max.scale, boundary.handle, WP.smooth, smooth.type, binwidth, lag, diff.number}{Input parameters}
 #' @seealso \code{\link{ewspec}}, \code{\link{ewspec3}},
 #' \code{\link{ewspec.trend}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
@@ -185,12 +185,15 @@ ewspec.diff <- function(x, lag = 1, filter.number = 4, family = "DaubExPhase",
     filter.number = filter.number, family = family
   )
 
-  l$binwidth <- binwidth
+  l$max.scale <- max.scale
+  l$boundary.handle <- boundary.handle
+  l$WP.smooth <- WP.smooth
+  if (WP.smooth == TRUE) {
+    l$smooth.type <- smooth.type
+    l$binwidth <- binwidth
+  }
   l$lag <- lag
   l$diff.number <- diff.number
-  l$boundary.handle <- boundary.handle
-  l$max.scale <- max.scale
-  l$WP.smooth <- WP.smooth
 
   return(l)
 }

@@ -65,7 +65,7 @@
 #' wavelet periodogram.}
 #' \item{SmoothWavPer}{ The smoothed, un-corrected raw
 #' wavelet periodogram of the input data. }
-#' \item{binwidth, max.scale, boundary.handle}{Input parameters}
+#' \item{max.scale, boundary.handle, WP.smooth, smooth.type, binwidth}{Input parameters}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
@@ -185,13 +185,12 @@ ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
     filter.number = gen.filter.number, family = gen.family
   )
 
-  l$binwidth <- binwidth
-  l$boundary.handle <- boundary.handle
   l$max.scale <- max.scale
+  l$boundary.handle <- boundary.handle
   l$WP.smooth <- WP.smooth
   if (WP.smooth == TRUE) {
     l$smooth.type <- smooth.type
+    l$binwidth <- binwidth
   }
-
   return(l)
 }

@@ -127,7 +127,31 @@ Asymmetric family, corresponding to the "DaubExPhase" or the "DaubLeAsymm"
 options. Recommended to leave as the default, set to the same as \code{WP.family}.}
 }
 \value{
-An object of class \code{"TLSW"}
+An object of class \code{"TLSW"}, a list that contains the following components:
+   \item{x}{Input data}
+   \item{do.spec.est}{Input parmater, logical variable specifying if spectral estimation was performed.}
+   \item{spec.est}{A list object, returned if \code{do.spec.est = TRUE}. Contains relevant input parameters
+   and the following fields related to the spectrum estimate:
+\itemize{
+ \item{S}{: The evolutionary wavelet spectral estimate of the input data. This object is of
+class wd and so can be plotted and printed in the usual way using wavethresh
+functionality. }
+\item{WavPer}{: The raw wavelet periodogram of the input
+data. The EWS estimate (above) is the smoothed corrected version of the
+wavelet periodogram.}
+\item{SmoothWavPer}{: The smoothed, un-corrected raw
+wavelet periodogram of the input data. }
+}
+}
+   \item{do.trend.est}{Input parmater, logical variable specifying if trend estimation was performed.}
+   \item{trend.est}{A list object, returned if \code{do.trend.est = TRUE}. Contains relevant input parameters
+   and the following fields related to the trend estimate:
+   \itemize{
+\item{trend.est}{: A vector of length \code{length(x)} containing the trend estimate.}
+\item{lower.confint}{: Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval.}
+\item{upper.confint}{: Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval.}
+\item{T.est.type}{: Type of trend estimator computed, either 'lienar' or 'nonlinear'.}
+   }}
 }
 \description{
 Using wavelet-based methods, estimates the trend and evolutionary
