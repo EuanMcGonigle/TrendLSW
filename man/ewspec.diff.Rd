@@ -8,12 +8,13 @@ Series via Differencing}
 ewspec.diff(
   x,
   lag = 1,
-  filter.number = 1,
+  filter.number = 4,
   family = "DaubExPhase",
   binwidth = floor(2 * sqrt(length(x))),
   diff.number = 1,
   max.scale = floor(log2(length(x)) * 0.7),
   WP.smooth = TRUE,
+  smooth.type = c("mean", "median", "epanechnikov")[1],
   boundary.handle = FALSE,
   AutoReflect = FALSE,
   supply.inv.mat = FALSE,
@@ -47,6 +48,9 @@ time series. The default setting is \eqn{0.7J}, to control for bias.}
 
 \item{WP.smooth}{Argument that dictates if smoothing is performed on the raw
 wavelet periodogram.}
+
+\item{smooth.type}{String indicating which type of smoothing to use on wavelet periodogram.
+Can be \code{"mean"}, \code{"median"}, or \code{"epanechnikov"}.}
 
 \item{boundary.handle}{Logical variable, if TRUE, then boundary handling
 will be applied when computing the periodogram. Recommended to set as FALSE,
