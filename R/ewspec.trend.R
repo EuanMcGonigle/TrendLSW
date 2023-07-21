@@ -92,12 +92,13 @@
 #'
 #' quick.spec.plot(spec.est$S)
 #' @export
-ewspec.trend <- function(x, an.filter.number = 10, an.family = "DaubLeAsymm",
+ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
                          gen.filter.number = an.filter.number, gen.family = an.family,
                          binwidth = floor(2 * sqrt(length(x))),
                          max.scale = floor(log2(length(x)) * 0.7), WP.smooth = TRUE,
+                         smooth.type = c("mean", "median", "epanechnikov")[1],
                          AutoReflect = TRUE, supply.inv.mat = FALSE, inv.mat = NULL,
-                         boundary.handle = TRUE, smooth.type = c("mean", "median")[1]) {
+                         boundary.handle = TRUE) {
   # function that computes the spectral estimate of a time series that has a smooth trend
   # that can be zeroed out by the wavelet coefficients.
 
@@ -106,7 +107,8 @@ ewspec.trend <- function(x, an.filter.number = 10, an.family = "DaubLeAsymm",
 
   x.check <- ewspec.checks(
     x = x, max.scale = max.scale, lag = 1,
-    binwidth = binwidth, boundary.handle = boundary.handle
+    binwidth = binwidth, boundary.handle = boundary.handle,
+    WP.smooth = WP.smooth, smooth.type = smooth.type
   )
 
   x.len <- x.check$x.len
@@ -138,16 +140,28 @@ ewspec.trend <- function(x, an.filter.number = 10, an.family = "DaubLeAsymm",
   }
   # calculate raw wavelet periodogram which we need to correct:
 
-  if (smooth.type == "median") {
-    WP.smooth <- FALSE
+  if (smooth.type == "median" || smooth.type == "epanechnikov") {
+    x.wd <- locits::ewspec3(x,
+                            filter.number = an.filter.number, family = an.family,
+                            binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = FALSE
+    )
+  } else{
+    x.wd <- locits::ewspec3(x,
+                            filter.number = an.filter.number, family = an.family,
+                            binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = WP.smooth
+    )
   }
-  x.wd <- locits::ewspec3(x,
-    filter.number = an.filter.number, family = an.family,
-    binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = WP.smooth
-  )
+
   if (smooth.type == "median") {
     for (j in 1:max.scale) {
-      x.wd$SmoothWavPer <- wavethresh::putD(x.wd$SmoothWavPer, level = J - j, 2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J - j), k = binwidth))
+      x.wd$SmoothWavPer <- suppressWarnings(wavethresh::putD(x.wd$SmoothWavPer, level = J - j,
+                                                             2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J - j), k = binwidth)))
+    }
+  }
+  if (smooth.type == "epanechnikov") {
+    for (j in 1:max.scale) {
+      x.wd$SmoothWavPer <- suppressWarnings(wavethresh::putD(x.wd$SmoothWavPer, level = J - j,
+                                                             2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J - j), k = binwidth)))
     }
   }
 
