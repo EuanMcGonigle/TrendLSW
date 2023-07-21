@@ -436,3 +436,25 @@ trend.est.checks <- function(x, max.scale, boundary.handle, transform.type,
     J = J, dyadic = dyadic
   ))
 }
+
+#' @title Epanechnikov Kernel
+#' @description Internal function for Epanechnikov smoothing
+#' @keywords internal
+#' @noRd
+epan.kern.f <- function(tt)	{
+  sqrt(2)*(1- (tt^2)/5)
+}
+
+#' @title Epanechnikov Kernel Calculation
+#' @description Internal function for calculating Epanechnikov kernel filter
+#' @keywords internal
+#' @noRd
+epanechnikov <- function(epan.len){
+
+  mytt <- seq(from = -sqrt(5), to = sqrt(5), length = epan.len)
+
+  sf <- sum(epan.kern.f(mytt))
+
+  return(epan.kern.f(mytt)/sf)
+
+}

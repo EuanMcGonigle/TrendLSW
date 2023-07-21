@@ -86,7 +86,7 @@ test_that("max.scale isn't too large", {
   )
 })
 
-test_that("ewspec.trend executes with mean smoothing", {
+test_that("ewspec.trend executes with median smoothing", {
   skip_on_cran()
   x <- stats::rnorm(256)
   x.s <- ewspec.trend(x, smooth.type = "median")

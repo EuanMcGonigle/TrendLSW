@@ -81,3 +81,24 @@ test_that("lag is positive", {
     "The lag parameter should be a positive integer."
   )
 })
+
+test_that("ewspec.diff executes with median smoothing", {
+  skip_on_cran()
+  x <- stats::rnorm(256)
+  x.s <- ewspec.diff(x, smooth.type = "median")
+  expect_equal(class(x.s), "list")
+})
+
+test_that("ewspec.diff executes with epanechnikov smoothing", {
+  skip_on_cran()
+  x <- stats::rnorm(256)
+  x.s <- ewspec.diff(x, smooth.type =  "epanechnikov")
+  expect_equal(class(x.s), "list")
+})
+
+test_that("ewspec.diff recognises smoothing", {
+  skip_on_cran()
+  x <- stats::rnorm(256)
+  expect_error(ewspec.diff(x, smooth.type =  "bartlett"),
+               "Smoothing type must be one of 'mean', 'median', or 'epanechnikov'.")
+})

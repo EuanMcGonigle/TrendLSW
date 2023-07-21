@@ -159,9 +159,14 @@ ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
     }
   }
   if (smooth.type == "epanechnikov") {
+    epan.filter <- epanechnikov(binwidth)
     for (j in 1:max.scale) {
-      x.wd$SmoothWavPer <- suppressWarnings(wavethresh::putD(x.wd$SmoothWavPer, level = J - j,
-                                                             2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J - j), k = binwidth)))
+      temp.dj <- wavethresh::accessD(x.wd$WavPer, level = J - j)
+      temp.dj <- c(rev(temp.dj[1:(floor((binwidth-1)/2))]),temp.dj, rev(temp.dj[(length(temp.dj)-floor(binwidth/2)+1):length(temp.dj)]))
+
+      temp <- stats::filter(temp.dj, epan.filter)
+      temp <- temp[!is.na(temp)]
+      x.wd$SmoothWavPer <- wavethresh::putD(x.wd$SmoothWavPer, level = J - j, temp)
     }
   }
 
