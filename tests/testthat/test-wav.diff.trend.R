@@ -24,6 +24,23 @@ test_that("wav.diff.trend.est executes with non-dyadic data", {
   )
 })
 
+test_that("wav.diff.trend.est executes with soft thresholding", {
+  skip_on_cran()
+  x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
+  x.s <- ewspec.diff(x)
+  x.t <- wav.diff.trend.est(x, x.s, thresh.type = "soft")
+  expect_equal(class(x.t), "list")
+})
+
+test_that("wav.diff.trend.est executes with soft thresholding and boundary handling", {
+  skip_on_cran()
+  x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
+  x.s <- ewspec.diff(x)
+  x.t <- wav.diff.trend.est(x, x.s, thresh.type = "soft", boundary.handle = TRUE)
+  expect_equal(class(x.t), "list")
+})
+
+
 test_that("wav.diff.trend.est executes with hard thresholding", {
   skip_on_cran()
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
@@ -66,3 +83,18 @@ test_that("wav.diff.trend.est executes with non-dyadic data and calc.confint = T
     "Data length is not power of two. Boundary correction has been applied."
   )
 })
+
+test_that("reps recognised as numeric", {
+  expect_error(
+    wav.diff.trend.est(stats::rnorm(64), reps = "2"),
+    "Number of bootstrap replications should be a single positive integer."
+  )
+})
+
+test_that("reps recognised as integer", {
+  expect_error(
+    wav.diff.trend.est(stats::rnorm(64), reps = 0.6),
+    "Number of bootstrap replications should be a single positive integer."
+  )
+})
+
