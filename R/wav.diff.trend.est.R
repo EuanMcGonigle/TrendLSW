@@ -163,6 +163,9 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeA
       } else {
         thresh <- sqrt(bc.var.mat[j, ]) * log(x.len)
       }
+      if(transform.type == "dec") {
+        thresh <- thresh[(1:(x.len/(2^j)))*2^j-2^j+1]
+      }
 
       temp1 <- dj
 
