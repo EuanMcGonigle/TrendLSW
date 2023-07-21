@@ -89,9 +89,10 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeA
                                max.scale = floor(0.7 * log2(length(x))),
                                boundary.handle = FALSE, calc.confint = FALSE,
                                reps = 199, sig.lvl = 0.05, ...) {
-  x.check <- ewspec.checks(
-    x = x, max.scale = max.scale, lag = 1,
-    binwidth = 1, boundary.handle = boundary.handle
+  x.check <- trend.est.checks(
+    x = x, max.scale = max.scale, boundary.handle = boundary.handle,
+    transform.type = transform.type, calc.confint = calc.confint,
+    reps = reps, sig.lvl = sig.lvl, est.type = "nonlinear"
   )
 
   x.len <- x.check$x.len
