@@ -176,7 +176,7 @@ trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.t
 #' @description Internal function for error checking for spectral estimation
 #' @keywords internal
 #' @noRd
-ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle) {
+ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle, WP.smooth, smooth.type) {
   if (any(is.na(x))) {
     stop("Data contains mising values.")
   }
@@ -184,6 +184,9 @@ ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle) {
     stop("Data is not numeric")
   }
   stopifnot("Parameter boundary.handle must be logical variable" = is.logical(boundary.handle))
+  stopifnot("Parameter WP.smooth must be logical variable" = is.logical(WP.smooth))
+  stopifnot("Smoothing type must be one of 'mean', 'median', or 'epanechnikov'." = smooth.type == "mean" ||
+              smooth.type == "median" || smooth.type == "epanechnikov")
 
   x.len <- length(x)
 
@@ -221,6 +224,8 @@ ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle) {
     J = J, dyadic = dyadic
   ))
 }
+
+
 
 
 #' @title Calculate Boundary Handled Spectrum
@@ -370,16 +375,64 @@ replace.neg.values <- function(var.mat, max.scale) {
 
 
 #' @title Trend Estimation Error Checks
-#' @description Internal function for checking wav.trend.est
+#' @description Internal function for checking wav.trend.est and wav.diff.trend.est
 #' @keywords internal
 #' @noRd
-trend.est.check <- function(transform.type, calc.confint) {
+trend.est.checks <- function(x, max.scale, boundary.handle, transform.type,
+                            calc.confint, reps, sig.lvl, est.type) {
   stopifnot(
     "Parameter transform.type must be either 'dec' or 'nondec'" =
       transform.type == "dec" || transform.type == "nondec"
   )
   stopifnot("Parameter calc.confint must be logical variable" = is.logical(calc.confint))
+  stopifnot("Parameter boundary.handle must be logical variable" = is.logical(boundary.handle))
 
-  stopifnot("Only transform.type = 'dec' is supported for calculating confidence
+  if(est.type == "linear"){
+    stopifnot("Only transform.type = 'dec' is supported for calculating confidence
             intervals" = transform.type == "dec" || calc.confint == FALSE)
+  }
+
+
+  if (any(is.na(x))) {
+    stop("Data contains mising values.")
+  }
+  if (!is.numeric(x)) {
+    stop("Data is not numeric")
+  }
+
+  if (!is.numeric(reps)) {
+    stop("Number of bootstrap replications should be a single positive integer.")
+  }
+  if ((length(reps) != 1) || (reps %% 1 != 0) || (reps < 1)) {
+    stop("Number of bootstrap replications should be a single positive integer.")
+  }
+  stopifnot("Error: sig.lvl must be a number between 0 and 1." = sig.lvl >= 0 && sig.lvl <= 1)
+
+
+  x.len <- length(x)
+
+  if (max.scale %% 1 != 0) {
+    stop("max.scale parameter must be an integer.")
+  }
+  if (max.scale < 1 || max.scale > floor(log2(x.len))) {
+    warning("max.scale parameter is outside valid range. Resetting to default value.")
+    max.scale <- floor(log2(x.len) * 0.7)
+  }
+
+  J <- wavethresh::IsPowerOfTwo(x.len)
+
+  if (is.na(J) == TRUE) {
+    warning("Data length is not power of two. Boundary correction has been applied.")
+    boundary.handle <- TRUE
+    dyadic <- FALSE
+    J <- floor(log2(x.len)) + 1
+  } else {
+    dyadic <- TRUE
+  }
+
+
+  return(list(
+    x.len = x.len, max.scale = max.scale, boundary.handle = boundary.handle,
+    J = J, dyadic = dyadic
+  ))
 }
