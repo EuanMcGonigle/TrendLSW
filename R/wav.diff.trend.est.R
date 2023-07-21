@@ -181,7 +181,11 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeA
 
     # invert the thresholded object to get trend estimate:
 
-    trend.est <- wavethresh::AvBasis(wavethresh::convert(x.wd.thresh))
+    if (transform.type == "dec") {
+      trend.est <- wavethresh::wr(x.wd.thresh)
+    } else if (transform.type == "nondec") {
+      trend.est <- wavethresh::AvBasis(wavethresh::convert(x.wd.thresh))
+    }
 
     if (boundary.handle == TRUE) {
       if (dyadic == TRUE) {
@@ -227,8 +231,8 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeA
     trend.confint <- trend.estCI.diff(
       x = orig.x, trend.est = trend.est, spec.est = spec.est,
       filter.number = filter.number, thresh.type = thresh.type,
-      normal = normal, boundary.handle = boundary.handle,
-      family = family, max.scale = max.scale,
+      normal = normal, transform.type = transform.type,
+      boundary.handle = boundary.handle, family = family, max.scale = max.scale,
       reps = reps, sig.lvl = sig.lvl, ...
     )
     return(list(
