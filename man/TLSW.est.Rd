@@ -8,8 +8,6 @@ TLSW.est(
   x,
   do.spec.est = TRUE,
   do.trend.est = TRUE,
-  gen.filter.number = 4,
-  gen.family = "DaubExPhase",
   WP.filter.number = 4,
   WP.family = "DaubExPhase",
   WP.smooth = TRUE,
@@ -32,7 +30,9 @@ TLSW.est(
   T.lacf.max.lag = floor(10 * (log10(length(x)))),
   T.reps = 199,
   T.thresh.type = c("hard", "soft")[1],
-  T.thresh.normal = TRUE
+  T.thresh.normal = TRUE,
+  gen.filter.number = WP.filter.number,
+  gen.family = WP.family
 )
 }
 \arguments{
@@ -41,15 +41,6 @@ TLSW.est(
 \item{do.spec.est}{Logical variable, indicating whether spectral estimation is to be performed on the time series.}
 
 \item{do.trend.est}{Logical variable, indicating whether trend estimation is to be performed on the time series.}
-
-\item{gen.filter.number}{The index number for the wavelet that generates the
-stochastic component of the time series. For the "DaubExPhase" family, the filter number can be between
-1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to 10.}
-
-\item{gen.family}{The family of the generating wavelet. It is recommended to
-use either the Daubechies Extremal Phase family, or the Daubechies Least
-Asymmetric family, corresponding to the "DaubExPhase" or the "DaubLeAsymm"
-options.}
 
 \item{WP.filter.number}{The index number for the wavelet used for spectrum estimation.}
 
@@ -124,6 +115,16 @@ thresholding function used in the trend estimation. Currently only
 \item{T.thresh.normal}{Logical variable, used only if \code{T.est.type = "nonlinear"};
 if \code{TRUE}, uses a threshold assuming the data are normally
 distributed. If \code{FALSE}, uses a larger threshold to reflect non-normality.}
+
+\item{gen.filter.number}{The index number for the wavelet that generates the
+stochastic component of the time series. For the "DaubExPhase" family, the filter number can be between
+1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to 10.
+Recommended to leave as the default, set to the same as \code{WP.filter.number}.}
+
+\item{gen.family}{The family of the generating wavelet. It is recommended to
+use either the Daubechies Extremal Phase family, or the Daubechies Least
+Asymmetric family, corresponding to the "DaubExPhase" or the "DaubLeAsymm"
+options. Recommended to leave as the default, set to the same as \code{WP.family}.}
 }
 \value{
 An object of class \code{"TLSW"}
