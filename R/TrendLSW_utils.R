@@ -476,7 +476,7 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
     stop("wd has no class")
   else if (ctmp != "wd")
     stop("wd is not of class wd")
-  levels <- nlevelsWT(x)
+  levels <- wavethresh::nlevelsWT(x)
   nlevels <- levels - first.level
   type <- x$type
 
@@ -525,27 +525,27 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
   if (scaling == "global") {
     my <- 0
     for (i in ((levels - 1):first.level)) {
-      y <- accessD(x, i, aspect = aspect)
+      y <- wavethresh::accessD(x, i, aspect = aspect)
       my <- max(c(my, abs(y)))
     }
   }
   if (scaling == "compensated") {
     my <- 0
     for (i in ((levels - 1):first.level)) {
-      y <- accessD(x, i, aspect = aspect) * 2^(i/2)
+      y <- wavethresh::accessD(x, i, aspect = aspect) * 2^(i/2)
       my <- max(c(my, abs(y)))
     }
   }
   if (scaling == "super") {
     my <- 0
     for (i in ((levels - 1):first.level)) {
-      y <- accessD(x, i, aspect = aspect) * 2^i
+      y <- wavethresh::accessD(x, i, aspect = aspect) * 2^i
       my <- max(c(my, abs(y)))
     }
   }
   shift <- 1
   for (i in ((levels - 1):first.level)) {
-    y <- accessD(x, i, aspect = aspect)
+    y <- wavethresh::accessD(x, i, aspect = aspect)
     if (type == "wavelet")
       n <- 2^i
     else {
