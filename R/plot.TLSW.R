@@ -35,14 +35,27 @@
 #'
 #'plot(x.TLSW)
 plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1], ...) {
+
   if (x$do.trend.est == FALSE) {
     plot.type <- "spec"
   } else if (x$do.spec.est == FALSE) {
     plot.type <- "trend"
   }
 
-  if( plot.type == "both") {
-    par(mfrow = c(1,2))
+  old.par <- par(no.readonly = TRUE)
+
+  if(plot.type == "both") {
+    par(mfrow = c(1,2), mar = c(4, 4, 2, 1) + 0.1)
+    trend.main <- ""
+    spec.main <- ""
+  } else if(plot.type == "trend"){
+    par(mfrow = c(1,1),mar = c(4, 4, 2, 1) + 0.1)
+    trend.main <- "Trend Estimate"
+  } else if(plot.type == "spec"){
+    par(mfrow = c(1,1),mar = c(4, 4, 2, 1) + 0.1)
+    spec.main <- "Spectral Estimate"
+  } else{
+    stop("Paramter plot.type not recognised. Can be one of 'both', 'trend,', or 'spec'.")
   }
 
   if (plot.type == "trend" || plot.type == "both") {
@@ -50,16 +63,18 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1], ...) {
     if(x$trend$calc.confint == FALSE){
       y.min <- min(x$x, x$trend$trend.est)
       y.max <- max(x$x, x$trend$trend.est)
-      plot(x$x, type = "l", xlab = "Time", ylab = expression(X[t]), ylim = c(y.min,y.max))
+      plot(x$x, type = "l", xlab = "Time", ylab = expression(X[t]),
+           ylim = c(y.min,y.max), main = trend.main, col = "grey60")
       lines(x$trend$trend.est, col = 2, lwd = 2)
 
     } else {
       y.min <- min(x$x, x$trend$trend.est, x$trend.est$lower.confint)
       y.max <- max(x$x, x$trend$trend.est, x$trend.est$upper.confint)
       time.index <- 1:length(x$x)
-      plot(x$x, type = "l", xlab = "Time", ylab = expression(X[t]), ylim = c(y.min,y.max))
+      plot(x$x, type = "l", xlab = "Time", ylab = expression(X[t]),
+           ylim = c(y.min,y.max), main = trend.main, col = "grey60")
       polygon(c(time.index,rev(time.index)), c(x$trend.est$lower.confint, rev(x$trend.est$upper.confint)),
-      col = 'grey85', border = NA)
+      col = "#0000FF33", border = NA)
       lines(x$trend.est$lower.confint, col="blue",lty=2)
       lines(x$trend.est$upper.confint, col="blue",lty=2)
       lines(x$trend$trend.est, col = 2, lwd = 2)
@@ -72,11 +87,15 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1], ...) {
     max.plot.scale <- wavethresh::nlevelsWT(x$spec.est$S)
 
     wavethresh::plot.wd(x$spec.est$S, ylabchars = (1:max.plot.scale),
-                        xlab = "Time", ylab = "Scale", main = "", sub = "", ...)
+                        xlab = "Time", ylab = "Scale", main = spec.main ,
+                        sub = "", ...)
   }
 
+  if(plot.type == "both"){
+    title(substitute(paste(bold("Trend and Spectral Estimate"))),
+          line = -1, outer = TRUE)
+  }
 
-
-
+  suppressWarnings(par(old.par))
 
 }
