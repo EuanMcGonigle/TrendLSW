@@ -6,9 +6,9 @@
 #' @param x A \code{TLSW} object
 #' @param plot.type A string object indicating what is to be plotted. Can be "trend", in which case
 #' the trend estimate (and associated confidence intervals if calculated) are plotted, or "spec",
+#' @param trend.plot.args A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.
+#' @param spec.plot.args A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.
 #' in which case the spectral estimate is plotted, or "both", in which case both estimates are plotted.
-#' @param ... Additional plotting arguments used for the spectrum plotting.
-#'
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
@@ -18,7 +18,7 @@
 #' Analysis}, 43(6), 895-917.
 #' @export
 #'
-#' @importFrom graphics lines par polygon
+#' @importFrom graphics lines par polygon axis segments title
 #' @examples
 #' # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
 #'
@@ -34,7 +34,8 @@
 #' x.TLSW <- TLSW.est(x)
 #'
 #'plot(x.TLSW)
-plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1], ...) {
+plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
+                      trend.plot.args, spec.plot.args){
 
   if (x$do.trend.est == FALSE) {
     plot.type <- "spec"
@@ -45,50 +46,164 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1], ...) {
   old.par <- par(no.readonly = TRUE)
 
   if(plot.type == "both") {
-    par(mfrow = c(1,2), mar = c(4, 4, 2, 1) + 0.1)
-    trend.main <- ""
-    spec.main <- ""
-  } else if(plot.type == "trend"){
-    par(mfrow = c(1,1),mar = c(4, 4, 2, 1) + 0.1)
-    trend.main <- "Trend Estimate"
-  } else if(plot.type == "spec"){
-    par(mfrow = c(1,1),mar = c(4, 4, 2, 1) + 0.1)
-    spec.main <- "Spectral Estimate"
-  } else{
-    stop("Paramter plot.type not recognised. Can be one of 'both', 'trend,', or 'spec'.")
-  }
 
-  if (plot.type == "trend" || plot.type == "both") {
+    max.plot.scale <- wavethresh::nlevelsWT(x$spec.est$S)
 
     if(x$trend$calc.confint == FALSE){
       y.min <- min(x$x, x$trend$trend.est)
       y.max <- max(x$x, x$trend$trend.est)
-      plot(x$x, type = "l", xlab = "Time", ylab = expression(X[t]),
-           ylim = c(y.min,y.max), main = trend.main, col = "grey60")
-      lines(x$trend$trend.est, col = 2, lwd = 2)
-
     } else {
       y.min <- min(x$x, x$trend$trend.est, x$trend.est$lower.confint)
       y.max <- max(x$x, x$trend$trend.est, x$trend.est$upper.confint)
-      time.index <- 1:length(x$x)
-      plot(x$x, type = "l", xlab = "Time", ylab = expression(X[t]),
-           ylim = c(y.min,y.max), main = trend.main, col = "grey60")
+    }
+
+    par(mfrow = c(1,2), mar = c(4, 4, 2, 1) + 0.1)
+
+    if(missing(trend.plot.args)){
+      trend.plot.args <- list(type = "l", xlab = "Time",
+                              ylab = expression(X[t]),
+                              ylim = c(y.min, y.max),
+                              main = "", col = "grey60")
+    } else{
+      if(!("type" %in% names(trend.plot.args))){
+        trend.plot.args$type <- "l"
+      }
+      if(!("xlab" %in% names(trend.plot.args))){
+        trend.plot.args$xlab <- "Time"
+      }
+      if(!("ylab" %in% names(trend.plot.args))){
+        trend.plot.args$ylab <- expression(X[t])
+      }
+      if(!("ylim" %in% names(trend.plot.args))){
+        trend.plot.args$ylim <- c(y.min, y.max)
+      }
+      if(!("main" %in% names(trend.plot.args))){
+        trend.plot.args$main <- ""
+      }
+      if(!("col" %in% names(trend.plot.args))){
+        trend.plot.args$col <- "grey60"
+      }
+    }
+    if(missing(spec.plot.args)){
+      spec.plot.args <- list(ylabchars = (1:max.plot.scale),
+                              xlab = "Time", ylab = "Scale", main = "",
+                              sub = "")
+    } else{
+      if(!("ylabchars" %in% names(spec.plot.args))){
+        spec.plot.args$ylabchars <- (1:max.plot.scale)
+      }
+      if(!("xlab" %in% names(spec.plot.args))){
+        spec.plot.args$xlab <- "Time"
+      }
+      if(!("ylab" %in% names(spec.plot.args))){
+        spec.plot.args$ylab <- "Scale"
+      }
+      if(!("sub" %in% names(spec.plot.args))){
+        spec.plot.args$sub <- ""
+      }
+      if(!("main" %in% names(spec.plot.args))){
+        spec.plot.args$main <- ""
+      }
+    }
+
+  } else if(plot.type == "trend"){
+
+    if(x$trend$calc.confint == FALSE){
+      y.min <- min(x$x, x$trend$trend.est)
+      y.max <- max(x$x, x$trend$trend.est)
+    } else {
+      y.min <- min(x$x, x$trend$trend.est, x$trend.est$lower.confint)
+      y.max <- max(x$x, x$trend$trend.est, x$trend.est$upper.confint)
+    }
+
+    par(mfrow = c(1,1), mar = c(4, 4, 2, 1) + 0.1)
+
+    if(missing(trend.plot.args)){
+      trend.plot.args <- list(type = "l", xlab = "Time",
+                              ylab = expression(X[t]),
+                              ylim = c(y.min, y.max),
+                              main = "Trend Estimate", col = "grey60")
+    } else{
+      if(!("type" %in% names(trend.plot.args))){
+        trend.plot.args$type <- "l"
+      }
+      if(!("xlab" %in% names(trend.plot.args))){
+        trend.plot.args$xlab <- "Time"
+      }
+      if(!("ylab" %in% names(trend.plot.args))){
+        trend.plot.args$ylab <- expression(X[t])
+      }
+      if(!("ylim" %in% names(trend.plot.args))){
+        trend.plot.args$ylim <- c(y.min, y.max)
+      }
+      if(!("main" %in% names(trend.plot.args))){
+        trend.plot.args$main <- "Trend Estimate"
+      }
+      if(!("col" %in% names(trend.plot.args))){
+        trend.plot.args$col <- "grey60"
+      }
+    }
+
+  } else if(plot.type == "spec"){
+
+    max.plot.scale <- wavethresh::nlevelsWT(x$spec.est$S)
+
+    par(mfrow = c(1,1),mar = c(4, 4, 2, 1) + 0.1)
+
+    if(missing(spec.plot.args)){
+      spec.plot.args <- list(ylabchars = (1:max.plot.scale),
+                              xlab = "Time", ylab = "Scale", main = "Spectral Estimate",
+                              sub = "")
+    } else{
+        if(!("ylabchars" %in% names(spec.plot.args))){
+          spec.plot.args$ylabchars <- (1:max.plot.scale)
+        }
+        if(!("xlab" %in% names(spec.plot.args))){
+          spec.plot.args$xlab <- "Time"
+        }
+        if(!("ylab" %in% names(spec.plot.args))){
+          spec.plot.args$ylab <- "Scale"
+        }
+        if(!("sub" %in% names(spec.plot.args))){
+          spec.plot.args$sub <- ""
+        }
+        if(!("main" %in% names(spec.plot.args))){
+          spec.plot.args$main <- "Spectral Estimate"
+        }
+    }
+  } else{
+    stop("Parameter plot.type not recognised. Can be one of 'both', 'trend,', or 'spec'.")
+  }
+
+  if (plot.type == "trend" || plot.type == "both") {
+    time.index <- 1:length(x$x)
+    do.call(plot, c(x$x ~ time.index, trend.plot.args))
+   # plot(x$x, type = "l", xlab = "Time", ylab = expression(X[t]),
+         #ylim = c(y.min,y.max), main = "", col = "grey60")
+    lines(x$trend$trend.est, col = 2, lwd = 2)
+
+    if(x$trend$calc.confint == TRUE){
+
+
       polygon(c(time.index,rev(time.index)), c(x$trend.est$lower.confint, rev(x$trend.est$upper.confint)),
-      col = "#0000FF33", border = NA)
+              col = "#0000FF33", border = NA)
       lines(x$trend.est$lower.confint, col="blue",lty=2)
       lines(x$trend.est$upper.confint, col="blue",lty=2)
-      lines(x$trend$trend.est, col = 2, lwd = 2)
+
     }
 
 
   }
 
   if (plot.type == "spec" || plot.type == "both") {
-    max.plot.scale <- wavethresh::nlevelsWT(x$spec.est$S)
 
-    spec.plot(x$spec.est$S, ylabchars = (1:max.plot.scale), n = length(x$x),
-                        xlab = "Time", ylab = "Scale", main = spec.main,
-                        sub = "", ...)
+    spec.plot.args$n <- length(x$x)
+    spec.plot.args$x <- x$spec.est$S
+    do.call(spec.plot, spec.plot.args)
+
+    #spec.plot(x$spec.est$S, ylabchars = (1:max.plot.scale), n = length(x$x),
+     #                   xlab = "Time", ylab = "Scale", main = "",
+      #                  sub = "")
   }
 
   if(plot.type == "both"){
