@@ -8,6 +8,7 @@
 #' the trend estimate (and associated confidence intervals if calculated) are plotted, or "spec",
 #' @param trend.plot.args A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.
 #' @param spec.plot.args A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.
+#' @param ... Any additional arguments that will be applied to both the trend and spectrum plotting.
 #' in which case the spectral estimate is plotted, or "both", in which case both estimates are plotted.
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
@@ -35,7 +36,7 @@
 #'
 #'plot(x.TLSW)
 plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
-                      trend.plot.args, spec.plot.args){
+                      trend.plot.args, spec.plot.args, ...){
 
   if (x$do.trend.est == FALSE) {
     plot.type <- "spec"
@@ -44,6 +45,8 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
   }
 
   old.par <- par(no.readonly = TRUE)
+
+  both.args <- list(...)
 
   if(plot.type == "both") {
 
@@ -177,6 +180,15 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
 
   if (plot.type == "trend" || plot.type == "both") {
     time.index <- 1:length(x$x)
+
+    trend.plot.args.replace <- both.args[names(both.args) %in% names(trend.plot.args)]
+
+    trend.plot.args[names(trend.plot.args.replace)] <- trend.plot.args.replace
+
+    trend.plot.args.add <- both.args[ !names(both.args) %in% names(trend.plot.args) ]
+
+    trend.plot.args <- as.list(c(trend.plot.args, trend.plot.args.add))
+
     do.call(plot, c(x$x ~ time.index, trend.plot.args))
    # plot(x$x, type = "l", xlab = "Time", ylab = expression(X[t]),
          #ylim = c(y.min,y.max), main = "", col = "grey60")
@@ -199,6 +211,15 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
 
     spec.plot.args$n <- length(x$x)
     spec.plot.args$x <- x$spec.est$S
+
+    spec.plot.args.replace <- both.args[names(both.args) %in% names(spec.plot.args)]
+
+    spec.plot.args[names(spec.plot.args.replace)] <- spec.plot.args.replace
+
+    spec.plot.args.add <- both.args[ !names(both.args) %in% names(spec.plot.args) ]
+
+    spec.plot.args <- as.list(c(spec.plot.args, spec.plot.args.add))
+
     do.call(spec.plot, spec.plot.args)
 
     #spec.plot(x$spec.est$S, ylabchars = (1:max.plot.scale), n = length(x$x),
