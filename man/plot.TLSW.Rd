@@ -8,7 +8,8 @@
   x,
   plot.type = c("both", "trend", "spec")[1],
   trend.plot.args,
-  spec.plot.args
+  spec.plot.args,
+  ...
 )
 }
 \arguments{
@@ -19,7 +20,9 @@ the trend estimate (and associated confidence intervals if calculated) are plott
 
 \item{trend.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.}
 
-\item{spec.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.
+\item{spec.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.}
+
+\item{...}{Any additional arguments that will be applied to both the trend and spectrum plotting.
 in which case the spectral estimate is plotted, or "both", in which case both estimates are plotted.}
 }
 \description{
