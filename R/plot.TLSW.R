@@ -86,8 +86,8 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1], ...) {
   if (plot.type == "spec" || plot.type == "both") {
     max.plot.scale <- wavethresh::nlevelsWT(x$spec.est$S)
 
-    wavethresh::plot.wd(x$spec.est$S, ylabchars = (1:max.plot.scale),
-                        xlab = "Time", ylab = "Scale", main = spec.main ,
+    spec.plot(x$spec.est$S, ylabchars = (1:max.plot.scale), n = length(x$x),
+                        xlab = "Time", ylab = "Scale", main = spec.main,
                         sub = "", ...)
   }
 
