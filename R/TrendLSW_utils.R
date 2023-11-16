@@ -472,11 +472,15 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
                        ylab = "Scale", aspect = "Identity", ...)
 {
   ctmp <- class(x)
-  if (is.null(ctmp))
+  if (is.null(ctmp)){
     stop("wd has no class")
-  else if (ctmp != "wd")
+  } else if (ctmp != "wd"){
     stop("wd is not of class wd")
+  }
+
   levels <- wavethresh::nlevelsWT(x)
+
+
   nlevels <- levels - first.level
   type <- x$type
 
@@ -502,10 +506,13 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
     else {
       lx <- pretty(xlabvals, n = 4)
       cat("lx is ", lx, "\n")
-      if (lx[1] < min(xlabvals))
+      if (lx[1] < min(xlabvals)){
         lx[1] <- min(xlabvals)
-      if (lx[length(lx)] > max(xlabvals))
+      }
+      if (lx[length(lx)] > max(xlabvals)){
         lx[length(lx)] <- max(xlabvals)
+      }
+
       cat("lx is ", lx, "\n")
       xix <- NULL
       for (i in 1:length(lx)) {
@@ -517,7 +524,9 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
       axis(1, at = axx, labels = axl)
     }
   }
-  else axis(1, at = xlabvals, labels = xlabchars)
+  else{
+    axis(1, at = xlabvals, labels = xlabchars)
+  }
   myxx <- 1:n
   height <- 1
   first.last.d <- x$fl.dbase$first.last.d
@@ -554,16 +563,20 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
     }
     xplot <- myxx
     ly <- length(y)
-    if (scaling == "by.level")
+    if (scaling == "by.level"){
       my <- max(abs(y))
-    if (scaling == "compensated")
+    }
+    if (scaling == "compensated"){
       y <- y * 2^(i/2)
-    if (scaling == "super")
+    }
+    if (scaling == "super"){
       y <- y * 2^i
+    }
     if (my == 0) {
       y <- rep(0, length(y))
+    } else{
+      y <- (0.5 * y)/my
     }
-    else y <- (0.5 * y)/my
     axr <- c(axr, my)
     if (max(abs(y)) > NotPlotVal)
       segments(xplot, height, xplot, height + y)
