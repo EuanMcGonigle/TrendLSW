@@ -4,16 +4,23 @@
 \alias{plot.TLSW}
 \title{Plot Trend and/or Spectrum Information in a \code{TLSW} Object}
 \usage{
-\method{plot}{TLSW}(x, plot.type = c("both", "trend", "spec")[1], ...)
+\method{plot}{TLSW}(
+  x,
+  plot.type = c("both", "trend", "spec")[1],
+  trend.plot.args,
+  spec.plot.args
+)
 }
 \arguments{
 \item{x}{A \code{TLSW} object}
 
 \item{plot.type}{A string object indicating what is to be plotted. Can be "trend", in which case
-the trend estimate (and associated confidence intervals if calculated) are plotted, or "spec",
-in which case the spectral estimate is plotted, or "both", in which case both estimates are plotted.}
+the trend estimate (and associated confidence intervals if calculated) are plotted, or "spec",}
 
-\item{...}{Additional plotting arguments used for the spectrum plotting.}
+\item{trend.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.}
+
+\item{spec.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.
+in which case the spectral estimate is plotted, or "both", in which case both estimates are plotted.}
 }
 \description{
 Plots information contained within a \code{TLSWß} object.
