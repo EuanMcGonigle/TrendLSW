@@ -15,21 +15,25 @@
 \arguments{
 \item{x}{A \code{TLSW} object}
 
-\item{plot.type}{A string object indicating what is to be plotted. Can be "trend", in which case
-the trend estimate (and associated confidence intervals if calculated) are plotted, or "spec",}
+\item{plot.type}{A string object indicating what is to be plotted. Can be:
+\itemize{
+\item{\code{"trend"}}{: will plot the trend estimate only.}
+\item{\code{"spec"}}{: will plot the spectral estimate only.}
+\item{\code{"both"}}{: will plot both the trend and spectral estimate.}
+}}
 
 \item{trend.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.}
 
 \item{spec.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.}
 
-\item{...}{Any additional arguments that will be applied to both the trend and spectrum plotting.
-in which case the spectral estimate is plotted, or "both", in which case both estimates are plotted.}
+\item{...}{Any additional arguments that will be applied to the graphical parameters of both the trend and spectrum plotting.}
 }
 \description{
-Plots information contained within a \code{TLSWß} object.
+Plots information contained within a \code{TLSW} object.
 }
 \examples{
-# simulates an example time series and estimates its trend and evolutionary wavelet spectrum
+# Simulates an example time series and estimates its trend and evolutionary wavelet spectrum.
+# Then plots both estimates.
 
 spec <- wavethresh::cns(512)
 spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
@@ -42,7 +46,7 @@ x <- TLSW.sim(trend = trend, spec = spec)
 
 x.TLSW <- TLSW.est(x)
 
-plot(x.TLSW)
+plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data"))
 }
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
