@@ -206,7 +206,7 @@ ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle, WP.smoot
   J <- wavethresh::IsPowerOfTwo(x.len)
 
   if (is.na(J) == TRUE) {
-    warning("Data length is not power of two. Boundary correction has been applied.")
+    warning("Data length is not power of two. Boundary correction has been applied for spectral estimation.")
     boundary.handle <- TRUE
     dyadic <- FALSE
     J <- floor(log2(x.len)) + 1
@@ -424,7 +424,7 @@ trend.est.checks <- function(x, max.scale, boundary.handle, transform.type,
   J <- wavethresh::IsPowerOfTwo(x.len)
 
   if (is.na(J) == TRUE) {
-    warning("Data length is not power of two. Boundary correction has been applied.")
+    warning("Data length is not power of two. Boundary correction has been applied for trend estimation.")
     boundary.handle <- TRUE
     dyadic <- FALSE
     J <- floor(log2(x.len)) + 1
