@@ -1,15 +1,18 @@
 #' @title Plot Trend and/or Spectrum Information in a \code{TLSW} Object
 #'
-#' @description Plots information contained within a \code{TLSWß} object.
+#' @description Plots information contained within a \code{TLSW} object.
 #'
 #'
 #' @param x A \code{TLSW} object
-#' @param plot.type A string object indicating what is to be plotted. Can be "trend", in which case
-#' the trend estimate (and associated confidence intervals if calculated) are plotted, or "spec",
+#' @param plot.type A string object indicating what is to be plotted. Can be:
+#' \itemize{
+#' \item{\code{"trend"}}{: will plot the trend estimate only.}
+#' \item{\code{"spec"}}{: will plot the spectral estimate only.}
+#' \item{\code{"both"}}{: will plot both the trend and spectral estimate.}
+#' }
 #' @param trend.plot.args A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.
 #' @param spec.plot.args A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.
-#' @param ... Any additional arguments that will be applied to both the trend and spectrum plotting.
-#' in which case the spectral estimate is plotted, or "both", in which case both estimates are plotted.
+#' @param ... Any additional arguments that will be applied to the graphical parameters of both the trend and spectrum plotting.
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
@@ -21,7 +24,8 @@
 #'
 #' @importFrom graphics lines par polygon axis segments title
 #' @examples
-#' # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
+#' # Simulates an example time series and estimates its trend and evolutionary wavelet spectrum.
+#' # Then plots both estimates.
 #'
 #' spec <- wavethresh::cns(512)
 #' spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
@@ -34,7 +38,7 @@
 #'
 #' x.TLSW <- TLSW.est(x)
 #'
-#'plot(x.TLSW)
+#'plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data"))
 plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
                       trend.plot.args, spec.plot.args, ...){
 
@@ -190,8 +194,7 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
     trend.plot.args <- as.list(c(trend.plot.args, trend.plot.args.add))
 
     do.call(plot, c(x$x ~ time.index, trend.plot.args))
-   # plot(x$x, type = "l", xlab = "Time", ylab = expression(X[t]),
-         #ylim = c(y.min,y.max), main = "", col = "grey60")
+
     lines(x$trend$trend.est, col = 2, lwd = 2)
 
     if(x$trend$calc.confint == TRUE){
@@ -222,9 +225,6 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
 
     do.call(spec.plot, spec.plot.args)
 
-    #spec.plot(x$spec.est$S, ylabchars = (1:max.plot.scale), n = length(x$x),
-     #                   xlab = "Time", ylab = "Scale", main = "",
-      #                  sub = "")
   }
 
   if(plot.type == "both"){
