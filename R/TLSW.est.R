@@ -140,6 +140,7 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE,  WP.filter.numb
 
   if (do.trend.est == TRUE && (T.est.type == "nonlinear" || T.confint == TRUE)) {
     do.spec.est <- TRUE
+    warning("Spectral estimate is needed for trend estimation. Setting do.spec.est = TRUE.")
   }
 
   if (do.spec.est == TRUE) {
