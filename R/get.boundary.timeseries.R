@@ -34,7 +34,7 @@ get.boundary.timeseries <- function(x, type = c("TLSW", "LSW.diff")[1]) {
 
   s <- seq(from = 0, to = (x.len - 1) / x.len, length = x.len)
 
-  L <- stats::lm(x ~ poly(s, 3, raw = TRUE))
+  L <- stats::lm(x ~ stats::poly(s, 3, raw = TRUE))
 
   bh.right <- stats::predict(L, newdata = data.frame(s = 1))
 
