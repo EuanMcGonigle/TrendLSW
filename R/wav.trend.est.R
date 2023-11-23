@@ -143,10 +143,9 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
       x_wr <- x_wr[lower:upper]
     }
     return(list(
-      x = orig.x, filter.number = filter.number, family = family,
+      x = orig.x, trend.est = x_wr, filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
-      boundary.handle = boundary.handle, calc.confint = calc.confint,
-      trend.est = x_wr
+      boundary.handle = boundary.handle, calc.confint = calc.confint
     ))
   } else {
     spec.est <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
@@ -177,10 +176,9 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
     }
 
     return(list(
-      x = orig.x, filter.number = filter.number, family = family, transform.type = transform.type,
-      max.scale = max.scale, boundary.handle = boundary.handle, calc.confint = calc.confint,
-      trend.est = x_wr, lower.confint = lower.conf, upper.confint = upper.conf,
-      sig.lvl = sig.lvl
-    ))
+      x = orig.x, trend.est = x_wr,  lower.confint = lower.conf, upper.confint = upper.conf,
+      sig.lvl = sig.lvl, filter.number = filter.number, family = family, transform.type = transform.type,
+      max.scale = max.scale, boundary.handle = boundary.handle, calc.confint = calc.confint
+     ))
   }
 }
