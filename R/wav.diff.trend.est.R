@@ -236,20 +236,20 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeA
       reps = reps, sig.lvl = sig.lvl, ...
     )
     return(list(
-      x = orig.x, filter.number = filter.number, family = family,
+      x = orig.x, trend.est = trend.est, lower.confint = trend.confint[1, ],
+      upper.confint = trend.confint[2, ], reps = reps, sig.lvl = sig.lvl,
+      filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
       boundary.handle = boundary.handle, thresh.type = thresh.type,
-      normal = normal, calc.confint = calc.confint,
-      trend.est = trend.est,
-      lower.confint = trend.confint[1, ], upper.confint = trend.confint[2, ],
-      reps = reps, sig.lvl = sig.lvl
+      normal = normal, calc.confint = calc.confint
+
     ))
   } else {
     return(list(
-      x = orig.x, filter.number = filter.number, family = family,
+      x = orig.x, trend.est = trend.est,  filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
       boundary.handle = boundary.handle, thresh.type = thresh.type, normal = normal,
-      calc.confint = calc.confint, trend.est = trend.est
+      calc.confint = calc.confint
     ))
   }
 }
