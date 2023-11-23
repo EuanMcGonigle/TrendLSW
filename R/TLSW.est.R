@@ -138,7 +138,7 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE,  WP.filter.numb
     supply.inv.mat <- TRUE
   }
 
-  if (do.trend.est == TRUE && (T.est.type == "nonlinear" || T.confint == TRUE)) {
+  if (do.trend.est == TRUE && do.spec.est == FALSE && (T.est.type == "nonlinear" || T.confint == TRUE)) {
     do.spec.est <- TRUE
     warning("Spectral estimate is needed for trend estimation. Setting do.spec.est = TRUE.")
   }
@@ -184,6 +184,7 @@ TLSW.est <- function(x, do.spec.est = TRUE, do.trend.est = TRUE,  WP.filter.numb
       )
     }
     x.trend$T.est.type <- T.est.type
+    x.trend <- x.trend[names(x.trend) != "x"]
   }
 
 
