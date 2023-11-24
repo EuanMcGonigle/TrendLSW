@@ -1,4 +1,4 @@
-#' @title Summary of Output Provided by the \code{TLSW.est} Function
+#' @title Summary of Output Provided by the \code{TLSW} Function
 #' @description Summary method for objects of class \code{TLSW}.
 #'
 #' @details Prints out information about a \code{TLSW} object. If spectral
@@ -20,7 +20,7 @@
 #' McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
-#' @seealso \code{\link{TLSW.est}}, \code{\link{print.TLSW}}
+#' @seealso \code{\link{TLSW}}, \code{\link{print.TLSW}}
 #' @export
 #'
 #' @examples
@@ -35,14 +35,14 @@
 #'
 #' x <- TLSW.sim(trend = trend, spec = spec)
 #'
-#' x.TLSW <- TLSW.est(x)
+#' x.TLSW <- TLSW(x)
 #'
 #' summary(x.TLSW)
 #'
 summary.TLSW <- function(object, ...) {
   if (object$do.spec.est == TRUE) {
     cat("Spectral estimation was performed:\n")
-    if (object$spec.est$WP.smooth == TRUE) {
+    if (object$spec.est$S.smooth == TRUE) {
       cat("-smoothing was performed using ", object$spec.est$smooth.type, " smoothing with binwidth ", object$spec.est$binwidth, ".\n", sep = "")
     } else {
       cat("-no smoothing was performed.\n")
