@@ -115,7 +115,7 @@
 #'
 #' set.seed(1)
 #'
-#' x <- TLSW.sim(trend = trend, spec = spec)
+#' x <- TLSWsim(trend = trend, spec = spec)
 #'
 #' x.TLSW <- TLSW(x)
 #'

@@ -24,11 +24,11 @@
 #'
 #' trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
 #'
-#' x <- TLSW.sim(trend = trend, spec = spec, distribution = "exp")
+#' x <- TLSWsim(trend = trend, spec = spec, distribution = "exp")
 #'
 #' plot.ts(x)
 #' @export
-TLSW.sim <- function(trend = NULL, spec, distribution = c("norm", "pois", "exp", "chisq", "t")[1], rate = NULL, df = NULL) {
+TLSWsim <- function(trend = NULL, spec, distribution = c("norm", "pois", "exp", "chisq", "t")[1], rate = NULL, df = NULL) {
   if (any(spec$D < 0)) {
     stop("All spectral elements must be non-negative.")
   }

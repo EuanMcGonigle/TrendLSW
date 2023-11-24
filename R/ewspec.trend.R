@@ -83,7 +83,7 @@
 #'
 #' set.seed(1)
 #'
-#' x <- TLSW.sim(trend = trend, spec = spec)
+#' x <- TLSWsim(trend = trend, spec = spec)
 #'
 #' spec.est <- ewspec.trend(x,
 #'   an.filter.number = 4, an.family = "DaubExPhase",

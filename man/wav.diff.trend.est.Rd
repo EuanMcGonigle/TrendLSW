@@ -109,7 +109,7 @@ set.seed(120)
 sine.trend <- -2 * sin(seq(from = 0, to = 2 * pi, length = 1024)) -
   1.5 * cos(seq(from = 0, to = pi, length = 1024))
 
-x <- TLSW.sim(trend = sine.trend, spec = spec)
+x <- TLSWsim(trend = sine.trend, spec = spec)
 
 spec.est <- ewspec.diff(x = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
 
