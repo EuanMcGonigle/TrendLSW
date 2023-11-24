@@ -2,7 +2,7 @@
 % Please edit documentation in R/summary.TLSW.R
 \name{summary.TLSW}
 \alias{summary.TLSW}
-\title{Summary of Output Provided by the \code{TLSW.est} Function}
+\title{Summary of Output Provided by the \code{TLSW} Function}
 \usage{
 \method{summary}{TLSW}(object, ...)
 }
@@ -38,7 +38,7 @@ set.seed(1)
 
 x <- TLSW.sim(trend = trend, spec = spec)
 
-x.TLSW <- TLSW.est(x)
+x.TLSW <- TLSW(x)
 
 summary(x.TLSW)
 
@@ -53,5 +53,5 @@ locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
 }
 \seealso{
-\code{\link{TLSW.est}}, \code{\link{print.TLSW}}
+\code{\link{TLSW}}, \code{\link{print.TLSW}}
 }
