@@ -80,7 +80,7 @@ differenced before spectral estimation is performed.}
 \item{S.diff.number}{The number of differencing operations performed,
 only applicable if \code{S.do.dif = TRUE}. A first difference is recommended as default.}
 
-\item{T.est.type}{String indicating type of wavelet thrsholding used. Can be "linear", which means
+\item{T.est.type}{String indicating type of wavelet thresholding used. Can be "linear", which means
 that all non-boundary wavelet coefficients are set to zero, or "nonlinear", where
 each wavelet coefficient is thresholded using a time-varying, noise-dependent threshold.}
 
@@ -134,7 +134,7 @@ options. Recommended to leave as the default, set to the same as \code{S.family}
 \value{
 An object of class \code{"TLSW"}, a list that contains the following components:
    \item{x}{Input data}
-   \item{do.spec.est}{Input parmater, logical variable specifying if spectral estimation was performed.}
+   \item{do.spec.est}{Input parameter, logical variable specifying if spectral estimation was performed.}
    \item{spec.est}{A list object, returned if \code{do.spec.est = TRUE}. Contains relevant input parameters
    and the following fields related to the spectrum estimate:
 \itemize{
@@ -148,14 +148,14 @@ wavelet periodogram.}
 wavelet periodogram of the input data. }
 }
 }
-   \item{do.trend.est}{Input parmater, logical variable specifying if trend estimation was performed.}
+   \item{do.trend.est}{Input parameter, logical variable specifying if trend estimation was performed.}
    \item{trend.est}{A list object, returned if \code{do.trend.est = TRUE}. Contains relevant input parameters
    and the following fields related to the trend estimate:
    \itemize{
 \item{trend.est}{: A vector of length \code{length(x)} containing the trend estimate.}
 \item{lower.confint}{: Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval.}
 \item{upper.confint}{: Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval.}
-\item{T.est.type}{: Type of trend estimator computed, either 'lienar' or 'nonlinear'.}
+\item{T.est.type}{: Type of trend estimator computed, either 'linear' or 'nonlinear'.}
    }}
 }
 \description{
