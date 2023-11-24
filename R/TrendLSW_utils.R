@@ -178,7 +178,7 @@ trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.t
 #' @description Internal function for error checking for spectral estimation
 #' @keywords internal
 #' @noRd
-ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle, WP.smooth, smooth.type) {
+ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle, S.smooth, smooth.type) {
   if (any(is.na(x))) {
     stop("Data contains mising values.")
   }
@@ -186,9 +186,9 @@ ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle, WP.smoot
     stop("Data is not numeric")
   }
   stopifnot("Parameter boundary.handle must be logical variable" = is.logical(boundary.handle))
-  stopifnot("Parameter WP.smooth must be logical variable" = is.logical(WP.smooth))
-  stopifnot("Smoothing type must be one of 'mean', 'median', or 'epanechnikov'." = smooth.type == "mean" ||
-              smooth.type == "median" || smooth.type == "epanechnikov")
+  stopifnot("Parameter S.smooth must be logical variable" = is.logical(S.smooth))
+  stopifnot("Smoothing type must be one of 'mean', 'median', or 'epan'." = smooth.type == "mean" ||
+              smooth.type == "median" || smooth.type == "epan")
 
   x.len <- length(x)
 
@@ -451,7 +451,7 @@ epan.kern.f <- function(tt)	{
 #' @description Internal function for calculating Epanechnikov kernel filter
 #' @keywords internal
 #' @noRd
-epanechnikov <- function(epan.len){
+epan <- function(epan.len){
 
   mytt <- seq(from = -sqrt(5), to = sqrt(5), length = epan.len)
 
