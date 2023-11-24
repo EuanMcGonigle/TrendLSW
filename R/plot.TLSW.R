@@ -36,7 +36,7 @@
 #'
 #' x <- TLSW.sim(trend = trend, spec = spec)
 #'
-#' x.TLSW <- TLSW.est(x)
+#' x.TLSW <- TLSW(x)
 #'
 #'plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data"))
 plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
