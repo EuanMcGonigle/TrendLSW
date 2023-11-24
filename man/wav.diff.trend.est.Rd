@@ -70,7 +70,7 @@ A \code{list} object containing the following fields:
 \item{x}{Input data}
 \item{filter.number, family}{Input wavelet parameters}
 \item{transform.type, max.scale, boundary.handle, thresh.type, normal,  calc.confint}{Input parameters}
-\item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
+\item{T}{A vector of length \code{length(x)} containing the trend estimate}
 \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
 \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
 \item{reps}{Returned if \code{calc.confint = TRUE}. The number of bootstrap replicates used to compute
@@ -117,7 +117,7 @@ trend.est <- wav.diff.trend.est(x = x, spec = spec.est)
 
 plot.ts(x, lty = 1, col = 8)
 lines(sine.trend, col = 2, lwd = 2)
-lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
+lines(trend.est$T, col = 4, lwd = 2, lty = 2)
 }
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling

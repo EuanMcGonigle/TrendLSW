@@ -32,7 +32,7 @@
 #' \item{x}{Input data}
 #' \item{filter.number, family}{Input wavelet parameters}
 #' \item{transform.type, max.scale, boundary.handle, calc.confint}{Input parameters}
-#' \item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
+#' \item{T}{A vector of length \code{length(x)} containing the trend estimate}
 #' \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
 #' \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
 #' \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
@@ -143,7 +143,7 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
       x_wr <- x_wr[lower:upper]
     }
     return(list(
-      x = orig.x, trend.est = x_wr, filter.number = filter.number, family = family,
+      x = orig.x, T = x_wr, filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
       boundary.handle = boundary.handle, calc.confint = calc.confint
     ))
@@ -176,7 +176,7 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
     }
 
     return(list(
-      x = orig.x, trend.est = x_wr,  lower.confint = lower.conf, upper.confint = upper.conf,
+      x = orig.x, T = x_wr,  lower.confint = lower.conf, upper.confint = upper.conf,
       sig.lvl = sig.lvl, filter.number = filter.number, family = family, transform.type = transform.type,
       max.scale = max.scale, boundary.handle = boundary.handle, calc.confint = calc.confint
      ))

@@ -59,7 +59,7 @@ A \code{list} object containing the following fields:
 \item{x}{Input data}
 \item{filter.number, family}{Input wavelet parameters}
 \item{transform.type, max.scale, boundary.handle, calc.confint}{Input parameters}
-\item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
+\item{T}{A vector of length \code{length(x)} containing the trend estimate}
 \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
 \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
 \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
