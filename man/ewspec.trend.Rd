@@ -12,8 +12,8 @@ ewspec.trend(
   gen.family = an.family,
   binwidth = floor(2 * sqrt(length(x))),
   max.scale = floor(log2(length(x)) * 0.7),
-  WP.smooth = TRUE,
-  smooth.type = c("mean", "median", "epanechnikov")[1],
+  S.smooth = TRUE,
+  smooth.type = c("mean", "median", "epan")[1],
   AutoReflect = TRUE,
   supply.inv.mat = FALSE,
   inv.mat = NULL,
@@ -46,11 +46,11 @@ Should be a positive integer less than J, where T=2^J is the length of the
 time series. The default setting is 0.7J, to control for bias from the trend
 and boundary effects.}
 
-\item{WP.smooth}{Argument that dictates if smoothing is performed on the raw
+\item{S.smooth}{Argument that dictates if smoothing is performed on the raw
 wavelet periodogram.}
 
 \item{smooth.type}{String indicating which type of smoothing to use on wavelet periodogram.
-Can be \code{"mean"}, \code{"median"}, or \code{"epanechnikov"}.}
+Can be \code{"mean"}, \code{"median"}, or \code{"epan"}.}
 
 \item{AutoReflect}{As in wavethresh. Decides whether or not the time series
 is reflected when computing the wavelet transform. Helps estimation at the
@@ -77,7 +77,7 @@ data. The EWS estimate (above) is the smoothed corrected version of the raw
 wavelet periodogram.}
 \item{SmoothWavPer}{ The smoothed, un-corrected raw
 wavelet periodogram of the input data. }
-\item{max.scale, boundary.handle, WP.smooth, smooth.type, binwidth}{Input parameters}
+\item{max.scale, boundary.handle, S.smooth, smooth.type, binwidth}{Input parameters}
 }
 \description{
 Computes the evolutionary wavelet spectrum (EWS) estimate from
