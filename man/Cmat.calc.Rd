@@ -54,5 +54,5 @@ locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
 }
 \seealso{
-\link{ewspec.trend}
+\link{TLSW}
 }

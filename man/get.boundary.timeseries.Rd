@@ -19,8 +19,7 @@ A vector of 4 times the length of the input vector.
 }
 \description{
 A function to calculate the boundary extended time series, to be used within
-the \code{\link{ewspec.trend}}, \code{\link{ewspec.diff}},
-\code{\link{wav.trend.est}}, and \code{\link{wav.diff.trend.est}} functions.
+the \code{\link{TLSW}} function.
 Not recommended for general usage.
 }
 \examples{
@@ -39,6 +38,5 @@ locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
 }
 \seealso{
-\code{\link{ewspec.trend}}, \code{\link{ewspec.diff}},
-\code{\link{wav.trend.est}}, \code{\link{wav.diff.trend.est}}
+\code{\link{TLSW}}
 }

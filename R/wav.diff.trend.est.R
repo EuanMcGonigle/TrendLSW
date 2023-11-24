@@ -82,8 +82,9 @@
 #' plot.ts(x, lty = 1, col = 8)
 #' lines(sine.trend, col = 2, lwd = 2)
 #' lines(trend.est$T, col = 4, lwd = 2, lty = 2)
-#' @export
-wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeAsymm",
+#' @keywords internal
+#' @noRd
+wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExPhase",
                                thresh.type = c("hard","soft")[1], normal = TRUE,
                                transform.type = c("dec", "nondec")[2],
                                max.scale = floor(0.7 * log2(length(x))),

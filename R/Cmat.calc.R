@@ -16,7 +16,7 @@
 #' product matrix.
 #' @return A J-dimensional square matrix giving the cross inner product
 #' autocorrelation wavelet matrix.
-#' @seealso \link{ewspec.trend}
+#' @seealso \link{TLSW}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.

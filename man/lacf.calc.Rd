@@ -21,13 +21,12 @@ lacf.calc(
 \item{family}{Wavelet family that generated the time series.}
 
 \item{spec.est}{Estimated spectrum from which the lacf estimate will be
-calculated, the output of the \code{ewspec.trend} or \code{ewspec.diff} functions.}
+calculated, the component \code{spec.est} in the output of the \code{TLSW} functions.}
 
 \item{lag.max}{The maximum lag of acf required. If NULL then the same
 default as in the regular acf function is used.}
 
-\item{...}{Further arguments to be passed to the \code{\link{ewspec.trend}}
-function for spectrum estimation, only to be used if \code{spec.est} is not supplied.}
+\item{...}{Further arguments to be passed to perform spectrum estimation, only to be used if \code{spec.est} is not supplied.}
 }
 \value{
 An object of class \code{lacf} which contains the autocovariance.
@@ -40,8 +39,7 @@ estimate in the argument.
 }
 \examples{
 
-## ---- computes estimate of local autocovariance function using the ewspec.trend
-## ---- function to compute the spectral estimate
+## ---- computes estimate of local autocovariance function
 
 ## ---- example where LSW process is generated using the Haar wavelet
 
@@ -55,10 +53,9 @@ x <- trend + noise
 
 ## ---- first estimate the spectrum using Daubechies EP4 wavelet:
 
-spec.est <- ewspec.trend(x,
-  an.filter.number = 4, an.family = "DaubExPhase",
-  gen.filter.number = 1, gen.family = "DaubExPhase"
-)
+x.TLSW <- TLSW(x)
+
+spec.est <- x.TLSW$spec.est
 
 #---- estimate the lacf specifying the Haar wavelet as the generating wavelet
 

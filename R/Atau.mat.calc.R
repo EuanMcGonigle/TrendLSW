@@ -20,7 +20,7 @@
 #' @examples
 #' A1 <- Atau.mat.calc(J = 5, filter.number = 1, family = "DaubExPhase", lag = 1)
 #' @export
-#' @seealso \link{ewspec.diff}
+#' @seealso \link{TLSW}
 Atau.mat.calc <- function(J, filter.number = 1, family = "DaubExPhase", lag = 1) {
   if (!is.numeric(lag)) {
     stop("The lag parameter should be a positive integer.")

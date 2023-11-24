@@ -54,7 +54,8 @@
 #' plot.ts(x, lty = 1, col = 8)
 #' lines(trend, col = 2, lwd = 2)
 #' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
-#' @export
+#' @keywords internal
+#' @noRd
 wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
                           max.scale = floor(log2(length(x)) * 0.7),
                           transform.type = c("dec", "nondec")[1],

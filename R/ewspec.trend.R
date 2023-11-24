@@ -91,7 +91,8 @@
 #' )
 #'
 #' quick.spec.plot(spec.est$S)
-#' @export
+#' @keywords internal
+#' @noRd
 ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
                          gen.filter.number = an.filter.number, gen.family = an.family,
                          binwidth = floor(2 * sqrt(length(x))),

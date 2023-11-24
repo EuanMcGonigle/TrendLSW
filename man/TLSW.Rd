@@ -21,7 +21,7 @@ TLSW(
   S.diff.number = 1,
   T.est.type = c("linear", "nonlinear")[1],
   T.filter.number = 4,
-  T.family = "DaubLeAsymm",
+  T.family = "DaubExPhase",
   T.transform = c("dec", "nondec")[1],
   T.boundary.handle = TRUE,
   T.max.scale = floor(log2(length(x)) * 0.7),
@@ -191,6 +191,5 @@ locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
 }
 \seealso{
-\code{\link{ewspec.trend}}, \code{\link{ewspec.diff}},
-\code{\link{wav.trend.est}}, \code{\link{wav.diff.trend.est}},
+\code{\link{plot.TLSW}}, \code{\link{summary.TLSW}}, \code{\link{print.TLSW}}
 }

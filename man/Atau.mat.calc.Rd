@@ -41,5 +41,5 @@ time-varying first and second-order structure of time series via wavelets
 and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
 }
 \seealso{
-\link{ewspec.diff}
+\link{TLSW}
 }

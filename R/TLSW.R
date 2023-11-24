@@ -103,8 +103,7 @@
 #' McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
-#' @seealso \code{\link{ewspec.trend}}, \code{\link{ewspec.diff}},
-#' \code{\link{wav.trend.est}}, \code{\link{wav.diff.trend.est}},
+#' @seealso \code{\link{plot.TLSW}}, \code{\link{summary.TLSW}}, \code{\link{print.TLSW}}
 #' @examples
 #' # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
 #'
@@ -130,7 +129,7 @@ TLSW <- function(x, do.spec.est = TRUE, do.trend.est = TRUE,  S.filter.number = 
                      S.boundary.handle = TRUE, S.inv.mat = NULL,
                      S.do.diff = FALSE, S.lag = 1, S.diff.number = 1,
                      T.est.type = c("linear", "nonlinear")[1], T.filter.number = 4,
-                     T.family = "DaubLeAsymm", T.transform = c("dec", "nondec")[1],
+                     T.family = "DaubExPhase", T.transform = c("dec", "nondec")[1],
                      T.boundary.handle = TRUE, T.max.scale = floor(log2(length(x)) * 0.7),
                      T.confint = FALSE, T.sig.lvl = 0.05, T.lacf.max.lag = floor(10 * (log10(length(x)))),
                      T.reps = 199, T.thresh.type = c("hard", "soft")[1], T.thresh.normal = TRUE,
