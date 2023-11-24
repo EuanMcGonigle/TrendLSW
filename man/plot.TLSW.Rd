@@ -44,7 +44,7 @@ set.seed(1)
 
 x <- TLSW.sim(trend = trend, spec = spec)
 
-x.TLSW <- TLSW.est(x)
+x.TLSW <- TLSW(x)
 
 plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data"))
 }
