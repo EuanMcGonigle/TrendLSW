@@ -13,8 +13,8 @@ ewspec.diff(
   binwidth = floor(2 * sqrt(length(x))),
   diff.number = 1,
   max.scale = floor(log2(length(x)) * 0.7),
-  WP.smooth = TRUE,
-  smooth.type = c("mean", "median", "epanechnikov")[1],
+  S.smooth = TRUE,
+  smooth.type = c("mean", "median", "epan")[1],
   boundary.handle = FALSE,
   AutoReflect = FALSE,
   supply.inv.mat = FALSE,
@@ -46,11 +46,11 @@ series. A first difference is recommended as default.}
 Should be a positive integer less than \eqn{J}, where \eqn{T=2^J} is the length of the
 time series. The default setting is \eqn{0.7J}, to control for bias.}
 
-\item{WP.smooth}{Argument that dictates if smoothing is performed on the raw
+\item{S.smooth}{Argument that dictates if smoothing is performed on the raw
 wavelet periodogram.}
 
 \item{smooth.type}{String indicating which type of smoothing to use on wavelet periodogram.
-Can be \code{"mean"}, \code{"median"}, or \code{"epanechnikov"}.}
+Can be \code{"mean"}, \code{"median"}, or \code{"epan"}.}
 
 \item{boundary.handle}{Logical variable, if TRUE, then boundary handling
 will be applied when computing the periodogram. Recommended to set as FALSE,
@@ -77,7 +77,7 @@ data. The EWS estimate (above) is the smoothed corrected version of the
 wavelet periodogram.}
 \item{SmoothWavPer}{ The smoothed, un-corrected raw
 wavelet periodogram of the input data. }
-\item{max.scale, boundary.handle, WP.smooth, smooth.type, binwidth, lag, diff.number}{Input parameters}
+\item{max.scale, boundary.handle, S.smooth, smooth.type, binwidth, lag, diff.number}{Input parameters}
 }
 \description{
 Estimates the evolutionary wavelet spectrum (EWS) of
