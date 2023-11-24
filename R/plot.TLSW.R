@@ -8,7 +8,7 @@
 #' \itemize{
 #' \item{\code{"trend"}}{: will plot the trend estimate only.}
 #' \item{\code{"spec"}}{: will plot the spectral estimate only.}
-#' \item{\code{"both"}}{: will plot both the trend and spectral estimate.}
+#' \item{\code{c("trend", "spec")}}{: the default value will plot both the trend and spectral estimate.}
 #' }
 #' @param trend.plot.args A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.
 #' @param spec.plot.args A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.
@@ -39,7 +39,7 @@
 #' x.TLSW <- TLSW(x)
 #'
 #'plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data"))
-plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
+plot.TLSW <- function(x, plot.type = c("trend", "spec"),
                       trend.plot.args, spec.plot.args, ...){
 
   if (x$do.trend.est == FALSE) {
@@ -48,13 +48,9 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
     plot.type <- "trend"
   }
 
-  old.par <- par(no.readonly = TRUE)
-
   both.args <- list(...)
 
-  if(plot.type == "both") {
-
-    max.plot.scale <- wavethresh::nlevelsWT(x$spec.est$S)
+  if(any(plot.type == "trend")){
 
     if(x$trend$calc.confint == FALSE){
       y.min <- min(x$x, x$trend$trend.est)
@@ -63,67 +59,6 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
       y.min <- min(x$x, x$trend$trend.est, x$trend.est$lower.confint)
       y.max <- max(x$x, x$trend$trend.est, x$trend.est$upper.confint)
     }
-
-    par(mfrow = c(1,2), mar = c(4, 4, 2, 1) + 0.1)
-
-    if(missing(trend.plot.args)){
-      trend.plot.args <- list(type = "l", xlab = "Time",
-                              ylab = expression(X[t]),
-                              ylim = c(y.min, y.max),
-                              main = "", col = "grey60")
-    } else{
-      if(!("type" %in% names(trend.plot.args))){
-        trend.plot.args$type <- "l"
-      }
-      if(!("xlab" %in% names(trend.plot.args))){
-        trend.plot.args$xlab <- "Time"
-      }
-      if(!("ylab" %in% names(trend.plot.args))){
-        trend.plot.args$ylab <- expression(X[t])
-      }
-      if(!("ylim" %in% names(trend.plot.args))){
-        trend.plot.args$ylim <- c(y.min, y.max)
-      }
-      if(!("main" %in% names(trend.plot.args))){
-        trend.plot.args$main <- ""
-      }
-      if(!("col" %in% names(trend.plot.args))){
-        trend.plot.args$col <- "grey60"
-      }
-    }
-    if(missing(spec.plot.args)){
-      spec.plot.args <- list(ylabchars = (1:max.plot.scale),
-                              xlab = "Time", ylab = "Scale", main = "",
-                              sub = "")
-    } else{
-      if(!("ylabchars" %in% names(spec.plot.args))){
-        spec.plot.args$ylabchars <- (1:max.plot.scale)
-      }
-      if(!("xlab" %in% names(spec.plot.args))){
-        spec.plot.args$xlab <- "Time"
-      }
-      if(!("ylab" %in% names(spec.plot.args))){
-        spec.plot.args$ylab <- "Scale"
-      }
-      if(!("sub" %in% names(spec.plot.args))){
-        spec.plot.args$sub <- ""
-      }
-      if(!("main" %in% names(spec.plot.args))){
-        spec.plot.args$main <- ""
-      }
-    }
-
-  } else if(plot.type == "trend"){
-
-    if(x$trend$calc.confint == FALSE){
-      y.min <- min(x$x, x$trend$trend.est)
-      y.max <- max(x$x, x$trend$trend.est)
-    } else {
-      y.min <- min(x$x, x$trend$trend.est, x$trend.est$lower.confint)
-      y.max <- max(x$x, x$trend$trend.est, x$trend.est$upper.confint)
-    }
-
-    par(mfrow = c(1,1), mar = c(4, 4, 2, 1) + 0.1)
 
     if(missing(trend.plot.args)){
       trend.plot.args <- list(type = "l", xlab = "Time",
@@ -151,11 +86,32 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
       }
     }
 
-  } else if(plot.type == "spec"){
+    time.index <- 1:length(x$x)
+
+    trend.plot.args.replace <- both.args[names(both.args) %in% names(trend.plot.args)]
+
+    trend.plot.args[names(trend.plot.args.replace)] <- trend.plot.args.replace
+
+    trend.plot.args.add <- both.args[ !names(both.args) %in% names(trend.plot.args) ]
+
+    trend.plot.args <- as.list(c(trend.plot.args, trend.plot.args.add))
+
+    do.call(plot, c(x$x ~ time.index, trend.plot.args))
+
+    lines(x$trend.est$T, col = 2, lwd = 2)
+
+    if(x$trend$calc.confint == TRUE){
+      polygon(c(time.index,rev(time.index)), c(x$trend.est$lower.confint, rev(x$trend.est$upper.confint)),
+              col = "#0000FF33", border = NA)
+      lines(x$trend.est$lower.confint, col="blue",lty=2)
+      lines(x$trend.est$upper.confint, col="blue",lty=2)
+    }
+
+  }
+
+  if(any(plot.type == "spec")){
 
     max.plot.scale <- wavethresh::nlevelsWT(x$spec.est$S)
-
-    par(mfrow = c(1,1),mar = c(4, 4, 2, 1) + 0.1)
 
     if(missing(spec.plot.args)){
       spec.plot.args <- list(ylabchars = (1:max.plot.scale),
@@ -178,40 +134,6 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
           spec.plot.args$main <- "Spectral Estimate"
         }
     }
-  } else{
-    stop("Parameter plot.type not recognised. Can be one of 'both', 'trend,', or 'spec'.")
-  }
-
-  if (plot.type == "trend" || plot.type == "both") {
-    time.index <- 1:length(x$x)
-
-    trend.plot.args.replace <- both.args[names(both.args) %in% names(trend.plot.args)]
-
-    trend.plot.args[names(trend.plot.args.replace)] <- trend.plot.args.replace
-
-    trend.plot.args.add <- both.args[ !names(both.args) %in% names(trend.plot.args) ]
-
-    trend.plot.args <- as.list(c(trend.plot.args, trend.plot.args.add))
-
-    do.call(plot, c(x$x ~ time.index, trend.plot.args))
-
-    lines(x$trend$trend.est, col = 2, lwd = 2)
-
-    if(x$trend$calc.confint == TRUE){
-
-
-      polygon(c(time.index,rev(time.index)), c(x$trend.est$lower.confint, rev(x$trend.est$upper.confint)),
-              col = "#0000FF33", border = NA)
-      lines(x$trend.est$lower.confint, col="blue",lty=2)
-      lines(x$trend.est$upper.confint, col="blue",lty=2)
-
-    }
-
-
-  }
-
-  if (plot.type == "spec" || plot.type == "both") {
-
     spec.plot.args$n <- length(x$x)
     spec.plot.args$x <- x$spec.est$S
 
@@ -224,14 +146,6 @@ plot.TLSW <- function(x, plot.type = c("both", "trend", "spec")[1],
     spec.plot.args <- as.list(c(spec.plot.args, spec.plot.args.add))
 
     do.call(spec.plot, spec.plot.args)
-
   }
-
-  if(plot.type == "both"){
-    title(substitute(paste(bold("Trend and Spectral Estimate"))),
-          line = -1, outer = TRUE)
-  }
-
-  suppressWarnings(par(old.par))
 
 }
