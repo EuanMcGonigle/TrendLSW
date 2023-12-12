@@ -43,7 +43,7 @@ generate a small example for performing trend estimation as follows:
 
 Apply the `TLSW` function:
 
-    x.TLSW <- TLSW.est(x)
+    x.TLSW <- TLSW(x)
 
 Visualise the estimated trend and spectrum:
 
