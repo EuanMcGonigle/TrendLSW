@@ -16,7 +16,7 @@ product matrix.}
 matrix.}
 
 \item{lag}{The lag of matrix to calculate. A lag of 0 corresponds to the
-standard A matrix.}
+matrix \eqn{A} defined in Nason et al. (2000).}
 }
 \value{
 A J-dimensional square matrix giving the lagged inner product
@@ -30,7 +30,7 @@ products.
 Computes the lagged inner product matrix of the discrete
 non-decimated autocorrelation wavelets. This matrix is used in the
 calculation to correct the wavelet periodogram of the differenced time
-series. With \code{lag} \eqn{= \tau}, the matrix returned is the one called \eqn{A^\tau} in McGonigle et al. (2022).
+series. With \code{lag} \eqn{= \tau}, the matrix returned is the matrix \eqn{A^\tau} in McGonigle et al. (2022).
 }
 \examples{
 A1 <- Atau.mat.calc(J = 5, filter.number = 1, family = "DaubExPhase", lag = 1)
@@ -39,6 +39,10 @@ A1 <- Atau.mat.calc(J = 5, filter.number = 1, family = "DaubExPhase", lag = 1)
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 time-varying first and second-order structure of time series via wavelets
 and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
+
+Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and
+adaptive estimation of the evolutionary wavelet spectrum. \emph{Journal of
+the Royal Statistical Society: Series B (Statistical Methodology)}, \bold{62(2)}, 271--292.
 }
 \seealso{
 \link{TLSW}
