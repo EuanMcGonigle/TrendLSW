@@ -13,13 +13,23 @@ lacf.calc(x.TLSW, lag.max = NULL)
 default as in the regular acf function is used.}
 }
 \value{
-An object of class \code{lacf} which contains the autocovariance.
+An object of class \code{lacf} which contains the following components:
+ \itemize{
+ \item{lacf}{: a matrix containing the estimate of the local autocovariance. Columns represent lags, and rows represent time points.}
+\item{lacr}{: a matrix containing the estimate of the local autocorrelation. Columns represent lags, and rows represent time points.}
+\item{name}{: the name of the time series (if applicable).}
+\item{date}{: the date the function was executed.}
+\item{SmoothWP}{: The smoothed, un-corrected raw
+wavelet periodogram of the input data.}
+\item{S}{: the spectral estimate used to compute the local autocovariance.}
+\item{J}{: the number of total wavelet scales.}
+}
 }
 \description{
 Computes the local autocovariance and autocorrelation estimates, given an
 input of a spectrum estimate. Provides the same functionality as the
-function \code{lacf} from the \code{locits} package, but user provides the spectrum
-estimate in the argument.
+function \code{lacf} from the \code{locits} package, but user provides an object of
+class \code{TLSW} as the main argument.
 }
 \examples{
 
@@ -43,7 +53,9 @@ x.TLSW <- TLSW(x)
 
 lacf.est <- lacf.calc(x.TLSW)
 
-plot.ts(lacf.est$lacf[, 1])
+#---- plot the lag 1 acf over time:
+
+plot.ts(lacf.est$lacf[, 1], ylab = "Lag 1 ACF")
 }
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
@@ -54,6 +66,9 @@ Nason, G. P. (2013). A test for second-order stationarity and approximate
 confidence intervals for localized autocovariances for locally stationary
 time series. \emph{Journal of the Royal Statistical Society: Series B
 (Statistical Methodology)}, \bold{75(5)}, 879--904.
+
+Nason, G. P. (2016). locits: Tests of stationarity and localized autocovariance.
+R package version 1.7.3.
 }
 \seealso{
 \code{\link[locits]{lacf}}
