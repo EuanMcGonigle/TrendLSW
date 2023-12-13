@@ -4,7 +4,7 @@
 #' non-decimated autocorrelation wavelets. This matrix is used to correct the
 #' wavelet periodogram analysed using a different wavelet to the wavelet that
 #' is assumed to generate the time series. The matrix returned is the one
-#' called \eqn{C^{(0,1)}} in McGonigle et al. (2022).
+#' denoted \eqn{C^{(0,1)}} in McGonigle et al. (2022).
 #' @param J The dimension of the matrix required. Should be a positive integer.
 #' @param gen.filter.number The index of the generating wavelet used to compute
 #' the inner product matrix.
