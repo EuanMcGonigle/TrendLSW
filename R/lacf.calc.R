@@ -1,7 +1,7 @@
 #' @title Compute Localised Autocovariance Estimate from Spectrum Estimate
 #' @description Computes the local autocovariance and autocorrelation estimates, given an
 #' input of a spectrum estimate. Provides the same functionality as the
-#' function \code{lacf} from the locits package, but user provides the spectrum
+#' function \code{lacf} from the \code{locits} package, but user provides the spectrum
 #' estimate in the argument.
 #' @param x The time series you wish to analyse.
 #' @param filter.number Wavelet filter number that generated the time series.
@@ -16,6 +16,7 @@
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
+#'
 #' Nason, G. P. (2013). A test for second-order stationarity and approximate
 #' confidence intervals for localized autocovariances for locally stationary
 #' time series. \emph{Journal of the Royal Statistical Society: Series B
@@ -40,13 +41,13 @@
 #'
 #' spec.est <- x.TLSW$spec.est
 #'
-#' #---- estimate the lacf specifying the Haar wavelet as the generating wavelet
+#' #---- estimate the lacf:
 #'
-#' lacf.est <- lacf.calc(x = x, filter.number = 1, family = "DaubExPhase", spec.est = spec.est)
+#' lacf.est <- lacf.calc(x = x, spec.est = spec.est)
 #'
 #' plot.ts(lacf.est$lacf[, 1])
 #' @export
-lacf.calc <- function(x, filter.number = 10, family = "DaubLeAsymm",
+lacf.calc <- function(x, filter.number = 4, family = "DaubExPhase",
                       spec.est = NULL, lag.max = NULL, ...) {
   stopifnot("Paramter lag.max should be a nonegative integer." = lag.max >= 0)
 
