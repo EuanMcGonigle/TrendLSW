@@ -594,6 +594,26 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
   axr
 }
 
+#' @title Convert matrix to wd object
+#' @description Internal function for plotting spectral estimate
+#' @keywords internal
+#' @noRd
 
+mat.to.spec <- function(s.mat, filter.number = 1, family = "DaubExPhase"){
+
+  J <- nrow(s.mat)
+
+  spec <- wavethresh::cns(2^J, filter.number = filter.number, family = family)
+
+  for (j in 1:J){
+
+    spec <- wavethresh::putD(spec, level = J - j, s.mat[j, ])
+
+  }
+
+  spec
+
+
+}
 
 
