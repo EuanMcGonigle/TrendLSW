@@ -96,13 +96,14 @@
 #' \item{upper.confint}{: Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval.}
 #' \item{T.est.type}{: Type of trend estimator computed, either 'linear' or 'nonlinear'.}
 #'    }}
-#' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
+#' @references #' McGonigle, E. T., Killick, R., and Nunes, M. (2022a). Trend
+#' locally stationary wavelet processes. \emph{Journal of Time Series
+#' Analysis}, 43(6), 895-917.
+#'
+#' McGonigle, E. T., Killick, R., and Nunes, M. (2022b). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
 #'
-#' McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
-#' locally stationary wavelet processes. \emph{Journal of Time Series
-#' Analysis}, 43(6), 895-917.
 #' @seealso \code{\link{plot.TLSW}}, \code{\link{summary.TLSW}}, \code{\link{print.TLSW}}
 #' @examples
 #' # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
