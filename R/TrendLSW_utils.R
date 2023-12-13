@@ -617,3 +617,52 @@ mat.to.spec <- function(s.mat, filter.number = 1, family = "DaubExPhase"){
 }
 
 
+#' @title LACF calculation
+#' @description Internal function for estimating lacf, used inside TLSW function
+#' for calculating confidence intervals if required.
+#' @keywords internal
+#' @noRd
+
+TLSW.lacf.calc <- function(x, filter.number = 4, family = "DaubExPhase",
+                      spec.est = NULL, lag.max = NULL, ...) {
+  stopifnot("Paramter lag.max should be a nonegative integer." = lag.max >= 0)
+
+  if (is.null(spec.est)) {
+    spec.est <- ewspec.trend(
+      x = x, an.filter.number = filter.number, an.family = family,
+      gen.filter.number = filter.number, gen.family = family, ...
+    )
+  }
+
+  dsname <- deparse(substitute(x))
+
+  S <- spec.est$S
+  SmoothWP <- spec.est$SmoothWavPer
+
+  J <- S$nlevels
+  Smat <- matrix(S$D, nrow = 2^J, ncol = J)[1:length(x), ]
+  Psi <- wavethresh::PsiJmat(-J, filter.number = filter.number, family = family)
+  nc <- ncol(Psi)
+  L <- (nc - 1) / 2
+  dimnames(Psi) <- list(NULL, c(-L:0, 1:L))
+  if (is.null(lag.max)) {
+    lag.max <- floor(10 * (log10(length(x))))
+  }
+  if (L + 1 + lag.max > ncol(Psi)) {
+    warning(paste(
+      "lag.max too high. Have reset it to ",
+      ncol(Psi) - L - 1, ". Higher lags are zero"
+    ))
+    lag.max <- ncol(Psi) - L - 1
+  }
+  the.lacf <- Smat %*% Psi[, (L + 1):(L + 1 + lag.max)]
+  the.lacor <- sweep(the.lacf, 1, the.lacf[, 1], FUN = "/")
+  l <- list(
+    lacf = the.lacf, lacr = the.lacor, name = dsname,
+    date = date(), SmoothWP = SmoothWP, S = S, J = J
+  )
+  class(l) <- "lacf"
+  return(l)
+}
+
+
