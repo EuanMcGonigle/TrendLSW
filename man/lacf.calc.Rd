@@ -4,29 +4,13 @@
 \alias{lacf.calc}
 \title{Compute Localised Autocovariance Estimate from Spectrum Estimate}
 \usage{
-lacf.calc(
-  x,
-  filter.number = 4,
-  family = "DaubExPhase",
-  spec.est = NULL,
-  lag.max = NULL,
-  ...
-)
+lacf.calc(x.TLSW, lag.max = NULL)
 }
 \arguments{
-\item{x}{The time series you wish to analyse.}
-
-\item{filter.number}{Wavelet filter number that generated the time series.}
-
-\item{family}{Wavelet family that generated the time series.}
-
-\item{spec.est}{Estimated spectrum from which the lacf estimate will be
-calculated, the component \code{spec.est} in the output of the \code{TLSW} functions.}
+\item{x.TLSW}{a \code{TLSW} object.}
 
 \item{lag.max}{The maximum lag of acf required. If NULL then the same
 default as in the regular acf function is used.}
-
-\item{...}{Further arguments to be passed to perform spectrum estimation, only to be used if \code{spec.est} is not supplied.}
 }
 \value{
 An object of class \code{lacf} which contains the autocovariance.
@@ -55,11 +39,9 @@ x <- trend + noise
 
 x.TLSW <- TLSW(x)
 
-spec.est <- x.TLSW$spec.est
-
 #---- estimate the lacf:
 
-lacf.est <- lacf.calc(x = x, spec.est = spec.est)
+lacf.est <- lacf.calc(x.TLSW)
 
 plot.ts(lacf.est$lacf[, 1])
 }
@@ -74,5 +56,5 @@ time series. \emph{Journal of the Royal Statistical Society: Series B
 (Statistical Methodology)}, \bold{75(5)}, 879--904.
 }
 \seealso{
-\code{\link{lacf}}
+\code{\link[locits]{lacf}}
 }
