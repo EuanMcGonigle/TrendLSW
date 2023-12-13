@@ -146,31 +146,14 @@ ewspec.diff <- function(x, lag = 1, filter.number = 4, family = "DaubExPhase",
                             filter.number = filter.number, family = family,
                             binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = FALSE
     )
+    x.wd <- WP.manual.smooth(x.wd = x.wd, smooth.type = smooth.type,
+                             max.scale = max.scale, binwidth = binwidth)
   } else{
     x.wd <- locits::ewspec3(diff.x,
                             filter.number = filter.number, family = family,
                             binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = S.smooth
     )
   }
-
-  if (smooth.type == "median") {
-    for (j in 1:max.scale) {
-      x.wd$SmoothWavPer <- suppressWarnings(wavethresh::putD(x.wd$SmoothWavPer, level = J - j,
-                                                             2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J - j), k = binwidth)))
-    }
-  }
-  if (smooth.type == "epan") {
-    epan.filter <- epan(binwidth)
-    for (j in 1:max.scale) {
-      temp.dj <- wavethresh::accessD(x.wd$WavPer, level = J - j)
-      temp.dj <- c(rev(temp.dj[1:(floor((binwidth-1)/2))]),temp.dj, rev(temp.dj[(length(temp.dj)-floor(binwidth/2)+1):length(temp.dj)]))
-
-      temp <- stats::filter(temp.dj, epan.filter)
-      temp <- temp[!is.na(temp)]
-      x.wd$SmoothWavPer <- wavethresh::putD(x.wd$SmoothWavPer, level = J - j, temp)
-    }
-  }
-
 
   if (boundary.handle == TRUE) {
     x.wd <- smooth.wav.per.calc(

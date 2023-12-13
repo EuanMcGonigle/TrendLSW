@@ -666,3 +666,36 @@ TLSW.lacf.calc <- function(x, filter.number = 4, family = "DaubExPhase",
 }
 
 
+#' @title Wavelet Periodogram smoothing
+#' @description Internal function for smoothing the wavelet periodogram via
+#' Epanechnikov or median smoothing.
+#' @keywords internal
+#' @noRd
+
+WP.manual.smooth <- function(x.wd, smooth.type, max.scale, binwidth){
+
+  J2 <- wavethresh::nlevelsWT(x.wd$SmoothWavPer)
+
+  if (smooth.type == "median") {
+    for (j in 1:max.scale) {
+      x.wd$SmoothWavPer <- suppressWarnings(wavethresh::putD(x.wd$SmoothWavPer, level = J2 - j,
+                                                             2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J2 - j), k = binwidth)))
+    }
+  }
+  if (smooth.type == "epan") {
+    epan.filter <- epan(binwidth)
+    for (j in 1:max.scale) {
+      temp.dj <- wavethresh::accessD(x.wd$WavPer, level = J2 - j)
+      temp.dj <- c(rev(temp.dj[1:(floor((binwidth-1)/2))]),temp.dj, rev(temp.dj[(length(temp.dj)-floor(binwidth/2)+1):length(temp.dj)]))
+
+      temp <- stats::filter(temp.dj, epan.filter)
+      temp <- temp[!is.na(temp)]
+      x.wd$SmoothWavPer <- wavethresh::putD(x.wd$SmoothWavPer, level = J2 - j, temp)
+    }
+  }
+
+  return(x.wd)
+
+}
+
+
