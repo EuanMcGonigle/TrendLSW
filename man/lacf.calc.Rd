@@ -6,8 +6,8 @@
 \usage{
 lacf.calc(
   x,
-  filter.number = 10,
-  family = "DaubLeAsymm",
+  filter.number = 4,
+  family = "DaubExPhase",
   spec.est = NULL,
   lag.max = NULL,
   ...
@@ -34,7 +34,7 @@ An object of class \code{lacf} which contains the autocovariance.
 \description{
 Computes the local autocovariance and autocorrelation estimates, given an
 input of a spectrum estimate. Provides the same functionality as the
-function \code{lacf} from the locits package, but user provides the spectrum
+function \code{lacf} from the \code{locits} package, but user provides the spectrum
 estimate in the argument.
 }
 \examples{
@@ -57,9 +57,9 @@ x.TLSW <- TLSW(x)
 
 spec.est <- x.TLSW$spec.est
 
-#---- estimate the lacf specifying the Haar wavelet as the generating wavelet
+#---- estimate the lacf:
 
-lacf.est <- lacf.calc(x = x, filter.number = 1, family = "DaubExPhase", spec.est = spec.est)
+lacf.est <- lacf.calc(x = x, spec.est = spec.est)
 
 plot.ts(lacf.est$lacf[, 1])
 }
@@ -67,6 +67,7 @@ plot.ts(lacf.est$lacf[, 1])
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
+
 Nason, G. P. (2013). A test for second-order stationarity and approximate
 confidence intervals for localized autocovariances for locally stationary
 time series. \emph{Journal of the Royal Statistical Society: Series B
