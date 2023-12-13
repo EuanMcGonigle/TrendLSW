@@ -3,16 +3,11 @@
 #' input of a spectrum estimate. Provides the same functionality as the
 #' function \code{lacf} from the \code{locits} package, but user provides the spectrum
 #' estimate in the argument.
-#' @param x The time series you wish to analyse.
-#' @param filter.number Wavelet filter number that generated the time series.
-#' @param family Wavelet family that generated the time series.
-#' @param spec.est Estimated spectrum from which the lacf estimate will be
-#' calculated, the component \code{spec.est} in the output of the \code{TLSW} functions.
+#' @param x.TLSW a \code{TLSW} object.
 #' @param lag.max The maximum lag of acf required. If NULL then the same
 #' default as in the regular acf function is used.
-#' @param ... Further arguments to be passed to perform spectrum estimation, only to be used if \code{spec.est} is not supplied.
 #' @return An object of class \code{lacf} which contains the autocovariance.
-#' @seealso \code{\link{lacf}}
+#' @seealso \code{\link[locits]{lacf}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
@@ -39,33 +34,25 @@
 #'
 #' x.TLSW <- TLSW(x)
 #'
-#' spec.est <- x.TLSW$spec.est
-#'
 #' #---- estimate the lacf:
 #'
-#' lacf.est <- lacf.calc(x = x, spec.est = spec.est)
+#' lacf.est <- lacf.calc(x.TLSW)
 #'
 #' plot.ts(lacf.est$lacf[, 1])
 #' @export
-lacf.calc <- function(x, filter.number = 4, family = "DaubExPhase",
-                      spec.est = NULL, lag.max = NULL, ...) {
-  stopifnot("Paramter lag.max should be a nonegative integer." = lag.max >= 0)
+lacf.calc <- function(x.TLSW, lag.max = NULL) {
+  stopifnot("Parameter lag.max should be a nonegative integer." = lag.max >= 0)
 
-  if (is.null(spec.est)) {
-    spec.est <- ewspec.trend(
-      x = x, an.filter.number = filter.number, an.family = family,
-      gen.filter.number = filter.number, gen.family = family, ...
-    )
-  }
-
+  x <- x.TLSW$x
   dsname <- deparse(substitute(x))
 
-  S <- spec.est$S
-  SmoothWP <- spec.est$SmoothWavPer
+  S <- x.TLSW$spec.est$S
+  SmoothWP <- x.TLSW$spec.est$SmoothWavPer
 
   J <- S$nlevels
   Smat <- matrix(S$D, nrow = 2^J, ncol = J)[1:length(x), ]
-  Psi <- wavethresh::PsiJmat(-J, filter.number = filter.number, family = family)
+  Psi <- wavethresh::PsiJmat(-J, filter.number = S$filter$filter.number,
+                             family = S$filter$family)
   nc <- ncol(Psi)
   L <- (nc - 1) / 2
   dimnames(Psi) <- list(NULL, c(-L:0, 1:L))
