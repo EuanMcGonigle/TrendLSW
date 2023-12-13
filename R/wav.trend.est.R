@@ -151,7 +151,7 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
   } else {
     spec.est <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
 
-    lacf.est <- lacf.calc(x,
+    lacf.est <- TLSW.lacf.calc(x,
       filter.number = spec.est$S$filter$filter.number, family = spec.est$S$filter$family,
       lag.max = lag.max, spec.est = spec.est
     )
