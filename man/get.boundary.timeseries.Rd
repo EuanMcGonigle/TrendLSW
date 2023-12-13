@@ -10,9 +10,9 @@ get.boundary.timeseries(x, type = c("TLSW", "LSW.diff")[1])
 \item{x}{The time series used to calculate the boundary extended version.}
 
 \item{type}{The type of boundary handling used. Either "TLSW" for boundary
-handling as described in McGonigle, E. T., Killick, R., and Nunes, M. (2022)
-Trend locally stationary wavelet processes, or "LSW.diff" for a periodic
-version of this, used for the differencing-based functions.}
+handling as described in McGonigle, E. T., Killick, R., and Nunes, M. (2022a),
+or "LSW.diff" for a periodic version of this, used for the differencing-based functions
+as described in McGonigle, E. T., Killick, R., and Nunes, M. (2022b).}
 }
 \value{
 A vector of 4 times the length of the input vector.
@@ -33,9 +33,13 @@ x.b <- get.boundary.timeseries(x)
 plot.ts(x.b)
 }
 \references{
-McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
+McGonigle, E. T., Killick, R., and Nunes, M. (2022a). Trend
 locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
+
+#' McGonigle, E. T., Killick, R., and Nunes, M. (2022b). Modelling
+time-varying first and second-order structure of time series via wavelets
+and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
 }
 \seealso{
 \code{\link{TLSW}}
