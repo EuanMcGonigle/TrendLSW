@@ -41,7 +41,7 @@
 #' Should be a positive integer less than J, where T=2^J is the length of the
 #' time series. The default setting is 0.7J, to control for bias from the trend
 #' and boundary effects.
-#' @param WP.smooth Argument that dictates if smoothing is performed on the raw
+#' @param S.smooth Argument that dictates if smoothing is performed on the raw
 #' wavelet periodogram.
 #' @param AutoReflect As in wavethresh. Decides whether or not the time series
 #' is reflected when computing the wavelet transform. Helps estimation at the
@@ -55,7 +55,7 @@
 #' boundaries of the times series. If FALSE, no boundary correction is applied.
 #' Recommended to use TRUE.
 #' @param smooth.type String indicating which type of smoothing to use on wavelet periodogram.
-#' Can be \code{"mean"}, \code{"median"}, or \code{"epanechnikov"}.
+#' Can be \code{"mean"}, \code{"median"}, or \code{"epan"}.
 #' @return A list object, containing the following fields:
 #' \item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of
 #' class wd and so can be plotted and printed in the usual way using wavethresh
@@ -65,7 +65,7 @@
 #' wavelet periodogram.}
 #' \item{SmoothWavPer}{ The smoothed, un-corrected raw
 #' wavelet periodogram of the input data. }
-#' \item{max.scale, boundary.handle, WP.smooth, smooth.type, binwidth}{Input parameters}
+#' \item{max.scale, boundary.handle, S.smooth, smooth.type, binwidth}{Input parameters}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
@@ -83,7 +83,7 @@
 #'
 #' set.seed(1)
 #'
-#' x <- TLSW.sim(trend = trend, spec = spec)
+#' x <- TLSWsim(trend = trend, spec = spec)
 #'
 #' spec.est <- ewspec.trend(x,
 #'   an.filter.number = 4, an.family = "DaubExPhase",
@@ -91,12 +91,13 @@
 #' )
 #'
 #' quick.spec.plot(spec.est$S)
-#' @export
+#' @keywords internal
+#' @noRd
 ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
                          gen.filter.number = an.filter.number, gen.family = an.family,
                          binwidth = floor(2 * sqrt(length(x))),
-                         max.scale = floor(log2(length(x)) * 0.7), WP.smooth = TRUE,
-                         smooth.type = c("mean", "median", "epanechnikov")[1],
+                         max.scale = floor(log2(length(x)) * 0.7), S.smooth = TRUE,
+                         smooth.type = c("mean", "median", "epan")[1],
                          AutoReflect = TRUE, supply.inv.mat = FALSE, inv.mat = NULL,
                          boundary.handle = TRUE) {
   # function that computes the spectral estimate of a time series that has a smooth trend
@@ -108,7 +109,7 @@ ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
   x.check <- ewspec.checks(
     x = x, max.scale = max.scale, lag = 1,
     binwidth = binwidth, boundary.handle = boundary.handle,
-    WP.smooth = WP.smooth, smooth.type = smooth.type
+    S.smooth = S.smooth, smooth.type = smooth.type
   )
 
   x.len <- x.check$x.len
@@ -140,34 +141,18 @@ ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
   }
   # calculate raw wavelet periodogram which we need to correct:
 
-  if (smooth.type == "median" || smooth.type == "epanechnikov") {
+  if (smooth.type == "median" || smooth.type == "epan") {
     x.wd <- locits::ewspec3(x,
                             filter.number = an.filter.number, family = an.family,
                             binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = FALSE
     )
+    x.wd <- WP.manual.smooth(x.wd = x.wd, smooth.type = smooth.type,
+                             max.scale = max.scale, binwidth = binwidth)
   } else{
     x.wd <- locits::ewspec3(x,
                             filter.number = an.filter.number, family = an.family,
-                            binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = WP.smooth
+                            binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = S.smooth
     )
-  }
-
-  if (smooth.type == "median") {
-    for (j in 1:max.scale) {
-      x.wd$SmoothWavPer <- suppressWarnings(wavethresh::putD(x.wd$SmoothWavPer, level = J - j,
-                                                             2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J - j), k = binwidth)))
-    }
-  }
-  if (smooth.type == "epanechnikov") {
-    epan.filter <- epanechnikov(binwidth)
-    for (j in 1:max.scale) {
-      temp.dj <- wavethresh::accessD(x.wd$WavPer, level = J - j)
-      temp.dj <- c(rev(temp.dj[1:(floor((binwidth-1)/2))]),temp.dj, rev(temp.dj[(length(temp.dj)-floor(binwidth/2)+1):length(temp.dj)]))
-
-      temp <- stats::filter(temp.dj, epan.filter)
-      temp <- temp[!is.na(temp)]
-      x.wd$SmoothWavPer <- wavethresh::putD(x.wd$SmoothWavPer, level = J - j, temp)
-    }
   }
 
   # access smoothed, uncorrected wavelet periodogram:
@@ -187,8 +172,8 @@ ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
 
   l$max.scale <- max.scale
   l$boundary.handle <- boundary.handle
-  l$WP.smooth <- WP.smooth
-  if (WP.smooth == TRUE) {
+  l$S.smooth <- S.smooth
+  if (S.smooth == TRUE) {
     l$smooth.type <- smooth.type
     l$binwidth <- binwidth
   }

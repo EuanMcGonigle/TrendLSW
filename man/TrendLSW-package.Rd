@@ -37,7 +37,7 @@ Analysis}, 43(6), 895-917.
 \keyword{time series}
 \keyword{nonstationary}
 \seealso{
-\code{\link{TLSW.est}},\code{\link{TLSW.sim}},\code{\link{plot.TLSW}}
+\code{\link{TLSW}},\code{\link{TLSWsim}},\code{\link{plot.TLSW}}
 }
 \examples{
 # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
@@ -50,9 +50,9 @@ trend <- seq(from = 0, to = 5, length = 512)
 
 set.seed(1)
 
-x <- TLSW.sim(trend = trend, spec = spec)
+x <- TLSWsim(trend = trend, spec = spec)
 
-x.TLSW <- TLSW.est(x)
+x.TLSW <- TLSW(x)
 
 summary(x.TLSW)
 }

@@ -89,10 +89,10 @@ test_that("ewspec.diff executes with median smoothing", {
   expect_equal(class(x.s), "list")
 })
 
-test_that("ewspec.diff executes with epanechnikov smoothing", {
+test_that("ewspec.diff executes with epan smoothing", {
   skip_on_cran()
   x <- stats::rnorm(256)
-  x.s <- ewspec.diff(x, smooth.type =  "epanechnikov")
+  x.s <- ewspec.diff(x, smooth.type =  "epan")
   expect_equal(class(x.s), "list")
 })
 
@@ -100,5 +100,5 @@ test_that("ewspec.diff recognises smoothing", {
   skip_on_cran()
   x <- stats::rnorm(256)
   expect_error(ewspec.diff(x, smooth.type =  "bartlett"),
-               "Smoothing type must be one of 'mean', 'median', or 'epanechnikov'.")
+               "Smoothing type must be one of 'mean', 'median', or 'epan'.")
 })

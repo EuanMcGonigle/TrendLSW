@@ -4,13 +4,7 @@
 \alias{plot.TLSW}
 \title{Plot Trend and/or Spectrum Information in a \code{TLSW} Object}
 \usage{
-\method{plot}{TLSW}(
-  x,
-  plot.type = c("both", "trend", "spec")[1],
-  trend.plot.args,
-  spec.plot.args,
-  ...
-)
+\method{plot}{TLSW}(x, plot.type = c("trend", "spec"), trend.plot.args, spec.plot.args, ...)
 }
 \arguments{
 \item{x}{A \code{TLSW} object}
@@ -19,7 +13,7 @@
 \itemize{
 \item{\code{"trend"}}{: will plot the trend estimate only.}
 \item{\code{"spec"}}{: will plot the spectral estimate only.}
-\item{\code{"both"}}{: will plot both the trend and spectral estimate.}
+\item{\code{c("trend", "spec")}}{: the default value will plot both the trend and spectral estimate.}
 }}
 
 \item{trend.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.}
@@ -42,9 +36,9 @@ trend <- seq(from = 0, to = 5, length = 512)
 
 set.seed(1)
 
-x <- TLSW.sim(trend = trend, spec = spec)
+x <- TLSWsim(trend = trend, spec = spec)
 
-x.TLSW <- TLSW.est(x)
+x.TLSW <- TLSW(x)
 
 plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data"))
 }

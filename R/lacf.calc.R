@@ -1,30 +1,37 @@
 #' @title Compute Localised Autocovariance Estimate from Spectrum Estimate
 #' @description Computes the local autocovariance and autocorrelation estimates, given an
 #' input of a spectrum estimate. Provides the same functionality as the
-#' function \code{lacf} from the locits package, but user provides the spectrum
-#' estimate in the argument.
-#' @param x The time series you wish to analyse.
-#' @param filter.number Wavelet filter number that generated the time series.
-#' @param family Wavelet family that generated the time series.
-#' @param spec.est Estimated spectrum from which the lacf estimate will be
-#' calculated, the output of the \code{ewspec.trend} or \code{ewspec.diff} functions.
+#' function \code{lacf} from the \code{locits} package, but user provides an object of
+#' class \code{TLSW} as the main argument.
+#' @param x.TLSW a \code{TLSW} object.
 #' @param lag.max The maximum lag of acf required. If NULL then the same
 #' default as in the regular acf function is used.
-#' @param ... Further arguments to be passed to the \code{\link{ewspec.trend}}
-#' function for spectrum estimation, only to be used if \code{spec.est} is not supplied.
-#' @return An object of class \code{lacf} which contains the autocovariance.
-#' @seealso \code{\link{lacf}}
+#' @return An object of class \code{lacf} which contains the following components:
+#'  \itemize{
+#'  \item{lacf}{: a matrix containing the estimate of the local autocovariance. Columns represent lags, and rows represent time points.}
+#' \item{lacr}{: a matrix containing the estimate of the local autocorrelation. Columns represent lags, and rows represent time points.}
+#' \item{name}{: the name of the time series (if applicable).}
+#' \item{date}{: the date the function was executed.}
+#' \item{SmoothWP}{: The smoothed, un-corrected raw
+#' wavelet periodogram of the input data.}
+#' \item{S}{: the spectral estimate used to compute the local autocovariance.}
+#' \item{J}{: the number of total wavelet scales.}
+#' }
+#' @seealso \code{\link[locits]{lacf}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
+#'
 #' Nason, G. P. (2013). A test for second-order stationarity and approximate
 #' confidence intervals for localized autocovariances for locally stationary
 #' time series. \emph{Journal of the Royal Statistical Society: Series B
 #' (Statistical Methodology)}, \bold{75(5)}, 879--904.
+#'
+#' Nason, G. P. (2016). locits: Tests of stationarity and localized autocovariance.
+#' R package version 1.7.3.
 #' @examples
 #'
-#' ## ---- computes estimate of local autocovariance function using the ewspec.trend
-#' ## ---- function to compute the spectral estimate
+#' ## ---- computes estimate of local autocovariance function
 #'
 #' ## ---- example where LSW process is generated using the Haar wavelet
 #'
@@ -38,36 +45,29 @@
 #'
 #' ## ---- first estimate the spectrum using Daubechies EP4 wavelet:
 #'
-#' spec.est <- ewspec.trend(x,
-#'   an.filter.number = 4, an.family = "DaubExPhase",
-#'   gen.filter.number = 1, gen.family = "DaubExPhase"
-#' )
+#' x.TLSW <- TLSW(x)
 #'
-#' #---- estimate the lacf specifying the Haar wavelet as the generating wavelet
+#' #---- estimate the lacf:
 #'
-#' lacf.est <- lacf.calc(x = x, filter.number = 1, family = "DaubExPhase", spec.est = spec.est)
+#' lacf.est <- lacf.calc(x.TLSW)
 #'
-#' plot.ts(lacf.est$lacf[, 1])
+#' #---- plot the lag 1 acf over time:
+#'
+#' plot.ts(lacf.est$lacf[, 1], ylab = "Lag 1 ACF")
 #' @export
-lacf.calc <- function(x, filter.number = 10, family = "DaubLeAsymm",
-                      spec.est = NULL, lag.max = NULL, ...) {
-  stopifnot("Paramter lag.max should be a nonegative integer." = lag.max >= 0)
+lacf.calc <- function(x.TLSW, lag.max = NULL) {
+  stopifnot("Parameter lag.max should be a nonegative integer." = lag.max >= 0)
 
-  if (is.null(spec.est)) {
-    spec.est <- ewspec.trend(
-      x = x, an.filter.number = filter.number, an.family = family,
-      gen.filter.number = filter.number, gen.family = family, ...
-    )
-  }
-
+  x <- x.TLSW$x
   dsname <- deparse(substitute(x))
 
-  S <- spec.est$S
-  SmoothWP <- spec.est$SmoothWavPer
+  S <- x.TLSW$spec.est$S
+  SmoothWP <- x.TLSW$spec.est$SmoothWavPer
 
   J <- S$nlevels
   Smat <- matrix(S$D, nrow = 2^J, ncol = J)[1:length(x), ]
-  Psi <- wavethresh::PsiJmat(-J, filter.number = filter.number, family = family)
+  Psi <- wavethresh::PsiJmat(-J, filter.number = S$filter$filter.number,
+                             family = S$filter$family)
   nc <- ncol(Psi)
   L <- (nc - 1) / 2
   dimnames(Psi) <- list(NULL, c(-L:0, 1:L))

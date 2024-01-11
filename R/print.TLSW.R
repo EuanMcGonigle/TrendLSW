@@ -13,7 +13,7 @@
 #' McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
-#' @seealso \code{\link{TLSW.est}}, \code{\link{summary.TLSW}}
+#' @seealso \code{\link{TLSW}}, \code{\link{summary.TLSW}}
 #' @export
 #'
 #' @examples
@@ -26,9 +26,9 @@
 #'
 #' set.seed(1)
 #'
-#' x <- TLSW.sim(trend = trend, spec = spec)
+#' x <- TLSWsim(trend = trend, spec = spec)
 #'
-#' x.TLSW <- TLSW.est(x)
+#' x.TLSW <- TLSW(x)
 #'
 #' print(x.TLSW)
 #'

@@ -44,20 +44,18 @@ For detailed examples, see the help files within the package. We can generate a 
 ```
 set.seed(1)
 
-noise = rnorm(512)
-trend = seq(from = 0, to = 5,length = 512)
-x = trend+noise
+noise <- rnorm(512)
+trend <- seq(from = 0, to = 5,length = 512)
+x <- trend + noise
 
 ````
 
-Apply `wav.trend.est`:
+Apply the `TLSW` function:
 ```
-trend.est = wav.trend.est(x, filter.number = 4, family = "DaubLeAsymm", boundary.handle =TRUE)
+x.TLSW <- TLSW(x)
 ```
 
-Visualise the estimated trend function and underlying truth:
+Visualise the estimated trend and spectrum:
 ```
-plot.ts(x, lty = 1, col = 8)
-lines(trend, col = 2, lwd = 2)
-lines(trend.est$trend.est,col = 4, lwd = 2, lty = 2)
+plot(x.TLSW)
 ```

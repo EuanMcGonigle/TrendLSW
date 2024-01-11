@@ -164,7 +164,7 @@ trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.t
       thresh.type = thresh.type, normal = normal, calc.confint = FALSE
     ))
 
-    trend.mat[i, ] <- rep.trend$trend.est
+    trend.mat[i, ] <- rep.trend$T
   }
 
   conf.int <- apply(trend.mat, 2, FUN = stats::quantile, probs = c(sig.lvl / 2, (1 - sig.lvl / 2)))
@@ -178,7 +178,7 @@ trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.t
 #' @description Internal function for error checking for spectral estimation
 #' @keywords internal
 #' @noRd
-ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle, WP.smooth, smooth.type) {
+ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle, S.smooth, smooth.type) {
   if (any(is.na(x))) {
     stop("Data contains mising values.")
   }
@@ -186,9 +186,9 @@ ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle, WP.smoot
     stop("Data is not numeric")
   }
   stopifnot("Parameter boundary.handle must be logical variable" = is.logical(boundary.handle))
-  stopifnot("Parameter WP.smooth must be logical variable" = is.logical(WP.smooth))
-  stopifnot("Smoothing type must be one of 'mean', 'median', or 'epanechnikov'." = smooth.type == "mean" ||
-              smooth.type == "median" || smooth.type == "epanechnikov")
+  stopifnot("Parameter S.smooth must be logical variable" = is.logical(S.smooth))
+  stopifnot("Smoothing type must be one of 'mean', 'median', or 'epan'." = smooth.type == "mean" ||
+              smooth.type == "median" || smooth.type == "epan")
 
   x.len <- length(x)
 
@@ -451,7 +451,7 @@ epan.kern.f <- function(tt)	{
 #' @description Internal function for calculating Epanechnikov kernel filter
 #' @keywords internal
 #' @noRd
-epanechnikov <- function(epan.len){
+epan <- function(epan.len){
 
   mytt <- seq(from = -sqrt(5), to = sqrt(5), length = epan.len)
 
@@ -594,6 +594,108 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
   axr
 }
 
+#' @title Convert matrix to wd object
+#' @description Internal function for plotting spectral estimate
+#' @keywords internal
+#' @noRd
 
+mat.to.spec <- function(s.mat, filter.number = 1, family = "DaubExPhase"){
+
+  J <- nrow(s.mat)
+
+  spec <- wavethresh::cns(2^J, filter.number = filter.number, family = family)
+
+  for (j in 1:J){
+
+    spec <- wavethresh::putD(spec, level = J - j, s.mat[j, ])
+
+  }
+
+  spec
+
+
+}
+
+
+#' @title LACF calculation
+#' @description Internal function for estimating lacf, used inside TLSW function
+#' for calculating confidence intervals if required.
+#' @keywords internal
+#' @noRd
+
+TLSW.lacf.calc <- function(x, filter.number = 4, family = "DaubExPhase",
+                      spec.est = NULL, lag.max = NULL, ...) {
+  stopifnot("Paramter lag.max should be a nonegative integer." = lag.max >= 0)
+
+  if (is.null(spec.est)) {
+    spec.est <- ewspec.trend(
+      x = x, an.filter.number = filter.number, an.family = family,
+      gen.filter.number = filter.number, gen.family = family, ...
+    )
+  }
+
+  dsname <- deparse(substitute(x))
+
+  S <- spec.est$S
+  SmoothWP <- spec.est$SmoothWavPer
+
+  J <- S$nlevels
+  Smat <- matrix(S$D, nrow = 2^J, ncol = J)[1:length(x), ]
+  Psi <- wavethresh::PsiJmat(-J, filter.number = filter.number, family = family)
+  nc <- ncol(Psi)
+  L <- (nc - 1) / 2
+  dimnames(Psi) <- list(NULL, c(-L:0, 1:L))
+  if (is.null(lag.max)) {
+    lag.max <- floor(10 * (log10(length(x))))
+  }
+  if (L + 1 + lag.max > ncol(Psi)) {
+    warning(paste(
+      "lag.max too high. Have reset it to ",
+      ncol(Psi) - L - 1, ". Higher lags are zero"
+    ))
+    lag.max <- ncol(Psi) - L - 1
+  }
+  the.lacf <- Smat %*% Psi[, (L + 1):(L + 1 + lag.max)]
+  the.lacor <- sweep(the.lacf, 1, the.lacf[, 1], FUN = "/")
+  l <- list(
+    lacf = the.lacf, lacr = the.lacor, name = dsname,
+    date = date(), SmoothWP = SmoothWP, S = S, J = J
+  )
+  class(l) <- "lacf"
+  return(l)
+}
+
+
+#' @title Wavelet Periodogram smoothing
+#' @description Internal function for smoothing the wavelet periodogram via
+#' Epanechnikov or median smoothing.
+#' @keywords internal
+#' @noRd
+
+WP.manual.smooth <- function(x.wd, smooth.type, max.scale, binwidth){
+
+  J2 <- wavethresh::nlevelsWT(x.wd$SmoothWavPer)
+
+  if (smooth.type == "median") {
+    for (j in 1:max.scale) {
+      x.wd$SmoothWavPer <- suppressWarnings(wavethresh::putD(x.wd$SmoothWavPer, level = J2 - j,
+                                                             2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J2 - j), k = binwidth)))
+    }
+  }
+  if (smooth.type == "epan") {
+    epan.filter <- epan(binwidth)
+    for (j in 1:max.scale) {
+      temp.dj <- wavethresh::accessD(x.wd$WavPer, level = J2 - j)
+      temp.dj <- c(rev(temp.dj[1:(floor((binwidth-1)/2))]),temp.dj, rev(temp.dj[(length(temp.dj)-floor(binwidth/2)+1):length(temp.dj)]))
+
+      temp <- stats::filter(temp.dj, epan.filter)
+      temp <- temp[!is.na(temp)]
+      x.wd$SmoothWavPer <- wavethresh::putD(x.wd$SmoothWavPer, level = J2 - j, temp)
+    }
+  }
+
+  return(x.wd)
+
+}
 
 

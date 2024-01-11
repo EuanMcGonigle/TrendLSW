@@ -32,7 +32,7 @@
 #' \item{x}{Input data}
 #' \item{filter.number, family}{Input wavelet parameters}
 #' \item{transform.type, max.scale, boundary.handle, calc.confint}{Input parameters}
-#' \item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
+#' \item{T}{A vector of length \code{length(x)} containing the trend estimate}
 #' \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
 #' \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
 #' \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
@@ -54,7 +54,8 @@
 #' plot.ts(x, lty = 1, col = 8)
 #' lines(trend, col = 2, lwd = 2)
 #' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
-#' @export
+#' @keywords internal
+#' @noRd
 wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
                           max.scale = floor(log2(length(x)) * 0.7),
                           transform.type = c("dec", "nondec")[1],
@@ -143,15 +144,14 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
       x_wr <- x_wr[lower:upper]
     }
     return(list(
-      x = orig.x, filter.number = filter.number, family = family,
+      x = orig.x, T = x_wr, filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
-      boundary.handle = boundary.handle, calc.confint = calc.confint,
-      trend.est = x_wr
+      boundary.handle = boundary.handle, calc.confint = calc.confint
     ))
   } else {
     spec.est <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
 
-    lacf.est <- lacf.calc(x,
+    lacf.est <- TLSW.lacf.calc(x,
       filter.number = spec.est$S$filter$filter.number, family = spec.est$S$filter$family,
       lag.max = lag.max, spec.est = spec.est
     )
@@ -177,10 +177,9 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
     }
 
     return(list(
-      x = orig.x, filter.number = filter.number, family = family, transform.type = transform.type,
-      max.scale = max.scale, boundary.handle = boundary.handle, calc.confint = calc.confint,
-      trend.est = x_wr, lower.confint = lower.conf, upper.confint = upper.conf,
-      sig.lvl = sig.lvl
-    ))
+      x = orig.x, T = x_wr,  lower.confint = lower.conf, upper.confint = upper.conf,
+      sig.lvl = sig.lvl, filter.number = filter.number, family = family, transform.type = transform.type,
+      max.scale = max.scale, boundary.handle = boundary.handle, calc.confint = calc.confint
+     ))
   }
 }

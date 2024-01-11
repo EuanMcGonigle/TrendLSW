@@ -4,44 +4,36 @@
 \alias{lacf.calc}
 \title{Compute Localised Autocovariance Estimate from Spectrum Estimate}
 \usage{
-lacf.calc(
-  x,
-  filter.number = 10,
-  family = "DaubLeAsymm",
-  spec.est = NULL,
-  lag.max = NULL,
-  ...
-)
+lacf.calc(x.TLSW, lag.max = NULL)
 }
 \arguments{
-\item{x}{The time series you wish to analyse.}
-
-\item{filter.number}{Wavelet filter number that generated the time series.}
-
-\item{family}{Wavelet family that generated the time series.}
-
-\item{spec.est}{Estimated spectrum from which the lacf estimate will be
-calculated, the output of the \code{ewspec.trend} or \code{ewspec.diff} functions.}
+\item{x.TLSW}{a \code{TLSW} object.}
 
 \item{lag.max}{The maximum lag of acf required. If NULL then the same
 default as in the regular acf function is used.}
-
-\item{...}{Further arguments to be passed to the \code{\link{ewspec.trend}}
-function for spectrum estimation, only to be used if \code{spec.est} is not supplied.}
 }
 \value{
-An object of class \code{lacf} which contains the autocovariance.
+An object of class \code{lacf} which contains the following components:
+ \itemize{
+ \item{lacf}{: a matrix containing the estimate of the local autocovariance. Columns represent lags, and rows represent time points.}
+\item{lacr}{: a matrix containing the estimate of the local autocorrelation. Columns represent lags, and rows represent time points.}
+\item{name}{: the name of the time series (if applicable).}
+\item{date}{: the date the function was executed.}
+\item{SmoothWP}{: The smoothed, un-corrected raw
+wavelet periodogram of the input data.}
+\item{S}{: the spectral estimate used to compute the local autocovariance.}
+\item{J}{: the number of total wavelet scales.}
+}
 }
 \description{
 Computes the local autocovariance and autocorrelation estimates, given an
 input of a spectrum estimate. Provides the same functionality as the
-function \code{lacf} from the locits package, but user provides the spectrum
-estimate in the argument.
+function \code{lacf} from the \code{locits} package, but user provides an object of
+class \code{TLSW} as the main argument.
 }
 \examples{
 
-## ---- computes estimate of local autocovariance function using the ewspec.trend
-## ---- function to compute the spectral estimate
+## ---- computes estimate of local autocovariance function
 
 ## ---- example where LSW process is generated using the Haar wavelet
 
@@ -55,26 +47,29 @@ x <- trend + noise
 
 ## ---- first estimate the spectrum using Daubechies EP4 wavelet:
 
-spec.est <- ewspec.trend(x,
-  an.filter.number = 4, an.family = "DaubExPhase",
-  gen.filter.number = 1, gen.family = "DaubExPhase"
-)
+x.TLSW <- TLSW(x)
 
-#---- estimate the lacf specifying the Haar wavelet as the generating wavelet
+#---- estimate the lacf:
 
-lacf.est <- lacf.calc(x = x, filter.number = 1, family = "DaubExPhase", spec.est = spec.est)
+lacf.est <- lacf.calc(x.TLSW)
 
-plot.ts(lacf.est$lacf[, 1])
+#---- plot the lag 1 acf over time:
+
+plot.ts(lacf.est$lacf[, 1], ylab = "Lag 1 ACF")
 }
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
+
 Nason, G. P. (2013). A test for second-order stationarity and approximate
 confidence intervals for localized autocovariances for locally stationary
 time series. \emph{Journal of the Royal Statistical Society: Series B
 (Statistical Methodology)}, \bold{75(5)}, 879--904.
+
+Nason, G. P. (2016). locits: Tests of stationarity and localized autocovariance.
+R package version 1.7.3.
 }
 \seealso{
-\code{\link{lacf}}
+\code{\link[locits]{lacf}}
 }

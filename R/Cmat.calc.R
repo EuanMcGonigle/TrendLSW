@@ -4,7 +4,7 @@
 #' non-decimated autocorrelation wavelets. This matrix is used to correct the
 #' wavelet periodogram analysed using a different wavelet to the wavelet that
 #' is assumed to generate the time series. The matrix returned is the one
-#' called \eqn{C^{(0,1)}} in McGonigle et al. (2022).
+#' denoted \eqn{C^{(0,1)}} in McGonigle et al. (2022).
 #' @param J The dimension of the matrix required. Should be a positive integer.
 #' @param gen.filter.number The index of the generating wavelet used to compute
 #' the inner product matrix.
@@ -16,7 +16,7 @@
 #' product matrix.
 #' @return A J-dimensional square matrix giving the cross inner product
 #' autocorrelation wavelet matrix.
-#' @seealso \link{ewspec.trend}
+#' @seealso \link{TLSW}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.

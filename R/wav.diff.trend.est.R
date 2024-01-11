@@ -54,7 +54,7 @@
 #' \item{x}{Input data}
 #' \item{filter.number, family}{Input wavelet parameters}
 #' \item{transform.type, max.scale, boundary.handle, thresh.type, normal,  calc.confint}{Input parameters}
-#' \item{trend.est}{A vector of length \code{length(x)} containing the trend estimate}
+#' \item{T}{A vector of length \code{length(x)} containing the trend estimate}
 #' \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
 #' \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
 #' \item{reps}{Returned if \code{calc.confint = TRUE}. The number of bootstrap replicates used to compute
@@ -73,7 +73,7 @@
 #' sine.trend <- -2 * sin(seq(from = 0, to = 2 * pi, length = 1024)) -
 #'   1.5 * cos(seq(from = 0, to = pi, length = 1024))
 #'
-#' x <- TLSW.sim(trend = sine.trend, spec = spec)
+#' x <- TLSWsim(trend = sine.trend, spec = spec)
 #'
 #' spec.est <- ewspec.diff(x = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
 #'
@@ -81,9 +81,10 @@
 #'
 #' plot.ts(x, lty = 1, col = 8)
 #' lines(sine.trend, col = 2, lwd = 2)
-#' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
-#' @export
-wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeAsymm",
+#' lines(trend.est$T, col = 4, lwd = 2, lty = 2)
+#' @keywords internal
+#' @noRd
+wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExPhase",
                                thresh.type = c("hard","soft")[1], normal = TRUE,
                                transform.type = c("dec", "nondec")[2],
                                max.scale = floor(0.7 * log2(length(x))),
@@ -236,20 +237,20 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubLeA
       reps = reps, sig.lvl = sig.lvl, ...
     )
     return(list(
-      x = orig.x, filter.number = filter.number, family = family,
+      x = orig.x, T = trend.est, lower.confint = trend.confint[1, ],
+      upper.confint = trend.confint[2, ], sig.lvl = sig.lvl, reps = reps,
+      filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
       boundary.handle = boundary.handle, thresh.type = thresh.type,
-      normal = normal, calc.confint = calc.confint,
-      trend.est = trend.est,
-      lower.confint = trend.confint[1, ], upper.confint = trend.confint[2, ],
-      reps = reps, sig.lvl = sig.lvl
+      normal = normal, calc.confint = calc.confint
+
     ))
   } else {
     return(list(
-      x = orig.x, filter.number = filter.number, family = family,
+      x = orig.x, T = trend.est,  filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
       boundary.handle = boundary.handle, thresh.type = thresh.type, normal = normal,
-      calc.confint = calc.confint, trend.est = trend.est
+      calc.confint = calc.confint
     ))
   }
 }

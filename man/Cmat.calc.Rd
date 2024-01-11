@@ -39,7 +39,7 @@ Computes the cross inner product matrix of the discrete
 non-decimated autocorrelation wavelets. This matrix is used to correct the
 wavelet periodogram analysed using a different wavelet to the wavelet that
 is assumed to generate the time series. The matrix returned is the one
-called \eqn{C^{(0,1)}} in McGonigle et al. (2022).
+denoted \eqn{C^{(0,1)}} in McGonigle et al. (2022).
 }
 \examples{
 C <- Cmat.calc(
@@ -54,5 +54,5 @@ locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
 }
 \seealso{
-\link{ewspec.trend}
+\link{TLSW}
 }

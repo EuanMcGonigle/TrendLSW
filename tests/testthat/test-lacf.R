@@ -1,22 +1,16 @@
-test_that("lacf.calc executes with spectrum supplied", {
+test_that("lacf.calc executes", {
   skip_on_cran()
   x <- stats::arima.sim(model = list(ar = 0.5), n = 512)
-  x.s <- ewspec.trend(x)
-  expect_equal(class(lacf.calc(x, spec.est = x.s)), "lacf")
-})
-
-test_that("lacf.calc executes with spectrum not supplied", {
-  skip_on_cran()
-  x <- stats::arima.sim(model = list(ar = 0.5), n = 512)
-  expect_equal(class(lacf.calc(x)), "lacf")
+  x.TLSW <- TLSW(x)
+  expect_equal(class(lacf.calc(x.TLSW)), "lacf")
 })
 
 test_that("lacf.calc warns with large lag.max", {
   skip_on_cran()
   x <- stats::arima.sim(model = list(ar = 0.5), n = 512)
+  x.TLSW <- TLSW(x, S.filter.number = 1)
   expect_warning(
-    lacf.calc(x,
-      filter.number = 1, family = "DaubExPhase",
+    lacf.calc(x.TLSW,
       lag.max = 2^11
     ),
     "lag.max too high. Have reset it to  511 . Higher lags are zero"
@@ -26,8 +20,9 @@ test_that("lacf.calc warns with large lag.max", {
 test_that("lacf.calc rejects negative lag.max", {
   skip_on_cran()
   x <- stats::rnorm(64)
+  x.TLSW <- TLSW(x)
   expect_error(
-    lacf.calc(x, lag.max = -4),
-    "Paramter lag.max should be a nonegative integer."
+    lacf.calc(x.TLSW, lag.max = -4),
+    "Parameter lag.max should be a nonegative integer."
   )
 })

@@ -8,12 +8,13 @@
 #' spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 1024))^2)
 #'
 #' quick.spec.plot(spec)
-#' @export
+#' @keywords internal
+#' @noRd
 quick.spec.plot <- function(spectrum, bylev = FALSE) {
   scales <- wavethresh::nlevelsWT(spectrum)
   if (bylev == FALSE) {
-    plot(spectrum, ylabchars = -(1:scales), main = "", sub = "", ylab = "Scale")
+    plot(spectrum, ylabchars = (1:scales), main = "", sub = "", ylab = "Scale")
   } else {
-    plot(spectrum, ylabchars = -(1:scales), main = "", sub = "", ylab = "Scale", scaling = "by.level")
+    plot(spectrum, ylabchars = (1:scales), main = "", sub = "", ylab = "Scale", scaling = "by.level")
   }
 }
