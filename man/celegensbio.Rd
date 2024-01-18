@@ -13,6 +13,6 @@ celegensbio
 \format{
 	A vector of length 623.
 }
-\source{Experiment from Alexandre Benedetto's research group at Lancaster University}
+\source{Experiment from Alexandre Benedetto's research group at Lancaster University.}
 
 \keyword{datasets}
