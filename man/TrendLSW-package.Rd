@@ -36,6 +36,7 @@ Analysis}, 43(6), 895-917.
 }
 \keyword{time series}
 \keyword{nonstationary}
+\keyword{wavelet}
 \seealso{
 \code{\link{TLSW}},\code{\link{TLSWsim}},\code{\link{plot.TLSW}}
 }
