@@ -26,13 +26,17 @@ Maintainer: Euan T. McGonigle <e.t.mcgonigle@soton.ac.uk>
 }
 
 \references{
-McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
+Spectral estimation with differencing/nonlinear trend estimator: McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 time-varying first and second-order structure of time series via wavelets
 and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
 
-McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
+Spectral estimation in presence of trend/linear trend estimator: McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
+
+LSW processes without trend: Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and
+adaptive estimation of the evolutionary wavelet spectrum. \emph{Journal of
+the Royal Statistical Society: Series B (Statistical Methodology)}, \bold{62(2)}, 271--292.
 }
 \keyword{time series}
 \keyword{nonstationary}
@@ -43,9 +47,8 @@ Analysis}, 43(6), 895-917.
 \examples{
 # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
 
-spec <- wavethresh::cns(512)
-spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
-# note that 8 in wavethresh is 1 in our re-numbering
+spec <- matrix(0, nrow = 9, ncol = 512)
+spec[1,] <- 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
 
 trend <- seq(from = 0, to = 5, length = 512)
 
@@ -56,4 +59,6 @@ x <- TLSWsim(trend = trend, spec = spec)
 x.TLSW <- TLSW(x)
 
 summary(x.TLSW)
+
+plot(x.TLSW)
 }
