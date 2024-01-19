@@ -86,7 +86,7 @@
 #' @noRd
 wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExPhase",
                                thresh.type = c("hard","soft")[1], normal = TRUE,
-                               transform.type = c("dec", "nondec")[2],
+                               transform.type = c("dec", "nondec")[1],
                                max.scale = floor(0.7 * log2(length(x))),
                                boundary.handle = FALSE, calc.confint = FALSE,
                                reps = 199, sig.lvl = 0.05, ...) {
@@ -103,7 +103,6 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
   dyadic <- x.check$dyadic
 
   spec <- spec.est$S
-  # by default, do T.I. denoising:
 
   orig.x <- x
   if (boundary.handle == TRUE) {
@@ -113,8 +112,11 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
   x.len <- length(x)
   J <- wavethresh::IsPowerOfTwo(x.len)
 
-
-  x.wd <- wavethresh::wd(x, filter.number = filter.number, family = family, type = "station")
+  if(transform.type == "nondec"){
+    x.wd <- wavethresh::wd(x, filter.number = filter.number, family = family, type = "station")
+  }else{
+    x.wd <- wavethresh::wd(x, filter.number = filter.number, family = family)
+  }
 
   # calculate C to use in variance estimate of wavelet coefficients
 
@@ -137,7 +139,6 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
   var.mat <- replace.neg.values(var.mat, max.scale)
 
   x.wd.thresh <- x.wd
-
 
   if (boundary.handle == TRUE) {
     # below code determines the boundary coefficients for a given wavelet
@@ -188,16 +189,16 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
       trend.est <- wavethresh::AvBasis(wavethresh::convert(x.wd.thresh))
     }
 
-    if (boundary.handle == TRUE) {
-      if (dyadic == TRUE) {
-        lower <- 2^(J - 2) + 2^(J - 3) + 1
-        upper <- 2^(J - 1) + 2^(J - 3)
-      } else {
-        lower <- floor((x.len - length(orig.x)) / 2)
-        upper <- lower + length(orig.x) - 1
-      }
-      trend.est <- trend.est[lower:upper]
+
+    if (dyadic == TRUE) {
+      lower <- 2^(J - 2) + 2^(J - 3) + 1
+      upper <- 2^(J - 1) + 2^(J - 3)
+    } else {
+      lower <- floor((x.len - length(orig.x)) / 2)
+      upper <- lower + length(orig.x) - 1
     }
+    trend.est <- trend.est[lower:upper]
+
   } else {
     # threshold the wavelet coefficients using the variance estimate and user
     # inputted rules
@@ -209,6 +210,9 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
         thresh <- sqrt(2 * var.mat[j, ] * log(x.len))
       } else {
         thresh <- sqrt(var.mat[j, ]) * log(x.len)
+      }
+      if(transform.type == "dec") {
+        thresh <- thresh[(1:(x.len/(2^j)))*2^j-2^j+1]
       }
 
       temp1 <- dj
@@ -225,7 +229,11 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
 
     # invert the thresholded object to get trend estimate:
 
-    trend.est <- wavethresh::AvBasis(wavethresh::convert(x.wd.thresh))
+    if (transform.type == "dec") {
+      trend.est <- wavethresh::wr(x.wd.thresh)
+    } else if (transform.type == "nondec") {
+      trend.est <- wavethresh::AvBasis(wavethresh::convert(x.wd.thresh))
+    }
   }
 
   if (calc.confint == TRUE) {
