@@ -40,6 +40,14 @@ test_that("wav.diff.trend.est executes with decimated transform", {
   expect_equal(class(x.t), "list")
 })
 
+test_that("wav.diff.trend.est executes with decimated transform and boundary handling", {
+  skip_on_cran()
+  x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
+  x.s <- ewspec.diff(x)
+  x.t <- wav.diff.trend.est(x, x.s, transform.type = "dec", boundary.handle = TRUE)
+  expect_equal(class(x.t), "list")
+})
+
 test_that("wav.diff.trend.est executes with soft thresholding and boundary handling", {
   skip_on_cran()
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
