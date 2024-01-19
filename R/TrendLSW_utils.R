@@ -591,7 +591,6 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
   }
   if (rhlab == TRUE)
     axis(4, at = 1:length(axr), labels = signif(axr, digits = 3))
-  axr
 }
 
 #' @title Convert matrix to wd object
