@@ -35,16 +35,27 @@ To install `TrendLSW` from GitHub:
 For detailed examples, see the help files within the package. We can
 generate a small example for performing trend estimation as follows:
 
-    set.seed(1)
+``` r
 
-    noise <- rnorm(512)
-    trend <- seq(from = 0, to = 5,length = 512)
-    x <- trend + noise
+library(TrendLSW)
+
+set.seed(1)
+
+noise <- rnorm(512)*c(seq(from = 1, to = 3, length = 256),seq(from = 2, to = 1, length = 256))
+trend <- seq(from = 0, to = 5,length = 512)
+x <- trend + noise
+```
 
 Apply the `TLSW` function:
 
-    x.TLSW <- TLSW(x)
+``` r
+x.TLSW <- TLSW(x)
+```
 
 Visualise the estimated trend and spectrum:
 
-    plot(x.TLSW)
+``` r
+plot(x.TLSW)
+```
+
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-4-2.png" width="100%" />
