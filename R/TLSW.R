@@ -108,14 +108,17 @@
 #' @examples
 #' # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
 #'
-#' spec <- wavethresh::cns(512)
-#' spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
-#' # note that 8 in wavethresh is 1 in our re-numbering
-#' trend <- seq(from = 0, to = 5, length = 512)
+#' spec <- matrix(0, nrow = 10, ncol = 2^10)
+#'
+#' spec[1,] = seq(from = 1, to = 10, length = 1024)
+#'
+#' trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
 #'
 #' set.seed(1)
 #'
 #' x <- TLSWsim(trend = trend, spec = spec)
+#'
+#' plot.ts(x)
 #'
 #' x.TLSW <- TLSW(x)
 #'
@@ -183,6 +186,7 @@ TLSW <- function(x, do.spec.est = TRUE, do.trend.est = TRUE,  S.filter.number = 
       x.trend <- wav.diff.trend.est(
         x = x, spec.est = x.spec, filter.number = T.filter.number,
         family = T.family, max.scale = T.max.scale,
+        transform.type = T.transform,
         thresh.type = T.thresh.type, normal = T.thresh.normal,
         boundary.handle = T.boundary.handle, calc.confint = T.confint,
         reps = T.reps, sig.lvl = T.sig.lvl
@@ -191,7 +195,6 @@ TLSW <- function(x, do.spec.est = TRUE, do.trend.est = TRUE,  S.filter.number = 
     x.trend$T.est.type <- T.est.type
     x.trend <- x.trend[names(x.trend) != "x"]
   }
-
 
   if (do.spec.est == TRUE && do.trend.est == TRUE) {
     out <- list(x = x, do.spec.est = do.spec.est, spec.est = x.spec, do.trend.est = do.trend.est, trend.est = x.trend)
