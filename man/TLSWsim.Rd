@@ -6,28 +6,40 @@
 Distribution of Random Innovations}
 \usage{
 TLSWsim(
-  trend = NULL,
+  trend,
   spec,
-  distribution = c("norm", "pois", "exp", "chisq", "t")[1],
-  rate = NULL,
-  df = NULL
+  filter.number = 1,
+  family = "DaubExPhase",
+  innov.func,
+  ...
 )
 }
 \arguments{
-\item{trend}{A numeric vector giving the deterministic trend function to simulate.}
+\item{trend}{Either:
+\itemize{
+\item{A numeric vector of length \eqn{n} giving the valued of the deterministic
+trend function,}
+\item{A real-valued function of one argument defined on rescaled time \eqn{[0,1)}.}
+}}
 
-\item{spec}{An object of class wd which contains the spectrum for simulating
-an LSW process.}
+\item{spec}{Either:
+\itemize{
+\item{A \code{wavethresh} object of class wd which contains the spectrum for simulating
+an LSW process,}
+\item{A matrix of dimensions \eqn{J \times n}, where the \eqn{j}-th row corresponds to the spectrum values at scale \eqn{j},}
+\item{A list of length \eqn{J}, where the \eqn{j}-th element of the list is a function of one argument specifying the spectrum
+function at scale \eqn{j} on rescaled time \eqn{[0,1)}.}
+}}
 
-\item{distribution}{The distribution of the random variables used to
-simulate the process. Can be "norm", "pois", "exp", "chisq" or
-"t".}
+\item{filter.number}{The filter number for the wavelet used to simulate the LSW process.}
 
-\item{rate}{The rate parameter, only used if \code{distribution = "exp"}
-or \code{distribution = "pois"}}
+\item{family}{The family of the wavelet used to simulate the LSW process.}
 
-\item{df}{The degrees of freedom, only used if \code{distribution = "chisq"}
-or \code{distribution = "t"}}
+\item{innov.func}{The function used for sampling the innovations. By default,
+normal random innovations are sampled using the \code{rnorm}.}
+
+\item{...}{Optional arguments to be passed to the function  \code{innov.func} for
+sampling the innovation process.}
 }
 \value{
 A vector simulated from the spectral description given in the spec
@@ -41,13 +53,41 @@ spectrum and distribution for the random innovations. Extension of the
 \code{LSWsim} function from the \code{wavethresh} package.
 }
 \examples{
+
+#---- simulate with numeric trend, and spec a wd object as in wavethresh-----
+
 spec <- wavethresh::cns(1024)
 
 spec <- wavethresh::putD(spec, level = 8, seq(from = 2, to = 8, length = 1024))
 
 trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
 
-x <- TLSWsim(trend = trend, spec = spec, distribution = "exp")
+x <- TLSWsim(trend = trend, spec = spec)
 
 plot.ts(x)
+
+#---- simulate with numeric trend, and spec a matrix-----
+
+spec <- matrix(0, nrow = 10, ncol = 2^10)
+
+spec[1,] = seq(from = 1, to = 10, length = 1024)
+
+trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
+
+x <- TLSWsim(trend = trend, spec = spec)
+
+plot.ts(x)
+
+#---- simulate with functional trend, and spec a list of functions-----
+
+spec <- vector(mode = "list", length = 10)
+
+spec[[1]] <- function(u){1+9*u}
+
+trend <- function(u){sin(pi * u)}
+
+x <- TLSWsim(trend = trend, spec = spec)
+
+plot.ts(x)
+
 }
