@@ -26,10 +26,11 @@
 #' @examples
 #' # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
 #'
-#' spec <- wavethresh::cns(512)
-#' spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
+#' spec <- matrix(0, nrow = 10, ncol = 2^10)
 #'
-#' trend <- seq(from = 0, to = 5, length = 512)
+#' spec[1,] = seq(from = 1, to = 10, length = 1024)
+#'
+#' trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
 #'
 #' set.seed(1)
 #'
