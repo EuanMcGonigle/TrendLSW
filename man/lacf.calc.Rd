@@ -37,11 +37,14 @@ class \code{TLSW} as the main argument.
 
 ## ---- example where LSW process is generated using the Haar wavelet
 
-spec <- wavethresh::cns(512)
-spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
+spec <- matrix(0, nrow = 9, ncol = 512)
+spec[2,] <-  1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
 
-noise <- wavethresh::LSWsim(spec)
 trend <- seq(from = 0, to = 10, length = 512)
+
+set.seed(123)
+
+noise <- TLSWsim(trend = trend, spec = spec)
 
 x <- trend + noise
 
