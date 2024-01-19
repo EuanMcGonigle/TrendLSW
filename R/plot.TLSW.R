@@ -27,18 +27,20 @@
 #' # Simulates an example time series and estimates its trend and evolutionary wavelet spectrum.
 #' # Then plots both estimates.
 #'
-#' spec <- wavethresh::cns(512)
-#' spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
+#'spec <- matrix(0, nrow = 9, ncol = 512)
 #'
-#' trend <- seq(from = 0, to = 5, length = 512)
+#'spec[1,] <- 1 + 2*sin(seq(from = 0, to = 2 * pi, length = 512))^2
 #'
-#' set.seed(1)
+#'trend <- seq(from = 0, to = 5, length = 512) + sin(seq(from = 0, to = 2 * pi, length = 512))
 #'
-#' x <- TLSWsim(trend = trend, spec = spec)
+#'set.seed(1)
 #'
-#' x.TLSW <- TLSW(x)
+#'x <- TLSWsim(trend = trend, spec = spec)
+#'
+#'x.TLSW <- TLSW(x)
 #'
 #'plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data"))
+#'
 plot.TLSW <- function(x, plot.type = c("trend", "spec"),
                       trend.plot.args, spec.plot.args, ...){
 
