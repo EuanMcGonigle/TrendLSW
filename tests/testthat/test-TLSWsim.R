@@ -77,4 +77,4 @@ test_that("TLSWsim gives same output",{
   set.seed(1)
   x <- TLSWsim(trend = trend, spec = spec)
   expect_snapshot_value(x)
-}
+})
