@@ -1,8 +1,6 @@
-#' @title Simulate Trend Locally Stationary Wavelet Process with Specified Trend and
-#' Distribution of Random Innovations
-#' @description Simulates a locally stationary wavelet process given a trend function,
-#' spectrum and distribution for the random innovations. Extension of the
-#' \code{LSWsim} function from the \code{wavethresh} package.
+#' @title Simulate Trend Locally Stationary Wavelet Process
+#' @description Simulates a trend locally stationary wavelet process with a given trend function
+#' and spectrum. Extends the\code{LSWsim} function from the \code{wavethresh} package.
 #'
 #' @param trend Either:
 #' \itemize{
@@ -18,8 +16,8 @@
 #' \item{A list of length \eqn{J}, where the \eqn{j}-th element of the list is a function of one argument specifying the spectrum
 #' function at scale \eqn{j} on rescaled time \eqn{[0,1)}.}
 #' }
-#' @param innov.func The function used for sampling the innovations. By default,
-#' normal random innovations are sampled using the \code{rnorm}.
+#' @param innov.func A function with first argument \code{n} used for simulatin the innovations. By default,
+#' normal random innovations are sampled using the \code{rnorm} function.
 #' @param filter.number The filter number for the wavelet used to simulate the LSW process.
 #' @param family The family of the wavelet used to simulate the LSW process.
 #' @param ... Optional arguments to be passed to the function  \code{innov.func} for
@@ -117,6 +115,8 @@ TLSWsim <- function(trend, spec, filter.number = 1, family = "DaubExPhase",
 
     J <- spec$nlevels
     n <- 2^J
+    family <- spec$filter$family
+    filter.number <- spec$filter$filter.number
 
   }else if(is.matrix(spec)){
 
