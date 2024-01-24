@@ -2,8 +2,7 @@
 % Please edit documentation in R/TLSWsim.R
 \name{TLSWsim}
 \alias{TLSWsim}
-\title{Simulate Trend Locally Stationary Wavelet Process with Specified Trend and
-Distribution of Random Innovations}
+\title{Simulate Trend Locally Stationary Wavelet Process}
 \usage{
 TLSWsim(
   trend,
@@ -35,8 +34,8 @@ function at scale \eqn{j} on rescaled time \eqn{[0,1)}.}
 
 \item{family}{The family of the wavelet used to simulate the LSW process.}
 
-\item{innov.func}{The function used for sampling the innovations. By default,
-normal random innovations are sampled using the \code{rnorm}.}
+\item{innov.func}{A function with first argument \code{n} used for simulatin the innovations. By default,
+normal random innovations are sampled using the \code{rnorm} function.}
 
 \item{...}{Optional arguments to be passed to the function  \code{innov.func} for
 sampling the innovation process.}
@@ -48,9 +47,8 @@ defined by spec.
 \code{\link{LSWsim}}
 }
 \description{
-Simulates a locally stationary wavelet process given a trend function,
-spectrum and distribution for the random innovations. Extension of the
-\code{LSWsim} function from the \code{wavethresh} package.
+Simulates a trend locally stationary wavelet process with a given trend function
+and spectrum. Extends the\code{LSWsim} function from the \code{wavethresh} package.
 }
 \examples{
 
