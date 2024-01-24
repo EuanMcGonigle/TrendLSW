@@ -50,4 +50,4 @@ test_that("TLSW gives same output",{
   x <- TLSWsim(trend = trend, spec = spec)
   x.TLSW <- TLSW(x)
   expect_snapshot_value(x.TLSW)
-}
+})
