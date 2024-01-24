@@ -7,6 +7,7 @@
 # * https://testthat.r-lib.org/reference/test_package.html#special-files
 
 library(testthat)
+library(vdiffr)
 library(TrendLSW)
 
 test_check("TrendLSW")

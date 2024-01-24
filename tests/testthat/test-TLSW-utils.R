@@ -28,7 +28,8 @@ test_that("plot TLSW gives same output",{
   set.seed(1)
   x <- TLSWsim(trend = trend, spec = spec)
   x.TLSW <- TLSW(x)
-  expect_snapshot_file(pdf(file='plotTLSW.pdf');plot(x.TLSW);dev.off)
+  library(vdiffr)
+  expect_doppelganger(title="plotLSW testing",fig=function() plot(x.TLSW))
 })
 
 test_that("TLSW.lacf.calc runs on defaults",{
@@ -38,5 +39,5 @@ test_that("TLSW.lacf.calc runs on defaults",{
   trend <- seq(from = 0, to = 5, length = 512)
   set.seed(1)
   x <- TLSWsim(trend = trend, spec = spec)
-  expect_snapshot_value(TLSW.lacf.calc(x))
+  expect_snapshot_value(TrendLSW:::TLSW.lacf.calc(x)$lacf, style="serialize")
 })

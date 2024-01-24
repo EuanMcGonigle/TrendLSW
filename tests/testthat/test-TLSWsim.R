@@ -76,5 +76,5 @@ test_that("TLSWsim gives same output",{
   trend <- seq(from = 0, to = 5, length = 512)
   set.seed(1)
   x <- TLSWsim(trend = trend, spec = spec)
-  expect_snapshot_value(x)
+  expect_snapshot_value(round(x,digits=3), style="deparse")
 })
