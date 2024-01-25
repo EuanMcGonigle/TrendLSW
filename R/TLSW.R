@@ -141,15 +141,17 @@ TLSW <- function(x, do.spec.est = TRUE, do.trend.est = TRUE,  S.filter.number = 
                      gen.filter.number = S.filter.number, gen.family = S.family) {
   stopifnot("Both the do.spec.est and do.trend.est parameters have been set to FALSE,
             at least one should be TRUE." = do.spec.est == TRUE || do.trend.est == TRUE)
-  if (is.null(S.inv.mat)) {
-    supply.inv.mat <- FALSE
-  } else {
-    supply.inv.mat <- TRUE
-  }
+  stopifnot("The parameter T.thresh.type must be either 'hard' or 'soft'." = T.thresh.type == "hard" || T.thresh.type == "soft")
 
   if (do.trend.est == TRUE && do.spec.est == FALSE && (T.est.type == "nonlinear" || T.confint == TRUE)) {
     do.spec.est <- TRUE
     warning("Spectral estimate is needed for trend estimation. Setting do.spec.est = TRUE.")
+  }
+
+  if (is.null(S.inv.mat)) {
+    supply.inv.mat <- FALSE
+  } else {
+    supply.inv.mat <- TRUE
   }
 
   if (do.spec.est == TRUE) {
