@@ -114,8 +114,8 @@ the maximum lag of the autocovariance to compute needed for calculating the asym
 replications used to calculate the confidence interval.}
 
 \item{T.thresh.type}{String variable, used only if \code{T.est.type = "nonlinear"}; the type of
-thresholding function used in the trend estimation. Currently only
-"soft" and "hard" are available.}
+thresholding function used in the trend estimation. Can be
+"soft" or "hard".}
 
 \item{T.thresh.normal}{Logical variable, used only if \code{T.est.type = "nonlinear"};
 if \code{TRUE}, uses a threshold assuming the data are normally
