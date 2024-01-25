@@ -61,6 +61,6 @@ x.TLSW <- TLSW(x)
 ```
 
 Visualise the estimated trend and spectrum:
-```{r}
+```{r TLSW-plot}
 plot(x.TLSW)
 ```

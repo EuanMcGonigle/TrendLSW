@@ -58,4 +58,4 @@ Visualise the estimated trend and spectrum:
 plot(x.TLSW)
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-4-2.png" width="100%" />
+<img src="man/figures/README-TLSW-plot-1.png" width="100%" /><img src="man/figures/README-TLSW-plot-2.png" width="100%" />
