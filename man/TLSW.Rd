@@ -60,7 +60,7 @@ Can be one of
 the raw wavelet periodogram.}
 
 \item{S.max.scale}{The coarsest wavelet scale used to estimate the spectrum.
-Should be a positive integer less than \eqn{J}, where \eqn{T=2^J} is the length of the
+Should be a positive integer less than \eqn{J}, where \eqn{n=2^J} is the length of the
 time series.}
 
 \item{S.boundary.handle}{Logical variable, if TRUE, the time series is
@@ -78,7 +78,7 @@ differenced before spectral estimation is performed.}
 \item{S.lag}{The lag of differencing used, only applicable if \code{S.do.dif = TRUE}.}
 
 \item{S.diff.number}{The number of differencing operations performed,
-only applicable if \code{S.do.dif = TRUE}. A first difference is recommended as default.}
+only applicable if \code{S.do.diff = TRUE}. A first difference is strongly recommended as default.}
 
 \item{T.est.type}{String indicating type of wavelet thresholding used. Can be "linear", which means
 that all non-boundary wavelet coefficients are set to zero, or "nonlinear", where
