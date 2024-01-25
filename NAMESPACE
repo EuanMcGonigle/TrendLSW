@@ -3,7 +3,6 @@
 S3method(plot,TLSW)
 S3method(print,TLSW)
 S3method(summary,TLSW)
-export(Cmat.calc)
 export(TLSW)
 export(TLSWlacf)
 export(TLSWsim)
