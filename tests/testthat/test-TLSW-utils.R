@@ -32,12 +32,12 @@ test_that("plot TLSW gives same output",{
   expect_doppelganger(title="plotLSW testing",fig=function() plot(x.TLSW))
 })
 
-test_that("TLSW.lacf.calc runs on defaults",{
+test_that("TLSW.TLSWlacf runs on defaults",{
   skip_on_cran()
   spec <- matrix(0, nrow = 9, ncol = 512)
   spec[1,] <- 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
   trend <- seq(from = 0, to = 5, length = 512)
   set.seed(1)
   x <- TLSWsim(trend = trend, spec = spec)
-  expect_snapshot_value(TrendLSW:::TLSW.lacf.calc(x)$lacf, style="serialize")
+  expect_snapshot_value(TrendLSW:::TLSW.TLSWlacf(x)$lacf, style="serialize")
 })

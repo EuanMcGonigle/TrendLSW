@@ -35,7 +35,7 @@
       -maximum wavelet scale analysed is scale 6.
       -boundary handling was used.
 
-# TLSW.lacf.calc runs on defaults
+# TLSW.TLSWlacf runs on defaults
 
     WAoAAAACAAQDAgACAwAAAAIOAAA4AD/q3uIbOSDZP+z5sqzrsOs/7iHDzjE5qj/uOyQhsbew
     P+40aJp5Q/w/7o+f40xBiD/t5j7Mn9FWP+stRSnUcWw/6cYknCipCj/qOdTTwphyP+oZfDS7

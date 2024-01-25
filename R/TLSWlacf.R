@@ -52,13 +52,13 @@
 #'
 #' #---- estimate the lacf:
 #'
-#' lacf.est <- lacf.calc(x.TLSW)
+#' lacf.est <- TLSWlacf(x.TLSW)
 #'
 #' #---- plot the lag 1 acf over time:
 #'
 #' plot.ts(lacf.est$lacf[, 1], ylab = "Lag 1 ACF")
 #' @export
-lacf.calc <- function(x.TLSW, lag.max = NULL) {
+TLSWlacf <- function(x.TLSW, lag.max = NULL) {
   stopifnot("Parameter lag.max should be a nonegative integer." = lag.max >= 0)
 
   x <- x.TLSW$x

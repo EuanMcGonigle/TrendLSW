@@ -1,28 +1,28 @@
-test_that("lacf.calc executes", {
+test_that("TLSWlacf executes", {
   skip_on_cran()
   x <- stats::arima.sim(model = list(ar = 0.5), n = 512)
   x.TLSW <- TLSW(x)
-  expect_equal(class(lacf.calc(x.TLSW)), "lacf")
+  expect_equal(class(TLSWlacf(x.TLSW)), "lacf")
 })
 
-test_that("lacf.calc warns with large lag.max", {
+test_that("TLSWlacf warns with large lag.max", {
   skip_on_cran()
   x <- stats::arima.sim(model = list(ar = 0.5), n = 512)
   x.TLSW <- TLSW(x, S.filter.number = 1)
   expect_warning(
-    lacf.calc(x.TLSW,
+    TLSWlacf(x.TLSW,
       lag.max = 2^11
     ),
     "lag.max too high. Have reset it to  511 . Higher lags are zero"
   )
 })
 
-test_that("lacf.calc rejects negative lag.max", {
+test_that("TLSWlacf rejects negative lag.max", {
   skip_on_cran()
   x <- stats::rnorm(64)
   x.TLSW <- TLSW(x)
   expect_error(
-    lacf.calc(x.TLSW, lag.max = -4),
+    TLSWlacf(x.TLSW, lag.max = -4),
     "Parameter lag.max should be a nonegative integer."
   )
 })

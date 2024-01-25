@@ -38,7 +38,7 @@ create.covmat <- function(lacf, x.len) {
 #' The variance estimate of the trend estimate. } \item{lower.conf}{ The lower
 #' pointwise confidence interval for the trend estimate. } \item{upper.conf}{
 #' The upper pointwise confidence interval for the trend estimate. }
-#' @seealso \code{\link{wav.trend.est}}, \code{\link{lacf.calc}}
+#' @seealso \code{\link{wav.trend.est}}, \code{\link{TLSWlacf}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, , 43(6), 895-917.
@@ -622,7 +622,7 @@ mat.to.spec <- function(s.mat, filter.number = 1, family = "DaubExPhase"){
 #' @keywords internal
 #' @noRd
 
-TLSW.lacf.calc <- function(x, filter.number = 4, family = "DaubExPhase",
+TLSW.TLSWlacf <- function(x, filter.number = 4, family = "DaubExPhase",
                       spec.est = NULL, lag.max = NULL, ...) {
   stopifnot("Paramter lag.max should be a nonegative integer." = lag.max >= 0)
 
