@@ -33,7 +33,8 @@ To install `TrendLSW` from GitHub:
 ## Usage
 
 For detailed examples, see the help files within the package. We can
-generate a small example for performing trend estimation as follows:
+generate a small example for performing trend and spectrum estimation as
+follows:
 
 ``` r
 
@@ -41,7 +42,7 @@ library(TrendLSW)
 
 set.seed(1)
 
-noise <- rnorm(512)*c(seq(from = 1, to = 3, length = 256),seq(from = 2, to = 1, length = 256))
+noise <- rnorm(512)*c(seq(from = 1, to = 3, length = 256),seq(from = 3, to = 1, length = 256))
 trend <- seq(from = 0, to = 5,length = 512)
 x <- trend + noise
 ```
