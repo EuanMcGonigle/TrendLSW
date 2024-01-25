@@ -23,8 +23,9 @@
 #' the Royal Statistical Society: Series B (Statistical Methodology)}, \bold{62(2)}, 271--292.
 #' @examples
 #' A1 <- Atau.mat.calc(J = 5, filter.number = 1, family = "DaubExPhase", lag = 1)
-#' @export
 #' @seealso \link{TLSW}
+#' @keywords internal
+#' @noRd
 Atau.mat.calc <- function(J, filter.number = 1, family = "DaubExPhase", lag = 1) {
   if (!is.numeric(lag)) {
     stop("The lag parameter should be a positive integer.")

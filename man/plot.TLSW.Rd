@@ -53,3 +53,6 @@ McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
 }
+\seealso{
+\code{\link{TLSW}}, \code{\link{summary.TLSW}}, \code{\link{print.TLSW}}
+}

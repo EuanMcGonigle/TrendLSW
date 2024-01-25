@@ -138,13 +138,13 @@ An object of class \code{"TLSW"}, a list that contains the following components:
    \item{spec.est}{A list object, returned if \code{do.spec.est = TRUE}. Contains relevant input parameters
    and the following fields related to the spectrum estimate:
 \itemize{
- \item{S}{: The evolutionary wavelet spectral estimate of the input data. This object is of
+ \item{S}{: The evolutionary wavelet spectral (smoothed and corrected) estimate of the input data. This object is of
 class wd and so can be plotted and printed in the usual way using wavethresh
-functionality. }
+functionality.}
 \item{WavPer}{: The raw wavelet periodogram of the input
-data. The EWS estimate (above) is the smoothed corrected version of the
+data. The EWS estimate (S, above) is the smoothed corrected version of this raw
 wavelet periodogram.}
-\item{SmoothWavPer}{: The smoothed, un-corrected raw
+\item{SmoothWavPer}{: The smoothed, but uncorrected raw
 wavelet periodogram of the input data. }
 }
 }
@@ -152,10 +152,9 @@ wavelet periodogram of the input data. }
    \item{trend.est}{A list object, returned if \code{do.trend.est = TRUE}. Contains relevant input parameters
    and the following fields related to the trend estimate:
    \itemize{
-\item{trend.est}{: A vector of length \code{length(x)} containing the trend estimate.}
+\item{T}{: A vector of length \code{length(x)} containing the trend estimate.}
 \item{lower.confint}{: Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval.}
 \item{upper.confint}{: Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval.}
-\item{T.est.type}{: Type of trend estimator computed, either 'linear' or 'nonlinear'.}
    }}
 }
 \description{
@@ -183,9 +182,11 @@ x.TLSW <- TLSW(x)
 
 summary(x.TLSW)
 
+plot(x.TLSW) # by default plots both the trend and spectrum estimates
+
 }
 \references{
-#' McGonigle, E. T., Killick, R., and Nunes, M. (2022a). Trend
+McGonigle, E. T., Killick, R., and Nunes, M. (2022a). Trend
 locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
 
