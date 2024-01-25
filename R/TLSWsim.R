@@ -1,6 +1,6 @@
 #' @title Simulate Trend Locally Stationary Wavelet Process
 #' @description Simulates a trend locally stationary wavelet process with a given trend function
-#' and spectrum. Extends the\code{LSWsim} function from the \code{wavethresh} package.
+#' and spectrum. Extends the \code{LSWsim} function from the \code{wavethresh} package.
 #'
 #' @param trend Either:
 #' \itemize{
@@ -25,7 +25,7 @@
 #' @return A vector simulated from the spectral description given in the spec
 #' description. The returned vector will exhibit the spectral characteristics
 #' defined by spec.
-#' \code{\link{LSWsim}}
+#' @seealso \code{\link[wavethresh]{LSWsim}}
 #' @examples
 #'
 #' #---- simulate with numeric trend, and spec a wd object as in wavethresh-----
