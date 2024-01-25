@@ -26,6 +26,13 @@ test_that("TLSW executes with nonlinear trend est", {
   expect_equal(class(x.lsw), "TLSW")
 })
 
+test_that("TLSW recognises T.thresh.type", {
+  skip_on_cran()
+  x <- stats::rnorm(128)
+  expect_error(TLSW(x, T.thresh.type = "bayes", T.est.type = "nonlinear"),
+               "The parameter T.thresh.type must be either 'hard' or 'soft'.")
+})
+
 test_that("TLSW executes with supplied inv mat", {
   skip_on_cran()
   x <- stats::rnorm(128)
