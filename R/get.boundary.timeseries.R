@@ -25,7 +25,8 @@
 #' x.b <- get.boundary.timeseries(x)
 #'
 #' plot.ts(x.b)
-#' @export
+#' @keywords internal
+#' @noRd
 get.boundary.timeseries <- function(x, type = c("TLSW", "LSW.diff")[1]) {
   stopifnot("Error: type of boundary handling must be either 'TLSW' or
             'LSW.diff'." = type == "TLSW" || type == "LSW.diff")
