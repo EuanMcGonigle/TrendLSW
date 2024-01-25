@@ -90,7 +90,7 @@
 #'   gen.filter.number = 1, gen.family = "DaubExPhase"
 #' )
 #'
-#' quick.spec.plot(spec.est$S)
+#' wavethresh::plot.wd(spec.est$S)
 #' @keywords internal
 #' @noRd
 ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
