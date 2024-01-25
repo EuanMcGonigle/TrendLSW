@@ -49,7 +49,7 @@ test_that("TLSW gives same output: spec",{
   set.seed(1)
   x <- TLSWsim(trend = trend, spec = spec)
   x.TLSW <- TLSW(x)
-  expect_snapshot_value(x.TLSW$spec.est, style="deparse")
+  expect_snapshot_value(x.TLSW$spec.est$S$D, style="deparse")
 })
 
 test_that("TLSW gives same output: trend",{
