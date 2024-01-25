@@ -5,35 +5,8 @@
 #'  estimation can be performed with or without differencing the times series first.
 #'
 #' @param x The time series you wish to analyse.
-#' @param do.spec.est Logical variable, indicating whether spectral estimation is to be performed on the time series.
 #' @param do.trend.est Logical variable, indicating whether trend estimation is to be performed on the time series.
-#' @param S.filter.number The index number for the wavelet used for spectrum estimation.
-#' @param S.family The family of the wavelet used for spectrum estimation.
-#' @param S.smooth A logical variable to indicate whether smoothing is performed on the wavelet periodogram.
-#' @param S.smooth.type String indicating which type of smoothing to use on wavelet periodogram.
-#' Can be one of
-#' \itemize{
-#' \item{\code{"mean"}: running mean smoother.}
-#' \item{ \code{"median"} running median smoother.}
-#' \item{\code{"epan"} Epanechnikov kernel smoother.}
-#' }
-#' @param S.binwidth The bin width of the smoother used to smooth
-#' the raw wavelet periodogram.
-#' @param S.max.scale The coarsest wavelet scale used to estimate the spectrum.
-#' Should be a positive integer less than \eqn{J}, where \eqn{n=2^J} is the length of the
-#' time series.
-#' @param S.boundary.handle Logical variable, if TRUE, the time series is
-#' boundary corrected, to get a more accurate spectrum estimate at the
-#' boundaries of the times series. If FALSE, no boundary correction is applied.
-#' Recommended to use TRUE.
-#' @param S.inv.mat The user can pre-calculate and supply the appropriate
-#' correction matrix used to correct the raw wavelet periodogram. If left blank,
-#' then the correction matrix is calculated when performing spectral estimation.
-#' @param S.do.diff Logical variable, indicating if the time series is to be
-#' differenced before spectral estimation is performed.
-#' @param S.lag The lag of differencing used, only applicable if \code{S.do.dif = TRUE}.
-#' @param S.diff.number The number of differencing operations performed,
-#' only applicable if \code{S.do.diff = TRUE}. A first difference is strongly recommended as default.
+#' @param do.spec.est Logical variable, indicating whether spectral estimation is to be performed on the time series.
 #' @param T.est.type String indicating type of wavelet thresholding used. Can be "linear", which means
 #' that all non-boundary wavelet coefficients are set to zero, or "nonlinear", where
 #' each wavelet coefficient is thresholded using a time-varying, noise-dependent threshold.
@@ -63,6 +36,33 @@
 #' @param T.thresh.normal Logical variable, used only if \code{T.est.type = "nonlinear"};
 #' if \code{TRUE}, uses a threshold assuming the data are normally
 #' distributed. If \code{FALSE}, uses a larger threshold to reflect non-normality.
+#' @param S.filter.number The index number for the wavelet used for spectrum estimation.
+#' @param S.family The family of the wavelet used for spectrum estimation.
+#' @param S.smooth A logical variable to indicate whether smoothing is performed on the wavelet periodogram.
+#' @param S.smooth.type String indicating which type of smoothing to use on wavelet periodogram.
+#' Can be one of
+#' \itemize{
+#' \item{\code{"mean"}: running mean smoother.}
+#' \item{ \code{"median"} running median smoother.}
+#' \item{\code{"epan"} Epanechnikov kernel smoother.}
+#' }
+#' @param S.binwidth The bin width of the smoother used to smooth
+#' the raw wavelet periodogram.
+#' @param S.max.scale The coarsest wavelet scale used to estimate the spectrum.
+#' Should be a positive integer less than \eqn{J}, where \eqn{n=2^J} is the length of the
+#' time series.
+#' @param S.boundary.handle Logical variable, if TRUE, the time series is
+#' boundary corrected, to get a more accurate spectrum estimate at the
+#' boundaries of the times series. If FALSE, no boundary correction is applied.
+#' Recommended to use TRUE.
+#' @param S.inv.mat The user can pre-calculate and supply the appropriate
+#' correction matrix used to correct the raw wavelet periodogram. If left blank,
+#' then the correction matrix is calculated when performing spectral estimation.
+#' @param S.do.diff Logical variable, indicating if the time series is to be
+#' differenced before spectral estimation is performed.
+#' @param S.lag The lag of differencing used, only applicable if \code{S.do.dif = TRUE}.
+#' @param S.diff.number The number of differencing operations performed,
+#' only applicable if \code{S.do.diff = TRUE}. A first difference is strongly recommended as default.
 #' @param gen.filter.number The index number for the wavelet that generates the
 #' stochastic component of the time series. For the "DaubExPhase" family, the filter number can be between
 #' 1 to 10. For the "DaubLeAsymm" family, the filter number can be between 4 to 10.
@@ -126,19 +126,19 @@
 #' plot(x.TLSW) # by default plots both the trend and spectrum estimates
 #'
 #' @export
-TLSW <- function(x, do.spec.est = TRUE, do.trend.est = TRUE,  S.filter.number = 4,
-                     S.family = "DaubExPhase", S.smooth = TRUE,
-                     S.smooth.type = c("mean", "median", "epan")[1],
-                     S.binwidth = floor(2 * sqrt(length(x))),
-                     S.max.scale = floor(log2(length(x)) * 0.7),
-                     S.boundary.handle = TRUE, S.inv.mat = NULL,
-                     S.do.diff = FALSE, S.lag = 1, S.diff.number = 1,
-                     T.est.type = c("linear", "nonlinear")[1], T.filter.number = 4,
-                     T.family = "DaubExPhase", T.transform = c("dec", "nondec")[1],
-                     T.boundary.handle = TRUE, T.max.scale = floor(log2(length(x)) * 0.7),
-                     T.confint = FALSE, T.sig.lvl = 0.05, T.lacf.max.lag = floor(10 * (log10(length(x)))),
-                     T.reps = 199, T.thresh.type = c("hard", "soft")[1], T.thresh.normal = TRUE,
-                     gen.filter.number = S.filter.number, gen.family = S.family) {
+TLSW <- function(x, do.trend.est = TRUE, do.spec.est = TRUE,
+                 T.est.type = c("linear", "nonlinear")[1], T.filter.number = 4,
+                 T.family = "DaubExPhase", T.transform = c("dec", "nondec")[1],
+                 T.boundary.handle = TRUE, T.max.scale = floor(log2(length(x)) * 0.7),
+                 T.confint = FALSE, T.sig.lvl = 0.05, T.lacf.max.lag = floor(10 * (log10(length(x)))),
+                 T.reps = 199, T.thresh.type = c("hard", "soft")[1], T.thresh.normal = TRUE,
+                 S.filter.number = 4, S.family = "DaubExPhase", S.smooth = TRUE,
+                 S.smooth.type = c("mean", "median", "epan")[1],
+                 S.binwidth = floor(2 * sqrt(length(x))),
+                 S.max.scale = floor(log2(length(x)) * 0.7),
+                 S.boundary.handle = TRUE, S.inv.mat = NULL,
+                 S.do.diff = FALSE, S.lag = 1, S.diff.number = 1,
+                 gen.filter.number = S.filter.number, gen.family = S.family) {
   stopifnot("Both the do.spec.est and do.trend.est parameters have been set to FALSE,
             at least one should be TRUE." = do.spec.est == TRUE || do.trend.est == TRUE)
   stopifnot("The parameter T.thresh.type must be either 'hard' or 'soft'." = T.thresh.type == "hard" || T.thresh.type == "soft")
