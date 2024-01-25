@@ -81,7 +81,7 @@
 #'
 #' spec.est <- ewspec.diff(x, family = "DaubExPhase", filter.number = 1, max.scale = 7)
 #'
-#' quick.spec.plot(spec.est$S)
+#' wavethresh::plot.wd(spec.est$S)
 #' @keywords internal
 #' @noRd
 ewspec.diff <- function(x, lag = 1, filter.number = 4, family = "DaubExPhase",
