@@ -58,8 +58,8 @@
 #' @param T.reps Used only if \code{T.est.type = "nonlinear"} and  \code{calc.confint = TRUE}; the number of bootstrap
 #' replications used to calculate the confidence interval.
 #' @param T.thresh.type String variable, used only if \code{T.est.type = "nonlinear"}; the type of
-#' thresholding function used in the trend estimation. Currently only
-#' "soft" and "hard" are available.
+#' thresholding function used in the trend estimation. Can be
+#' "soft" or "hard".
 #' @param T.thresh.normal Logical variable, used only if \code{T.est.type = "nonlinear"};
 #' if \code{TRUE}, uses a threshold assuming the data are normally
 #' distributed. If \code{FALSE}, uses a larger threshold to reflect non-normality.
