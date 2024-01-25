@@ -20,7 +20,7 @@
 #' @param S.binwidth The bin width of the smoother used to smooth
 #' the raw wavelet periodogram.
 #' @param S.max.scale The coarsest wavelet scale used to estimate the spectrum.
-#' Should be a positive integer less than \eqn{J}, where \eqn{T=2^J} is the length of the
+#' Should be a positive integer less than \eqn{J}, where \eqn{n=2^J} is the length of the
 #' time series.
 #' @param S.boundary.handle Logical variable, if TRUE, the time series is
 #' boundary corrected, to get a more accurate spectrum estimate at the
@@ -33,7 +33,7 @@
 #' differenced before spectral estimation is performed.
 #' @param S.lag The lag of differencing used, only applicable if \code{S.do.dif = TRUE}.
 #' @param S.diff.number The number of differencing operations performed,
-#' only applicable if \code{S.do.dif = TRUE}. A first difference is recommended as default.
+#' only applicable if \code{S.do.diff = TRUE}. A first difference is strongly recommended as default.
 #' @param T.est.type String indicating type of wavelet thresholding used. Can be "linear", which means
 #' that all non-boundary wavelet coefficients are set to zero, or "nonlinear", where
 #' each wavelet coefficient is thresholded using a time-varying, noise-dependent threshold.
