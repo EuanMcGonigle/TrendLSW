@@ -21,8 +21,6 @@
 #' Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and
 #' adaptive estimation of the evolutionary wavelet spectrum. \emph{Journal of
 #' the Royal Statistical Society: Series B (Statistical Methodology)}, \bold{62(2)}, 271--292.
-#' @examples
-#' A1 <- Atau.mat.calc(J = 5, filter.number = 1, family = "DaubExPhase", lag = 1)
 #' @seealso \link{TLSW}
 #' @keywords internal
 Atau.mat.calc <- function(J, filter.number = 1, family = "DaubExPhase", lag = 1) {
