@@ -1,7 +1,9 @@
 #' @title Linear Wavelet Thresholding Trend Estimation of Time Series
-#' @description Computes the linear wavelet thresholding trend estimate for a
+#' @description Internal function to compute the linear wavelet thresholding trend estimate for a
 #' time series that may be second-order nonstationary. The function calculates
-#' the wavelet transform of the time series, sets to zero the non-boundary
+#' the wavelet transform of the time series, sets to zero the non-boundary coefficients,
+#' then inverts the transform to obtain the estimate.
+#' This function is not intended for general use by regular users of the package.
 #' @param x The time series you want to estimate the trend function of.
 #' @param filter.number Selects the index of the wavelet used in the estimation
 #' procedure. For Daubechies compactly supported wavelets the filter number is
@@ -10,7 +12,7 @@
 #' Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.
 #' @param max.scale Selects the coarsest scale of the wavelet transform to
 #' analyse to. Should be a value from \eqn{1} (finest) to \eqn{J-1} (coarsest),
-#' where \eqn{T=2^J} is the length of the time series.
+#' where \eqn{n=2^J} is the length of the time series.
 #' @param transform.type The type of wavelet transform used. By default, it is "dec"
 #' which is the standard discrete wavelet transform. Can also be "nondec",
 #' which uses a non-decimated wavelet transform, but a confidence interval
@@ -27,7 +29,7 @@
 #' @param lag.max Used only if \code{calc.confint = TRUE}; a positive integer
 #' specifying the maximum lag to which the local autocovariance function is
 #' estimated.
-#' @param ...  Further arguments to be passed to the \code{\link{ewspec.trend}} call,
+#' @param ...  Further arguments to be passed to the \code{\link{ewspec.trend}} call.
 #' @return A \code{list} object containing the following fields:
 #' \item{x}{Input data}
 #' \item{filter.number, family}{Input wavelet parameters}
@@ -36,26 +38,11 @@
 #' \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
 #' \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
 #' \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
-#' @seealso \code{\link{wav.diff.trend.est}}, \code{\link{ewspec.trend}}
+#' @seealso \code{\link{TLSW}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
-#' @examples
-#' # computes trend estimator of simulated linear trend time series
-#'
-#' set.seed(1)
-#'
-#' noise <- rnorm(512)
-#' trend <- seq(from = 0, to = 5, length = 512)
-#' x <- trend + noise
-#'
-#' trend.est <- wav.trend.est(x, filter.number = 4, family = "DaubLeAsymm", boundary.handle = TRUE)
-#'
-#' plot.ts(x, lty = 1, col = 8)
-#' lines(trend, col = 2, lwd = 2)
-#' lines(trend.est$trend.est, col = 4, lwd = 2, lty = 2)
 #' @keywords internal
-#' @noRd
 wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
                           max.scale = floor(log2(length(x)) * 0.7),
                           transform.type = c("dec", "nondec")[1],
