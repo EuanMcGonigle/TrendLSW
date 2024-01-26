@@ -1,6 +1,6 @@
 #' @title Lagged Autocorrelation Wavelet Inner Product Calculation
 #' @description Internal function for computing the matrix of lagged autocorrelation wavelet inner
-#' products.
+#' products. This is not intended for general use by regular users of the package.
 #' @details Computes the lagged inner product matrix of the discrete
 #' non-decimated autocorrelation wavelets. This matrix is used in the
 #' calculation to correct the wavelet periodogram of the differenced time
