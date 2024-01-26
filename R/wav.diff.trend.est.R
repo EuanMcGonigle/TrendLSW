@@ -1,8 +1,9 @@
 #' @title Wavelet Thresholding Trend Estimation of Time Series
-#' @description Computes the wavelet thresholding trend estimate for a time
+#' @description Internal function to compute the wavelet thresholding trend estimate for a time
 #' series that may be second-order nonstationary. The function calculates the
 #' wavelet transform of the time series, thresholds the coefficients based on
 #' an estimate of their variance, and inverts to give the trend estimate.
+#' This function is not intended for general use by regular users of the package.
 #' @details Estimates the trend function of a locally stationary time series, by
 #' incorporating the evolutionary wavelet spectrum estimate in a wavelet
 #' thresholding procedure. To use this function, first compute the spectral
@@ -12,8 +13,8 @@
 #'
 #' 1. The wavelet transform of the time series is calculated.
 #'
-#' 2. The wavelet coefficients are individually thresholded using the universal
-#' threshold \eqn{\hat{\sigma}\sqrt(2 log T)}, where \eqn{\hat{sigma}^2} is an estimate of their variance. The variance
+#' 2. The wavelet coefficients at scale \eqn{j} and location \eqn{k} are individually thresholded using the universal
+#' threshold \eqn{\hat{\sigma}_{j,k}\sqrt{2 \log n}}, where \eqn{\hat{\sigma}_{j,k}^2} is an estimate of their variance. The variance
 #' estimate is calculated using the spectral estimate, supplied by the user in
 #' the \code{spec} argument.
 #'
@@ -37,7 +38,7 @@
 #' in which case a nondecimated transform is used.
 #' @param max.scale Selects the number of scales of the wavelet transform to
 #' apply thresholding to. Should be a value from 1 (finest) to J-1 (coarsest),
-#' where T=2^J is the length of the time series. Recommended to use 2J/3
+#' where \eqn{n =2^J} is the length of the time series. Recommended to use \eqn{0.7 J}
 #' scales.
 #' @param boundary.handle Logical variable, decides if boundary handling should
 #' be applied to the time series before estimation.
@@ -60,30 +61,11 @@
 #' \item{reps}{Returned if \code{calc.confint = TRUE}. The number of bootstrap replicates used to compute
 #'  pointwise confidence interval}
 #' \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
-#' @seealso \code{\link{ewspec.diff}}, \code{\link{wav.trend.est}}
+#' @seealso \code{\link{TLSW}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
-#' @examples
-#' spec <- wavethresh::cns(1024, filter.number = 4)
-#' spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 1024))^2)
-#'
-#' set.seed(120)
-#'
-#' sine.trend <- -2 * sin(seq(from = 0, to = 2 * pi, length = 1024)) -
-#'   1.5 * cos(seq(from = 0, to = pi, length = 1024))
-#'
-#' x <- TLSWsim(trend = sine.trend, spec = spec)
-#'
-#' spec.est <- ewspec.diff(x = x, family = "DaubExPhase", filter.number = 4, max.scale = 7)
-#'
-#' trend.est <- wav.diff.trend.est(x = x, spec = spec.est)
-#'
-#' plot.ts(x, lty = 1, col = 8)
-#' lines(sine.trend, col = 2, lwd = 2)
-#' lines(trend.est$T, col = 4, lwd = 2, lty = 2)
 #' @keywords internal
-#' @noRd
 wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExPhase",
                                thresh.type = c("hard","soft")[1], normal = TRUE,
                                transform.type = c("dec", "nondec")[1],
