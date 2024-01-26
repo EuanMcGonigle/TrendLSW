@@ -32,9 +32,6 @@ non-decimated autocorrelation wavelets. This matrix is used in the
 calculation to correct the wavelet periodogram of the differenced time
 series. With \code{lag} \eqn{= \tau}, the matrix returned is the matrix \eqn{A^\tau} in McGonigle et al. (2022).
 }
-\examples{
-A1 <- Atau.mat.calc(J = 5, filter.number = 1, family = "DaubExPhase", lag = 1)
-}
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 time-varying first and second-order structure of time series via wavelets
