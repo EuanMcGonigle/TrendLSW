@@ -1,9 +1,10 @@
 #' @title Estimation of Evolutionary Wavelet Spectrum for Non-Zero Mean Time Series
-#' @description Computes the evolutionary wavelet spectrum (EWS) estimate from
+#' @description Internal function to compute the evolutionary wavelet spectrum (EWS) estimate from
 #' a time series that may include a trend component. The estimate is computed
 #' by taking the non-decimated wavelet transform of the time series data,
 #' squaring it, smoothing using a running mean, and then correction for bias
 #' using the appropriate correction matrix.
+#' This function is not intended for general use by regular users of the package.
 #' @details Estimates the evolutionary wavelet spectrum of a
 #' time series that displays a smooth mean and nonstationary autocovariance.
 #' The estimation procedure is as follows:
@@ -66,6 +67,7 @@
 #' \item{SmoothWavPer}{ The smoothed, un-corrected raw
 #' wavelet periodogram of the input data. }
 #' \item{max.scale, boundary.handle, S.smooth, smooth.type, binwidth}{Input parameters}
+#' @seealso \code{\link{TLSW}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
@@ -73,26 +75,7 @@
 #' Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and
 #' adaptive estimation of the evolutionary wavelet spectrum. \emph{Journal of
 #' the Royal Statistical Society: Series B (Statistical Methodology)}, \bold{62(2)}, 271--292.
-#' @examples
-#' # simulates an example time series and estimates its trend and evolutionary wavelet spectrum
-#'
-#' spec <- wavethresh::cns(512)
-#' spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2)
-#'
-#' trend <- seq(from = 0, to = 5, length = 512)
-#'
-#' set.seed(1)
-#'
-#' x <- TLSWsim(trend = trend, spec = spec)
-#'
-#' spec.est <- ewspec.trend(x,
-#'   an.filter.number = 4, an.family = "DaubExPhase",
-#'   gen.filter.number = 1, gen.family = "DaubExPhase"
-#' )
-#'
-#' wavethresh::plot.wd(spec.est$S)
 #' @keywords internal
-#' @noRd
 ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
                          gen.filter.number = an.filter.number, gen.family = an.family,
                          binwidth = floor(2 * sqrt(length(x))),
