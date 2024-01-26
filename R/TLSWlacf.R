@@ -1,6 +1,6 @@
-#' @title Compute Localised Autocovariance Estimate from Spectrum Estimate
+#' @title Compute Localised Autocovariance Estimate of a TLSW Object
 #' @description Computes the local autocovariance and autocorrelation estimates, given an
-#' input of a spectrum estimate. Provides the same functionality as the
+#' input of an object of class TLSW containing the estimated spectrum. Provides the same functionality as the
 #' function \code{lacf} from the \code{locits} package, but user provides an object of
 #' class \code{TLSW} as the main argument.
 #' @param x.TLSW a \code{TLSW} object.
@@ -59,7 +59,8 @@
 #' plot.ts(lacf.est$lacf[, 1], ylab = "Lag 1 ACF")
 #' @export
 TLSWlacf <- function(x.TLSW, lag.max = NULL) {
-  stopifnot("Parameter lag.max should be a nonegative integer." = lag.max >= 0)
+  stopifnot("Argument lag.max should be a nonegative integer." = lag.max >= 0)
+  stopifnot("Argument x.TLSW should be an object of class TLSW." = isa(x.TLSW, "TLSW"))
 
   x <- x.TLSW$x
   dsname <- deparse(substitute(x))
