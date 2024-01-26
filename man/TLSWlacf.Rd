@@ -2,7 +2,7 @@
 % Please edit documentation in R/TLSWlacf.R
 \name{TLSWlacf}
 \alias{TLSWlacf}
-\title{Compute Localised Autocovariance Estimate from Spectrum Estimate}
+\title{Compute Localised Autocovariance Estimate of a TLSW Object}
 \usage{
 TLSWlacf(x.TLSW, lag.max = NULL)
 }
@@ -27,7 +27,7 @@ wavelet periodogram of the input data.}
 }
 \description{
 Computes the local autocovariance and autocorrelation estimates, given an
-input of a spectrum estimate. Provides the same functionality as the
+input of an object of class TLSW containing the estimated spectrum. Provides the same functionality as the
 function \code{lacf} from the \code{locits} package, but user provides an object of
 class \code{TLSW} as the main argument.
 }
