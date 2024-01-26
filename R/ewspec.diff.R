@@ -1,11 +1,12 @@
 #' @title Estimation of Evolutionary Wavelet Spectrum of Non-Zero Mean Time
 #' Series via Differencing
-#' @description Estimates the evolutionary wavelet spectrum (EWS) of
+#' @description Internal function to estimate the evolutionary wavelet spectrum (EWS) of
 #' a time series that may include a trend component. The estimate is computed
 #' by taking the non-decimated wavelet transform of the first differenced time
 #' series data, squaring it; smoothing using a running mean and then correcting
 #' for bias using the appropriate correction matrix. Inherits the smoothing
 #' functionality from the \code{ewspec3} function in the R package \code{locits}.
+#' This function is not intended for general use by regular users of the package.
 #' @details Computes an estimate of the evolutionary wavelet spectrum of a
 #' time series that displays nonstationary mean and autocovariance. The
 #' estimation procedure is as follows:
@@ -64,26 +65,12 @@
 #' \item{SmoothWavPer}{ The smoothed, un-corrected raw
 #' wavelet periodogram of the input data. }
 #' \item{max.scale, boundary.handle, S.smooth, smooth.type, binwidth, lag, diff.number}{Input parameters}
-#' @seealso \code{\link{ewspec}}, \code{\link{ewspec3}},
-#' \code{\link{ewspec.trend}}
+#' @seealso \code{\link{TLSW}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
-#' @examples
-#' spec <- wavethresh::cns(1024)
-#' spec <- wavethresh::putD(spec, level = 8, 1 + sin(seq(from = 0, to = 2 * pi, length = 1024))^2)
-#'
-#' set.seed(2352)
-#'
-#' trend <- c(seq(from = 0, to = 4, length = 400), seq(from = 4, to = 0, length = 624))
-#'
-#' x <- TLSWsim(trend = trend, spec = spec)
-#'
-#' spec.est <- ewspec.diff(x, family = "DaubExPhase", filter.number = 1, max.scale = 7)
-#'
 #' wavethresh::plot.wd(spec.est$S)
 #' @keywords internal
-#' @noRd
 ewspec.diff <- function(x, lag = 1, filter.number = 4, family = "DaubExPhase",
                         binwidth = floor(2 * sqrt(length(x))), diff.number = 1,
                         max.scale = floor(log2(length(x)) * 0.7), S.smooth = TRUE,
