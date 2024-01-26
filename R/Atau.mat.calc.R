@@ -1,5 +1,5 @@
 #' @title Lagged Autocorrelation Wavelet Inner Product Calculation
-#' @description Computes the matrix of lagged autocorrelation wavelet inner
+#' @description Internal function for computing the matrix of lagged autocorrelation wavelet inner
 #' products.
 #' @details Computes the lagged inner product matrix of the discrete
 #' non-decimated autocorrelation wavelets. This matrix is used in the
@@ -25,7 +25,6 @@
 #' A1 <- Atau.mat.calc(J = 5, filter.number = 1, family = "DaubExPhase", lag = 1)
 #' @seealso \link{TLSW}
 #' @keywords internal
-#' @noRd
 Atau.mat.calc <- function(J, filter.number = 1, family = "DaubExPhase", lag = 1) {
   if (!is.numeric(lag)) {
     stop("The lag parameter should be a positive integer.")
