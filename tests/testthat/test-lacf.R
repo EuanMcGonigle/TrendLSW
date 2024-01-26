@@ -23,6 +23,16 @@ test_that("TLSWlacf rejects negative lag.max", {
   x.TLSW <- TLSW(x)
   expect_error(
     TLSWlacf(x.TLSW, lag.max = -4),
-    "Parameter lag.max should be a nonegative integer."
+    "Argument lag.max should be a nonegative integer."
+  )
+})
+
+
+test_that("TLSWlacf rejects none TLSW object", {
+  skip_on_cran()
+  x <- stats::rnorm(64)
+  expect_error(
+    TLSWlacf(x),
+    "Argument x.TLSW should be an object of class TLSW."
   )
 })
