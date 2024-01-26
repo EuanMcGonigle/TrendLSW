@@ -1,5 +1,6 @@
 #' @title Cross Autocorrelation Wavelet Inner Product Matrix Calculation
-#' @description Computes the cross autocorrelation matrix of inner products.
+#' @description Internal function to compute the cross autocorrelation matrix of inner products.
+#' This is not intended for general use by regular users of the package.
 #' @details Computes the cross inner product matrix of the discrete
 #' non-decimated autocorrelation wavelets. This matrix is used to correct the
 #' wavelet periodogram analysed using a different wavelet to the wavelet that
@@ -20,14 +21,7 @@
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
-#' @examples
-#' C <- Cmat.calc(
-#'   J = 5, gen.filter.number = 1, an.filter.number = 2,
-#'   gen.family = "DaubExPhase", an.family = "DaubExPhase"
-#' )
-#'
 #' @keywords internal
-#' @noRd
 Cmat.calc <- function(J, gen.filter.number = 1, an.filter.number = 1,
                       gen.family = "DaubExPhase", an.family = "DaubExPhase") {
   if (!is.numeric(J)) {
