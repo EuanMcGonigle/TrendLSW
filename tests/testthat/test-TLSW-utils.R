@@ -28,7 +28,7 @@ test_that("plot TLSW gives same output",{
   set.seed(1)
   x <- TLSWsim(trend = trend, spec = spec)
   x.TLSW <- TLSW(x)
-  library(vdiffr)
+  suppressWarnings(library(vdiffr))
   expect_doppelganger(title="plotLSW testing",fig=function() plot(x.TLSW))
 })
 
