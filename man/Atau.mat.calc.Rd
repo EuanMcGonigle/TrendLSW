@@ -24,7 +24,7 @@ autocorrelation wavelet matrix.
 }
 \description{
 Internal function for computing the matrix of lagged autocorrelation wavelet inner
-products.
+products. This is not intended for general use by regular users of the package.
 }
 \details{
 Computes the lagged inner product matrix of the discrete
