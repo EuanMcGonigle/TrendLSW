@@ -48,7 +48,7 @@
 #' (\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
 #' confidence interval for the trend estimate is generated.
 #' @param reps Used only if \code{calc.confint = TRUE}; the number of bootstrap
-#' replications used to calcualte the confidence interval.
+#' replications used to calculate the confidence interval.
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.diff}}
 #' call, only to be used if \code{calc.confint = TRUE}.
 #' @return A \code{list} object containing the following fields:
