@@ -16,15 +16,14 @@
 #' \item{A list of length \eqn{J}, where the \eqn{j}-th element of the list is a function of one argument specifying the spectrum
 #' function at scale \eqn{j} on rescaled time \eqn{[0,1)}.}
 #' }
-#' @param innov.func A function with first argument \code{n} used for simulatin the innovations. By default,
+#' @param innov.func A function with first argument \code{n} used for simulating the innovations. By default,
 #' normal random innovations are sampled using the \code{rnorm} function.
 #' @param filter.number The filter number for the wavelet used to simulate the LSW process.
 #' @param family The family of the wavelet used to simulate the LSW process.
 #' @param ... Optional arguments to be passed to the function  \code{innov.func} for
 #' sampling the innovation process.
-#' @return A vector simulated from the spectral description given in the spec
-#' description. The returned vector will exhibit the spectral characteristics
-#' defined by spec.
+#' @return A vector containing a TLSW process simulated from the trend and spectral description given by the trend and
+#' spec arguments.
 #' @seealso \code{\link[wavethresh]{LSWsim}}
 #' @examples
 #'
