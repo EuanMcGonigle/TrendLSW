@@ -56,7 +56,7 @@ be applied to the time series before estimation.}
 pointwise confidence interval is computed for the trend estimate.}
 
 \item{reps}{Used only if \code{calc.confint = TRUE}; the number of bootstrap
-replications used to calcualte the confidence interval.}
+replications used to calculate the confidence interval.}
 
 \item{sig.lvl}{Used only if \code{calc.confint = TRUE}; a numeric value
 (\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
