@@ -34,16 +34,15 @@ function at scale \eqn{j} on rescaled time \eqn{[0,1)}.}
 
 \item{family}{The family of the wavelet used to simulate the LSW process.}
 
-\item{innov.func}{A function with first argument \code{n} used for simulatin the innovations. By default,
+\item{innov.func}{A function with first argument \code{n} used for simulating the innovations. By default,
 normal random innovations are sampled using the \code{rnorm} function.}
 
 \item{...}{Optional arguments to be passed to the function  \code{innov.func} for
 sampling the innovation process.}
 }
 \value{
-A vector simulated from the spectral description given in the spec
-description. The returned vector will exhibit the spectral characteristics
-defined by spec.
+A vector containing a TLSW process simulated from the trend and spectral description given by the trend and
+spec arguments.
 }
 \description{
 Simulates a trend locally stationary wavelet process with a given trend function
