@@ -24,13 +24,21 @@ get.boundary.timeseries <- function(x, type = c("TLSW", "LSW.diff")[1]) {
   x.len <- length(x)
   J <- wavethresh::IsPowerOfTwo(x.len)
 
-  s <- seq(from = 0, to = (x.len - 1) / x.len, length = x.len)
+  s.right <- seq(from = 0, to = (x.len - 1) / x.len, length = x.len)[(floor(19*x.len/20)):x.len]
 
-  L <- stats::lm(x ~ stats::poly(s, 3, raw = TRUE))
+  s.left <- seq(from = 0, to = (x.len - 1) / x.len, length = x.len)[1:(floor(x.len/20))]
 
-  bh.right <- stats::predict(L, newdata = data.frame(s = 1))
+  x.right <- x[(floor(19*x.len/20)):x.len]
 
-  bh.left <- stats::predict(L, newdata = data.frame(s = -1 / x.len))
+  x.left <- x[1:(floor(x.len/20))]
+
+  L.right <- stats::lm(x.right ~ s.right)
+
+  L.left <- stats::lm(x.left ~ s.left)
+
+  bh.right <- L.right$coefficients[1] + L.right$coefficients[2]
+
+  bh.left <- L.left$coefficients[1] - L.left$coefficients[2]/x.len
 
   if (type == "LSW.diff") {
     bh.series1 <- c(x - bh.right + bh.left, x, x + bh.right - bh.left)
