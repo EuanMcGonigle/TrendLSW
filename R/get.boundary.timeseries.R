@@ -12,7 +12,7 @@
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.
 #'
-#' #' McGonigle, E. T., Killick, R., and Nunes, M. (2022b). Modelling
+#' McGonigle, E. T., Killick, R., and Nunes, M. (2022b). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
 #' @keywords internal

@@ -24,6 +24,8 @@
 }
 \description{
 Plots information contained within a \code{TLSW} object.
+Depending on the \code{plot.type} option this will produce a plot of the data
+with trend estimate overlayed, a plot of the spectral estimate or both (default).
 }
 \examples{
 # Simulates an example time series and estimates its trend and evolutionary wavelet spectrum.

@@ -15,7 +15,15 @@
 None
 }
 \description{
-Prints a \code{TLSW} object, giving summary information.
+Prints a \code{TLSW} object, alongside summary information.
+The first part prints details of the class, specifically the names of elements within.
+Then prints out the summary, which gives information about a \code{TLSW} object. If spectral
+estimation was performed, then the type of smoothing and binwidth is printed,
+along with the differencing performed if it is used, the maximum wavelet
+scale analysed, and whether or not boundary handling was used. If trend
+estimation is performed, then the type of wavelet thresholding and transform
+used is printed, as well as the maximum wavelet scale used, whether or not boundary handling was used,
+and the significance of the confidence interval if it was calculated.
 }
 \examples{
 # simulates an example time series and estimates its trend and evolutionary wavelet spectrum

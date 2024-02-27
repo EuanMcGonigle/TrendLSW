@@ -65,7 +65,7 @@
 #' \item{SmoothWavPer}{ The smoothed, un-corrected raw
 #' wavelet periodogram of the input data. }
 #' \item{max.scale, boundary.handle, S.smooth, smooth.type, binwidth, lag, diff.number}{Input parameters}
-#' @seealso \code{\link{TLSW}}
+#' @seealso \code{\link{TLSW}}, \code{\link[locits]{ewspec3}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
