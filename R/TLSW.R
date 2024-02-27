@@ -100,13 +100,13 @@
 #' \item{upper.confint}{: Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval.}
 #'    }}
 #' @details
-#' The fitted \emph{trend LSW process} $\{X_{t,n} \}$, $t = 0, \ldots , n-1$, and $n = 2^J$ is
+#' The fitted \emph{trend LSW process} \eqn{X_{t,n} }, \eqn{t = 0, \ldots , n-1}, and \eqn{n = 2^J} is
 #'  a doubly-indexed stochastic process with the following representation in the mean square sense:
 #'  \deqn{X_{t} = T_t + \varepsilon_t = T_t + \sum_{j = 1}^{\infty} \sum_{k \in \mathbb{Z}} w_{j,k;n} \psi_{j,k} (t) \xi_{j,k} ,}{X_{t} = T_t + epsilon_t = T_t + sum_{j = 1}^{infty} sum_{k \in Z} w_{j,k;n} psi_{j,k} (t) xi_{j,k},}
 #'
 #'  where \eqn{\{\xi_{j,k} \}} is a random, uncorrelated, zero-mean orthonormal increment sequence,
 #'  \eqn{\{w_{j,k;n} \}} is a set of amplitudes, and \eqn{\{\psi_{j, k} \}_{j,k}} is a set of discrete
-#'  non-decimated wavelets.  The trend component $T_t := T(t/n)$ is assumed to be a general smooth (H\"older)
+#'  non-decimated wavelets.  The trend component \eqn{T_t := T(t/n)} is assumed to be a general smooth (H\"older)
 #'  continuous function. See the referenced papers for full details of the model.
 #'  The key considerations for users are:
 #'  \itemize{
@@ -116,7 +116,7 @@
 #'    \item The choice of wavelet (smoothness assumption) does affect the estimation so one should check the
 #'    robustness of their conclusions to the choice of wavelet (\code{T.filter.number} and \code{S.filter.number}).
 #'    This is akin to selecting the kernel in nonparametric modelling.
-#'    \item The underlying methods are designed for signals of length $n=2^J$ and so modifications
+#'    \item The underlying methods are designed for signals of length \eqn{n=2^J} and so modifications
 #'    are made to signals which are not of this form.  A natural approach is to extend the data (at both ends)
 #'    and the default approach does this by reflection with a trend correction to avoid discontinuities.
 #'  }
