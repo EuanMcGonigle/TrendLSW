@@ -17,6 +17,7 @@ wav.diff.trend.est(
   calc.confint = FALSE,
   reps = 199,
   sig.lvl = 0.05,
+  confint.type = c("percentile", "normal")[1],
   ...
 )
 }
@@ -61,6 +62,10 @@ replications used to calculate the confidence interval.}
 \item{sig.lvl}{Used only if \code{calc.confint = TRUE}; a numeric value
 (\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
 confidence interval for the trend estimate is generated.}
+
+\item{confint.type}{Used only if \code{T.est.type = "nonlinear"} and  \code{calc.confint = TRUE}; the type of confidence
+interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
+\code{"normal"}, in which case the normal approximation is used.}
 
 \item{...}{Further arguments to be passed to the \code{\link{ewspec.diff}}
 call, only to be used if \code{calc.confint = TRUE}.}

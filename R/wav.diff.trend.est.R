@@ -49,6 +49,9 @@
 #' confidence interval for the trend estimate is generated.
 #' @param reps Used only if \code{calc.confint = TRUE}; the number of bootstrap
 #' replications used to calculate the confidence interval.
+#' @param confint.type Used only if \code{T.est.type = "nonlinear"} and  \code{calc.confint = TRUE}; the type of confidence
+#' interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
+#' \code{"normal"}, in which case the normal approximation is used.
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.diff}}
 #' call, only to be used if \code{calc.confint = TRUE}.
 #' @return A \code{list} object containing the following fields:
@@ -71,7 +74,8 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
                                transform.type = c("dec", "nondec")[1],
                                max.scale = floor(0.7 * log2(length(x))),
                                boundary.handle = FALSE, calc.confint = FALSE,
-                               reps = 199, sig.lvl = 0.05, ...) {
+                               reps = 199, sig.lvl = 0.05,
+                               confint.type = c("percentile", "normal")[1], ...) {
   x.check <- trend.est.checks(
     x = x, max.scale = max.scale, boundary.handle = boundary.handle,
     transform.type = transform.type, calc.confint = calc.confint,
@@ -224,12 +228,12 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
       filter.number = filter.number, thresh.type = thresh.type,
       normal = normal, transform.type = transform.type,
       boundary.handle = boundary.handle, family = family, max.scale = max.scale,
-      reps = reps, sig.lvl = sig.lvl, ...
+      reps = reps, sig.lvl = sig.lvl, confint.type = confint.type, ...
     )
     return(list(
       x = orig.x, T = trend.est, lower.confint = trend.confint[1, ],
       upper.confint = trend.confint[2, ], sig.lvl = sig.lvl, reps = reps,
-      filter.number = filter.number, family = family,
+      confint.type = confint.type, filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
       boundary.handle = boundary.handle, thresh.type = thresh.type,
       normal = normal, calc.confint = calc.confint

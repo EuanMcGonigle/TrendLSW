@@ -90,6 +90,15 @@ test_that("wav.diff.trend.est executes with calc.confint = TRUE", {
   )
 })
 
+test_that("wav.diff.trend.est executes with calc.confint = TRUE and confint.type = 'normal'", {
+  skip_on_cran()
+  x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
+  x.s <- ewspec.diff(x)
+  expect_equal(
+    class(wav.diff.trend.est(x, x.s, calc.confint = TRUE, confint.type = "normal")), "list"
+  )
+})
+
 test_that("wav.diff.trend.est executes with non-dyadic data and calc.confint = TRUE", {
   skip_on_cran()
   x <- stats::rnorm(230) + seq(from = 0, to = 4, length = 230)

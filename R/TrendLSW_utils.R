@@ -120,7 +120,8 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
 trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.type = "soft",
                              normal = TRUE, transform.type = c("dec", "nondec")[2],
                              family = "DaubLeAsymm", max.scale = floor(log2(length(x)) * 0.7),
-                             boundary.handle = TRUE, reps = 199, sig.lvl = 0.05, ...) {
+                             boundary.handle = TRUE, reps = 199, sig.lvl = 0.05,
+                             confint.type = c("percentile", "normal")[1], ...) {
   trend.mat <- matrix(0, nrow = reps, ncol = length(x))
 
   spec <- spec.est$S
@@ -167,8 +168,12 @@ trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.t
     trend.mat[i, ] <- rep.trend$T
   }
 
-  conf.int <- apply(trend.mat, 2, FUN = stats::quantile, probs = c(sig.lvl / 2, (1 - sig.lvl / 2)))
-
+  if(confint.type == "percentile"){
+    conf.int <- apply(trend.mat, 2, FUN = stats::quantile, probs = c(sig.lvl / 2, (1 - sig.lvl / 2)))
+  } else{
+    sd.est <- stats::qnorm(1-sig.lvl/2)*apply(trend.mat, 2, FUN = stats::sd)
+    conf.int <- rbind(trend.est - sd.est, trend.est + sd.est)
+  }
   return(conf.int)
 }
 
