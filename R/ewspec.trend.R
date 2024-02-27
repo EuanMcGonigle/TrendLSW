@@ -67,7 +67,7 @@
 #' \item{SmoothWavPer}{ The smoothed, un-corrected raw
 #' wavelet periodogram of the input data. }
 #' \item{max.scale, boundary.handle, S.smooth, smooth.type, binwidth}{Input parameters}
-#' @seealso \code{\link{TLSW}}
+#' @seealso \code{\link{TLSW}}, \code{\link[wavethresh]{wd}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
 #' Analysis}, 43(6), 895-917.

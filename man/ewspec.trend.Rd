@@ -118,6 +118,6 @@ adaptive estimation of the evolutionary wavelet spectrum. \emph{Journal of
 the Royal Statistical Society: Series B (Statistical Methodology)}, \bold{62(2)}, 271--292.
 }
 \seealso{
-\code{\link{TLSW}}
+\code{\link{TLSW}}, \code{\link[wavethresh]{wd}}
 }
 \keyword{internal}

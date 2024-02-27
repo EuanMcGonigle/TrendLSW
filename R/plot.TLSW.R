@@ -1,6 +1,8 @@
 #' @title Plot Trend and/or Spectrum Information in a \code{TLSW} Object
 #'
 #' @description Plots information contained within a \code{TLSW} object.
+#' Depending on the \code{plot.type} option this will produce a plot of the data
+#' with trend estimate overlayed, a plot of the spectral estimate or both (default).
 #'
 #'
 #' @param x A \code{TLSW} object

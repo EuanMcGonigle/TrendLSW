@@ -113,6 +113,6 @@ and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
 wavethresh::plot.wd(spec.est$S)
 }
 \seealso{
-\code{\link{TLSW}}
+\code{\link{TLSW}}, \code{\link[locits]{ewspec3}}
 }
 \keyword{internal}
