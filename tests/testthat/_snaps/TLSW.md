@@ -1116,5 +1116,5 @@
     5.00586307244531, 5.01750046223695, 5.02920453685356, 5.04092950270043, 
     5.05268909388412), filter.number = 4, family = "DaubExPhase", 
         transform.type = "dec", max.scale = 6, boundary.handle = TRUE, 
-        calc.confint = FALSE, T.est.type = "linear")
+        T.CI = FALSE, T.est.type = "linear")
 

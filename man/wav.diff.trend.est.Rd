@@ -14,7 +14,7 @@ wav.diff.trend.est(
   transform.type = c("dec", "nondec")[1],
   max.scale = floor(0.7 * log2(length(x))),
   boundary.handle = FALSE,
-  calc.confint = FALSE,
+  T.CI = FALSE,
   reps = 199,
   sig.lvl = 0.05,
   confint.type = c("percentile", "normal")[1],
@@ -53,34 +53,34 @@ scales.}
 \item{boundary.handle}{Logical variable, decides if boundary handling should
 be applied to the time series before estimation.}
 
-\item{calc.confint}{Logical variable. If \code{TRUE}, a bootstrapped \code{(1-sig.lvl)}
+\item{T.CI}{Logical variable. If \code{TRUE}, a bootstrapped \code{(1-sig.lvl)}
 pointwise confidence interval is computed for the trend estimate.}
 
-\item{reps}{Used only if \code{calc.confint = TRUE}; the number of bootstrap
+\item{reps}{Used only if \code{T.CI = TRUE}; the number of bootstrap
 replications used to calculate the confidence interval.}
 
-\item{sig.lvl}{Used only if \code{calc.confint = TRUE}; a numeric value
+\item{sig.lvl}{Used only if \code{T.CI = TRUE}; a numeric value
 (\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
 confidence interval for the trend estimate is generated.}
 
-\item{confint.type}{Used only if \code{T.est.type = "nonlinear"} and  \code{calc.confint = TRUE}; the type of confidence
+\item{confint.type}{Used only if \code{T.CI = TRUE}; the type of confidence
 interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
 \code{"normal"}, in which case the normal approximation is used.}
 
 \item{...}{Further arguments to be passed to the \code{\link{ewspec.diff}}
-call, only to be used if \code{calc.confint = TRUE}.}
+call, only to be used if \code{T.CI = TRUE}.}
 }
 \value{
 A \code{list} object containing the following fields:
 \item{x}{Input data}
 \item{filter.number, family}{Input wavelet parameters}
-\item{transform.type, max.scale, boundary.handle, thresh.type, normal,  calc.confint}{Input parameters}
+\item{transform.type, max.scale, boundary.handle, thresh.type, normal,  T.CI}{Input parameters}
 \item{T}{A vector of length \code{length(x)} containing the trend estimate}
-\item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
-\item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
-\item{reps}{Returned if \code{calc.confint = TRUE}. The number of bootstrap replicates used to compute
+\item{lower.CI}{Returned if \code{T.CI = TRUE}. The lower limit of the pointwise confidence interval}
+\item{upper.CI}{Returned if \code{T.CI = TRUE}. The upper limit of the pointwise confidence interval}
+\item{reps}{Returned if \code{T.CI = TRUE}. The number of bootstrap replicates used to compute
  pointwise confidence interval}
-\item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
+\item{sig.lvl}{Returned if \code{T.CI = TRUE}. The significance level of the pointwise confidence interval}
 }
 \description{
 Internal function to compute the wavelet thresholding trend estimate for a time

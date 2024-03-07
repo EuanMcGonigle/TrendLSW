@@ -16,10 +16,10 @@ TLSW(
   T.max.scale = floor(log2(length(x)) * 0.7),
   T.thresh.type = c("hard", "soft")[1],
   T.thresh.normal = TRUE,
-  T.confint = FALSE,
+  T.CI = FALSE,
   T.sig.lvl = 0.05,
   T.reps = 199,
-  T.confint.type = c("percentile", "normal")[1],
+  T.CI.type = c("percentile", "normal")[1],
   T.lacf.max.lag = floor(10 * (log10(length(x)))),
   S.filter.number = 4,
   S.family = "DaubExPhase",
@@ -69,23 +69,23 @@ thresholding function used in the trend estimation. Can be
 if \code{TRUE}, uses a threshold assuming the data are normally
 distributed. If \code{FALSE}, uses a larger threshold to reflect non-normality.}
 
-\item{T.confint}{Logical variable. If \code{TRUE}, a \code{(1-T.sig.lvl)} pointwise confidence interval is
-computed for the trend estimate. For \code{T.est.type = "linear"}, this is
-computed using the asymptotic distribution of the trend estimator,
-whilst for \code{T.est.type = "nonlinear"}, it is computed via bootstrapping.}
+\item{T.CI}{Logical variable. If \code{TRUE}, a \code{(1-T.sig.lvl)} pointwise confidence interval is
+computed for the trend estimate. When \code{T.transform = "dec"} and \code{T.est.type = "linear"}, this is
+computed using the asymptotic distribution of the trend estimator.
+Otherwise, it is computed via bootstrapping.}
 
-\item{T.sig.lvl}{Used only if \code{T.confint = TRUE}; a numeric value
+\item{T.sig.lvl}{Used only if \code{T.CI = TRUE}; a numeric value
 (\code{0 <= T.sig.lvl <= 1}) with which a \code{(1-T.sig.lvl)} pointwise
 confidence interval for the trend estimate is generated.}
 
-\item{T.reps}{Used only if \code{T.est.type = "nonlinear"} and  \code{calc.confint = TRUE}; the number of bootstrap
+\item{T.reps}{Used only if \code{T.est.type = "nonlinear"} and  \code{T.CI = TRUE}; the number of bootstrap
 replications used to calculate the confidence interval.}
 
-\item{T.confint.type}{Used only if \code{T.est.type = "nonlinear"} and  \code{calc.confint = TRUE}; the type of confidence
+\item{T.CI.type}{Used only if \code{T.transform = "nondec"} and \code{T.CI = TRUE}; the type of confidence
 interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
 \code{"normal"}, in which case the normal approximation is used.}
 
-\item{T.lacf.max.lag}{Used only if \code{T.est.type = "linear"} and  \code{calc.confint = TRUE};
+\item{T.lacf.max.lag}{Used only if \code{T.est.type = "linear"} and  \code{T.CI = TRUE};
 the maximum lag of the autocovariance to compute needed for calculating the asymptotic confidence interval.}
 
 \item{S.filter.number}{The index number for the wavelet used for spectrum estimation.}
@@ -150,7 +150,7 @@ functionality.}
 data. The EWS estimate (S, above) is the smoothed corrected version of this raw
 wavelet periodogram.}
 \item{SmoothWavPer}{: The smoothed, but uncorrected raw
-wavelet periodogram of the input data. }
+wavelet periodogram of the input data.}
 }
 }
    \item{do.trend.est}{Input parameter, logical variable specifying if trend estimation was performed.}
@@ -158,8 +158,8 @@ wavelet periodogram of the input data. }
    and the following fields related to the trend estimate:
    \itemize{
 \item{T}{: A vector of length \code{length(x)} containing the trend estimate.}
-\item{lower.confint}{: Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval.}
-\item{upper.confint}{: Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval.}
+\item{lower.CI}{: Returned if \code{T.CI = TRUE}. The lower limit of the pointwise confidence interval.}
+\item{upper.CI}{: Returned if \code{T.CI = TRUE}. The upper limit of the pointwise confidence interval.}
    }}
 }
 \description{

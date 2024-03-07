@@ -20,24 +20,27 @@
 #' @param boundary.handle Logical variable. If \code{TRUE}, the time
 #' series is boundary corrected, to get a less variable trend estimate at the
 #' boundaries of the times series. If \code{FALSE}, no boundary correction is applied.
-#' @param calc.confint Logical variable, only to be used if \code{transform.type = TRUE}.
+#' @param T.CI Logical variable, only to be used if \code{transform.type = TRUE}.
 #' If \code{TRUE}, a \code{(1-sig.lvl)} pointwise confidence interval is
 #' computed for the trend estimate.
-#' @param sig.lvl Used only if \code{calc.confint = TRUE}; a numeric value
+#' @param sig.lvl Used only if \code{T.CI = TRUE}; a numeric value
 #' (\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
 #' confidence interval for the trend estimate is generated.
-#' @param lag.max Used only if \code{calc.confint = TRUE}; a positive integer
+#' @param lag.max Used only if \code{T.CI = TRUE}; a positive integer
 #' specifying the maximum lag to which the local autocovariance function is
 #' estimated.
+#' @param confint.type Used only if \code{T.CI = TRUE}; the type of confidence
+#' interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
+#' \code{"normal"}, in which case the normal approximation is used.
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.trend}} call.
 #' @return A \code{list} object containing the following fields:
 #' \item{x}{Input data}
 #' \item{filter.number, family}{Input wavelet parameters}
-#' \item{transform.type, max.scale, boundary.handle, calc.confint}{Input parameters}
+#' \item{transform.type, max.scale, boundary.handle, T.CI}{Input parameters}
 #' \item{T}{A vector of length \code{length(x)} containing the trend estimate}
-#' \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
-#' \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
-#' \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
+#' \item{lower.CI}{Returned if \code{T.CI = TRUE}. The lower limit of the pointwise confidence interval}
+#' \item{upper.CI}{Returned if \code{T.CI = TRUE}. The upper limit of the pointwise confidence interval}
+#' \item{sig.lvl}{Returned if \code{T.CI = TRUE}. The significance level of the pointwise confidence interval}
 #' @seealso \code{\link{TLSW}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
 #' locally stationary wavelet processes. \emph{Journal of Time Series
@@ -46,15 +49,16 @@
 wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
                           max.scale = floor(log2(length(x)) * 0.7),
                           transform.type = c("dec", "nondec")[1],
-                          boundary.handle = FALSE, calc.confint = FALSE, sig.lvl = 0.05,
-                          lag.max = floor(10 * (log10(length(x)))), ...) {
+                          boundary.handle = FALSE, T.CI = FALSE, sig.lvl = 0.05,
+                          lag.max = floor(10 * (log10(length(x)))),
+                          confint.type = c("percentile", "normal")[1], ...) {
   # this function carries out wavelet thresholding of a time series to obtain a
   # trend estimate. All non-boundary wavelet coefficients up to a specified scale
   # are set to zero.
 
   x.check <- trend.est.checks(
     x = x, max.scale = max.scale, boundary.handle = boundary.handle,
-    transform.type = transform.type, calc.confint = calc.confint,
+    transform.type = transform.type, T.CI = T.CI,
     reps = 2, sig.lvl = sig.lvl, est.type = "linear"
   )
 
@@ -119,7 +123,7 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
   # subset the longer estimate to get the true estimate
 
 
-  if (calc.confint == FALSE) {
+  if (T.CI == FALSE) {
     if (boundary.handle == TRUE) {
       if (dyadic == TRUE) {
         lower <- 2^(J - 2) + 2^(J - 3) + 1
@@ -133,7 +137,7 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
     return(list(
       x = orig.x, T = x_wr, filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
-      boundary.handle = boundary.handle, calc.confint = calc.confint
+      boundary.handle = boundary.handle, T.CI = T.CI
     ))
   } else {
     spec.est <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
@@ -143,12 +147,12 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
       lag.max = lag.max, spec.est = spec.est
     )
 
-    trend.confint <- trend.estCI(
+    trend.CI <- trend.estCI(
       trend.est = x_wr, lacf.est = lacf.est, filter.number = filter.number,
       family = family, sig.lvl = sig.lvl
     )
-    lower.conf <- trend.confint$lower.conf
-    upper.conf <- trend.confint$upper.conf
+    lower.conf <- trend.CI$lower.conf
+    upper.conf <- trend.CI$upper.conf
 
     if (boundary.handle == TRUE) {
       if (dyadic == TRUE) {
@@ -164,9 +168,9 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
     }
 
     return(list(
-      x = orig.x, T = x_wr,  lower.confint = lower.conf, upper.confint = upper.conf,
+      x = orig.x, T = x_wr,  lower.CI = lower.conf, upper.CI = upper.conf,
       sig.lvl = sig.lvl, filter.number = filter.number, family = family, transform.type = transform.type,
-      max.scale = max.scale, boundary.handle = boundary.handle, calc.confint = calc.confint
+      max.scale = max.scale, boundary.handle = boundary.handle, T.CI = T.CI
      ))
   }
 }

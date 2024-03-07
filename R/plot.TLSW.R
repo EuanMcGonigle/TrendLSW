@@ -57,12 +57,12 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
 
   if(any(plot.type == "trend")){
 
-    if(x$trend$calc.confint == FALSE){
+    if(x$trend$T.CI == FALSE){
       y.min <- min(x$x, x$trend$trend.est)
       y.max <- max(x$x, x$trend$trend.est)
     } else {
-      y.min <- min(x$x, x$trend$trend.est, x$trend.est$lower.confint)
-      y.max <- max(x$x, x$trend$trend.est, x$trend.est$upper.confint)
+      y.min <- min(x$x, x$trend$trend.est, x$trend.est$lower.CI)
+      y.max <- max(x$x, x$trend$trend.est, x$trend.est$upper.CI)
     }
 
     if(missing(trend.plot.args)){
@@ -105,11 +105,11 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
 
     lines(x$trend.est$T, col = 2, lwd = 2)
 
-    if(x$trend$calc.confint == TRUE){
-      polygon(c(time.index,rev(time.index)), c(x$trend.est$lower.confint, rev(x$trend.est$upper.confint)),
+    if(x$trend$T.CI == TRUE){
+      polygon(c(time.index,rev(time.index)), c(x$trend.est$lower.CI, rev(x$trend.est$upper.CI)),
               col = "#0000FF33", border = NA)
-      lines(x$trend.est$lower.confint, col="blue",lty=2)
-      lines(x$trend.est$upper.confint, col="blue",lty=2)
+      lines(x$trend.est$lower.CI, col="blue",lty=2)
+      lines(x$trend.est$upper.CI, col="blue",lty=2)
     }
 
   }

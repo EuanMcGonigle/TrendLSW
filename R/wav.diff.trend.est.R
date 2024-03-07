@@ -42,28 +42,28 @@
 #' scales.
 #' @param boundary.handle Logical variable, decides if boundary handling should
 #' be applied to the time series before estimation.
-#' @param calc.confint Logical variable. If \code{TRUE}, a bootstrapped \code{(1-sig.lvl)}
+#' @param T.CI Logical variable. If \code{TRUE}, a bootstrapped \code{(1-sig.lvl)}
 #' pointwise confidence interval is computed for the trend estimate.
-#' @param sig.lvl Used only if \code{calc.confint = TRUE}; a numeric value
+#' @param sig.lvl Used only if \code{T.CI = TRUE}; a numeric value
 #' (\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
 #' confidence interval for the trend estimate is generated.
-#' @param reps Used only if \code{calc.confint = TRUE}; the number of bootstrap
+#' @param reps Used only if \code{T.CI = TRUE}; the number of bootstrap
 #' replications used to calculate the confidence interval.
-#' @param confint.type Used only if \code{T.est.type = "nonlinear"} and  \code{calc.confint = TRUE}; the type of confidence
+#' @param confint.type Used only if \code{T.CI = TRUE}; the type of confidence
 #' interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
 #' \code{"normal"}, in which case the normal approximation is used.
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.diff}}
-#' call, only to be used if \code{calc.confint = TRUE}.
+#' call, only to be used if \code{T.CI = TRUE}.
 #' @return A \code{list} object containing the following fields:
 #' \item{x}{Input data}
 #' \item{filter.number, family}{Input wavelet parameters}
-#' \item{transform.type, max.scale, boundary.handle, thresh.type, normal,  calc.confint}{Input parameters}
+#' \item{transform.type, max.scale, boundary.handle, thresh.type, normal,  T.CI}{Input parameters}
 #' \item{T}{A vector of length \code{length(x)} containing the trend estimate}
-#' \item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
-#' \item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
-#' \item{reps}{Returned if \code{calc.confint = TRUE}. The number of bootstrap replicates used to compute
+#' \item{lower.CI}{Returned if \code{T.CI = TRUE}. The lower limit of the pointwise confidence interval}
+#' \item{upper.CI}{Returned if \code{T.CI = TRUE}. The upper limit of the pointwise confidence interval}
+#' \item{reps}{Returned if \code{T.CI = TRUE}. The number of bootstrap replicates used to compute
 #'  pointwise confidence interval}
-#' \item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
+#' \item{sig.lvl}{Returned if \code{T.CI = TRUE}. The significance level of the pointwise confidence interval}
 #' @seealso \code{\link{TLSW}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
@@ -73,12 +73,12 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
                                thresh.type = c("hard","soft")[1], normal = TRUE,
                                transform.type = c("dec", "nondec")[1],
                                max.scale = floor(0.7 * log2(length(x))),
-                               boundary.handle = FALSE, calc.confint = FALSE,
+                               boundary.handle = FALSE, T.CI = FALSE,
                                reps = 199, sig.lvl = 0.05,
                                confint.type = c("percentile", "normal")[1], ...) {
   x.check <- trend.est.checks(
     x = x, max.scale = max.scale, boundary.handle = boundary.handle,
-    transform.type = transform.type, calc.confint = calc.confint,
+    transform.type = transform.type, T.CI = T.CI,
     reps = reps, sig.lvl = sig.lvl, est.type = "nonlinear"
   )
 
@@ -222,8 +222,8 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
     }
   }
 
-  if (calc.confint == TRUE) {
-    trend.confint <- trend.estCI.diff(
+  if (T.CI == TRUE) {
+    trend.CI <- trend.estCI.diff(
       x = orig.x, trend.est = trend.est, spec.est = spec.est,
       filter.number = filter.number, thresh.type = thresh.type,
       normal = normal, transform.type = transform.type,
@@ -231,12 +231,12 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
       reps = reps, sig.lvl = sig.lvl, confint.type = confint.type, ...
     )
     return(list(
-      x = orig.x, T = trend.est, lower.confint = trend.confint[1, ],
-      upper.confint = trend.confint[2, ], sig.lvl = sig.lvl, reps = reps,
+      x = orig.x, T = trend.est, lower.CI = trend.CI[1, ],
+      upper.CI = trend.CI[2, ], sig.lvl = sig.lvl, reps = reps,
       confint.type = confint.type, filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
       boundary.handle = boundary.handle, thresh.type = thresh.type,
-      normal = normal, calc.confint = calc.confint
+      normal = normal, T.CI = T.CI
 
     ))
   } else {
@@ -244,7 +244,7 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
       x = orig.x, T = trend.est,  filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
       boundary.handle = boundary.handle, thresh.type = thresh.type, normal = normal,
-      calc.confint = calc.confint
+      T.CI = T.CI
     ))
   }
 }

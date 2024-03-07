@@ -26,19 +26,19 @@
 #' @param T.thresh.normal Logical variable, used only if \code{T.est.type = "nonlinear"};
 #' if \code{TRUE}, uses a threshold assuming the data are normally
 #' distributed. If \code{FALSE}, uses a larger threshold to reflect non-normality.
-#' @param T.confint Logical variable. If \code{TRUE}, a \code{(1-T.sig.lvl)} pointwise confidence interval is
-#' computed for the trend estimate. For \code{T.est.type = "linear"}, this is
-#' computed using the asymptotic distribution of the trend estimator,
-#' whilst for \code{T.est.type = "nonlinear"}, it is computed via bootstrapping.
-#' @param T.sig.lvl Used only if \code{T.confint = TRUE}; a numeric value
+#' @param T.CI Logical variable. If \code{TRUE}, a \code{(1-T.sig.lvl)} pointwise confidence interval is
+#' computed for the trend estimate. When \code{T.transform = "dec"} and \code{T.est.type = "linear"}, this is
+#' computed using the asymptotic distribution of the trend estimator.
+#' Otherwise, it is computed via bootstrapping.
+#' @param T.sig.lvl Used only if \code{T.CI = TRUE}; a numeric value
 #' (\code{0 <= T.sig.lvl <= 1}) with which a \code{(1-T.sig.lvl)} pointwise
 #' confidence interval for the trend estimate is generated.
-#' @param T.reps Used only if \code{T.est.type = "nonlinear"} and  \code{calc.confint = TRUE}; the number of bootstrap
+#' @param T.reps Used only if \code{T.est.type = "nonlinear"} and  \code{T.CI = TRUE}; the number of bootstrap
 #' replications used to calculate the confidence interval.
-#' @param T.confint.type Used only if \code{T.est.type = "nonlinear"} and  \code{calc.confint = TRUE}; the type of confidence
+#' @param T.CI.type Used only if \code{T.transform = "nondec"} and \code{T.CI = TRUE}; the type of confidence
 #' interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
 #' \code{"normal"}, in which case the normal approximation is used.
-#' @param T.lacf.max.lag Used only if \code{T.est.type = "linear"} and  \code{calc.confint = TRUE};
+#' @param T.lacf.max.lag Used only if \code{T.est.type = "linear"} and  \code{T.CI = TRUE};
 #' the maximum lag of the autocovariance to compute needed for calculating the asymptotic confidence interval.
 #' @param S.filter.number The index number for the wavelet used for spectrum estimation.
 #' @param S.family The family of the wavelet used for spectrum estimation.
@@ -88,7 +88,7 @@
 #' data. The EWS estimate (S, above) is the smoothed corrected version of this raw
 #' wavelet periodogram.}
 #' \item{SmoothWavPer}{: The smoothed, but uncorrected raw
-#' wavelet periodogram of the input data. }
+#' wavelet periodogram of the input data.}
 #' }
 #' }
 #'    \item{do.trend.est}{Input parameter, logical variable specifying if trend estimation was performed.}
@@ -96,8 +96,8 @@
 #'    and the following fields related to the trend estimate:
 #'    \itemize{
 #' \item{T}{: A vector of length \code{length(x)} containing the trend estimate.}
-#' \item{lower.confint}{: Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval.}
-#' \item{upper.confint}{: Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval.}
+#' \item{lower.CI}{: Returned if \code{T.CI = TRUE}. The lower limit of the pointwise confidence interval.}
+#' \item{upper.CI}{: Returned if \code{T.CI = TRUE}. The upper limit of the pointwise confidence interval.}
 #'    }}
 #' @details
 #' The fitted \emph{trend LSW process} \eqn{X_{t,n} }, \eqn{t = 0, \ldots , n-1}, and \eqn{n = 2^J} is
@@ -157,8 +157,8 @@ TLSW <- function(x, do.trend.est = TRUE, do.spec.est = TRUE,
                  T.family = "DaubExPhase", T.transform = c("dec", "nondec")[1],
                  T.boundary.handle = TRUE, T.max.scale = floor(log2(length(x)) * 0.7),
                  T.thresh.type = c("hard", "soft")[1], T.thresh.normal = TRUE,
-                 T.confint = FALSE, T.sig.lvl = 0.05, T.reps = 199,
-                 T.confint.type = c("percentile", "normal")[1],
+                 T.CI = FALSE, T.sig.lvl = 0.05, T.reps = 199,
+                 T.CI.type = c("percentile", "normal")[1],
                  T.lacf.max.lag = floor(10 * (log10(length(x)))),
                  S.filter.number = 4, S.family = "DaubExPhase", S.smooth = TRUE,
                  S.smooth.type = c("mean", "median", "epan")[1],
@@ -171,7 +171,7 @@ TLSW <- function(x, do.trend.est = TRUE, do.spec.est = TRUE,
             at least one should be TRUE." = do.spec.est == TRUE || do.trend.est == TRUE)
   stopifnot("The parameter T.thresh.type must be either 'hard' or 'soft'." = T.thresh.type == "hard" || T.thresh.type == "soft")
 
-  if (do.trend.est == TRUE && do.spec.est == FALSE && (T.est.type == "nonlinear" || T.confint == TRUE)) {
+  if (do.trend.est == TRUE && do.spec.est == FALSE && (T.est.type == "nonlinear" || T.CI == TRUE)) {
     do.spec.est <- TRUE
     warning("Spectral estimate is needed for trend estimation. Setting do.spec.est = TRUE.")
   }
@@ -210,8 +210,9 @@ TLSW <- function(x, do.trend.est = TRUE, do.spec.est = TRUE,
         x = x, filter.number = T.filter.number,
         family = T.family, max.scale = T.max.scale,
         transform.type = T.transform,
-        boundary.handle = T.boundary.handle, calc.confint = T.confint,
-        sig.lvl = T.sig.lvl, lag.max = floor(10 * (log10(length(x))))
+        boundary.handle = T.boundary.handle, T.CI = T.CI,
+        sig.lvl = T.sig.lvl, lag.max = floor(10 * (log10(length(x)))),
+        confint.type = T.CI.type
       )
     } else {
       x.trend <- wav.diff.trend.est(
@@ -219,8 +220,8 @@ TLSW <- function(x, do.trend.est = TRUE, do.spec.est = TRUE,
         family = T.family, max.scale = T.max.scale,
         transform.type = T.transform,
         thresh.type = T.thresh.type, normal = T.thresh.normal,
-        boundary.handle = T.boundary.handle, calc.confint = T.confint,
-        reps = T.reps, sig.lvl = T.sig.lvl, confint.type = T.confint.type
+        boundary.handle = T.boundary.handle, T.CI = T.CI,
+        reps = T.reps, sig.lvl = T.sig.lvl, confint.type = T.CI.type
       )
     }
     x.trend$T.est.type <- T.est.type

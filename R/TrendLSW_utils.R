@@ -162,7 +162,7 @@ trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.t
       x = rep.x, spec.est = rep.spec, filter.number = filter.number,
       family = family, max.scale = max.scale, transform.type = transform.type,
       boundary.handle = boundary.handle,
-      thresh.type = thresh.type, normal = normal, calc.confint = FALSE
+      thresh.type = thresh.type, normal = normal, T.CI = FALSE
     ))
 
     trend.mat[i, ] <- rep.trend$T
@@ -386,18 +386,13 @@ replace.neg.values <- function(var.mat, max.scale) {
 #' @keywords internal
 #' @noRd
 trend.est.checks <- function(x, max.scale, boundary.handle, transform.type,
-                            calc.confint, reps, sig.lvl, est.type) {
+                            T.CI, reps, sig.lvl, est.type) {
   stopifnot(
-    "Parameter transform.type must be either 'dec' or 'nondec'" =
+    "Parameter T.transform must be either 'dec' or 'nondec'" =
       transform.type == "dec" || transform.type == "nondec"
   )
-  stopifnot("Parameter calc.confint must be logical variable" = is.logical(calc.confint))
-  stopifnot("Parameter boundary.handle must be logical variable" = is.logical(boundary.handle))
-
-  if(est.type == "linear"){
-    stopifnot("Only transform.type = 'dec' is supported for calculating confidence
-            intervals" = transform.type == "dec" || calc.confint == FALSE)
-  }
+  stopifnot("Parameter T.CI must be logical variable" = is.logical(T.CI))
+  stopifnot("Parameter T.boundary.handle must be logical variable" = is.logical(boundary.handle))
 
 
   if (any(is.na(x))) {

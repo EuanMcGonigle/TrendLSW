@@ -81,30 +81,30 @@ test_that("wav.diff.trend.est executes with normal = FALSE and boundary handling
   expect_equal(class(x.t), "list")
 })
 
-test_that("wav.diff.trend.est executes with calc.confint = TRUE", {
+test_that("wav.diff.trend.est executes with T.CI = TRUE", {
   skip_on_cran()
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
   x.s <- ewspec.diff(x)
   expect_equal(
-    class(wav.diff.trend.est(x, x.s, calc.confint = TRUE)), "list"
+    class(wav.diff.trend.est(x, x.s, T.CI = TRUE)), "list"
   )
 })
 
-test_that("wav.diff.trend.est executes with calc.confint = TRUE and confint.type = 'normal'", {
+test_that("wav.diff.trend.est executes with T.CI = TRUE and confint.type = 'normal'", {
   skip_on_cran()
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
   x.s <- ewspec.diff(x)
   expect_equal(
-    class(wav.diff.trend.est(x, x.s, calc.confint = TRUE, confint.type = "normal")), "list"
+    class(wav.diff.trend.est(x, x.s, T.CI = TRUE, confint.type = "normal")), "list"
   )
 })
 
-test_that("wav.diff.trend.est executes with non-dyadic data and calc.confint = TRUE", {
+test_that("wav.diff.trend.est executes with non-dyadic data and T.CI = TRUE", {
   skip_on_cran()
   x <- stats::rnorm(230) + seq(from = 0, to = 4, length = 230)
   x.s <- suppressWarnings(ewspec.diff(x))
   expect_warning(
-    wav.diff.trend.est(x, x.s, calc.confint = TRUE),
+    wav.diff.trend.est(x, x.s, T.CI = TRUE),
     "Data length is not power of two. Boundary correction has been applied."
   )
 })

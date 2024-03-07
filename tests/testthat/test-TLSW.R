@@ -44,7 +44,7 @@ test_that("TLSW executes with supplied inv mat", {
 test_that("TLSW executes with nonlinear wavelet trend estimator using non-differenced spec est", {
   skip_on_cran()
   x <- stats::rnorm(128)
-  x.lsw <- TLSW(x, T.confint = TRUE, T.est.type = "nonlinear")
+  x.lsw <- TLSW(x, T.CI = TRUE, T.est.type = "nonlinear")
   expect_equal(class(x.lsw), "TLSW")
 })
 

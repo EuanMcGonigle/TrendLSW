@@ -11,9 +11,10 @@ wav.trend.est(
   max.scale = floor(log2(length(x)) * 0.7),
   transform.type = c("dec", "nondec")[1],
   boundary.handle = FALSE,
-  calc.confint = FALSE,
+  T.CI = FALSE,
   sig.lvl = 0.05,
   lag.max = floor(10 * (log10(length(x)))),
+  confint.type = c("percentile", "normal")[1],
   ...
 )
 }
@@ -40,17 +41,21 @@ cannot be calculated in this case.}
 series is boundary corrected, to get a less variable trend estimate at the
 boundaries of the times series. If \code{FALSE}, no boundary correction is applied.}
 
-\item{calc.confint}{Logical variable, only to be used if \code{transform.type = TRUE}.
+\item{T.CI}{Logical variable, only to be used if \code{transform.type = TRUE}.
 If \code{TRUE}, a \code{(1-sig.lvl)} pointwise confidence interval is
 computed for the trend estimate.}
 
-\item{sig.lvl}{Used only if \code{calc.confint = TRUE}; a numeric value
+\item{sig.lvl}{Used only if \code{T.CI = TRUE}; a numeric value
 (\code{0 <= sig.lvl <= 1}) with which a \code{(1-sig.lvl)} pointwise
 confidence interval for the trend estimate is generated.}
 
-\item{lag.max}{Used only if \code{calc.confint = TRUE}; a positive integer
+\item{lag.max}{Used only if \code{T.CI = TRUE}; a positive integer
 specifying the maximum lag to which the local autocovariance function is
 estimated.}
+
+\item{confint.type}{Used only if \code{T.CI = TRUE}; the type of confidence
+interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
+\code{"normal"}, in which case the normal approximation is used.}
 
 \item{...}{Further arguments to be passed to the \code{\link{ewspec.trend}} call.}
 }
@@ -58,11 +63,11 @@ estimated.}
 A \code{list} object containing the following fields:
 \item{x}{Input data}
 \item{filter.number, family}{Input wavelet parameters}
-\item{transform.type, max.scale, boundary.handle, calc.confint}{Input parameters}
+\item{transform.type, max.scale, boundary.handle, T.CI}{Input parameters}
 \item{T}{A vector of length \code{length(x)} containing the trend estimate}
-\item{lower.confint}{Returned if \code{calc.confint = TRUE}. The lower limit of the pointwise confidence interval}
-\item{upper.confint}{Returned if \code{calc.confint = TRUE}. The upper limit of the pointwise confidence interval}
-\item{sig.lvl}{Returned if \code{calc.confint = TRUE}. The significance level of the pointwise confidence interval}
+\item{lower.CI}{Returned if \code{T.CI = TRUE}. The lower limit of the pointwise confidence interval}
+\item{upper.CI}{Returned if \code{T.CI = TRUE}. The upper limit of the pointwise confidence interval}
+\item{sig.lvl}{Returned if \code{T.CI = TRUE}. The significance level of the pointwise confidence interval}
 }
 \description{
 Internal function to compute the linear wavelet thresholding trend estimate for a

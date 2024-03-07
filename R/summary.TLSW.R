@@ -80,7 +80,7 @@ summary.TLSW <- function(object, ...) {
     } else {
       cat("-no boundary handling was perfomed.\n")
     }
-    if (object$trend.est$calc.confint == TRUE) {
+    if (object$trend.est$T.CI == TRUE) {
       cat("-a pointwise " , 100*(1-object$trend.est$sig.lvl), "% confidence interval was calculated.", sep = "")
     }
   } else {
