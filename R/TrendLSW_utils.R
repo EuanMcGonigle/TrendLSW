@@ -190,7 +190,7 @@ ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle, S.smooth
   if (!is.numeric(x)) {
     stop("Data is not numeric")
   }
-  stopifnot("Parameter boundary.handle must be logical variable" = is.logical(boundary.handle))
+  stopifnot("Parameter S.boundary.handle must be logical variable" = is.logical(boundary.handle))
   stopifnot("Parameter S.smooth must be logical variable" = is.logical(S.smooth))
   stopifnot("Smoothing type must be one of 'mean', 'median', or 'epan'." = smooth.type == "mean" ||
               smooth.type == "median" || smooth.type == "epan")
