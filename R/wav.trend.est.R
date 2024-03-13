@@ -146,7 +146,22 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
     ))
   } else {
     if(transform.type == "dec"){
-      spec.est2 <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
+      if(!is.null(spec.est)){
+        if(boundary.handle==TRUE){
+          spec.est2 <- ewspec.trend(x = x, an.filter.number = spec.est$S$filter$filter.number,
+                                    an.family = spec.est$S$filter$family,
+                                    binwidth = spec.est$binwidth,
+                                    max.scale = spec.est$max.scale, S.smooth = spec.est$S.smooth,
+                                    smooth.type = spec.est$smooth.type,
+                                    AutoReflect = FALSE, boundary.handle = FALSE)
+        }else{
+          spec.est2 <- spec.est
+        }
+
+      }else{
+        spec.est2 <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
+      }
+
 
       lacf.est <- TLSW.TLSWlacf(x,
                                 filter.number = spec.est2$S$filter$filter.number, family = spec.est2$S$filter$family,
