@@ -35,8 +35,8 @@ create.covmat <- function(lacf, x.len) {
 #' Default is 0.95.
 #' @return A list object, containing the following objects:
 #' \item{trend.est}{The trend estimate of the input data. } \item{trend.var}{
-#' The variance estimate of the trend estimate. } \item{lower.conf}{ The lower
-#' pointwise confidence interval for the trend estimate. } \item{upper.conf}{
+#' The variance estimate of the trend estimate. } \item{lower.CI}{ The lower
+#' pointwise confidence interval for the trend estimate. } \item{upper.CI}{
 #' The upper pointwise confidence interval for the trend estimate. }
 #' @seealso \code{\link{wav.trend.est}}, \code{\link{TLSWlacf}}
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
@@ -105,7 +105,7 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
     }
   }
 
-  l <- list(trend.est = trend.est, trend.var = trend.sd.final^2, lower.conf = trend.est - trend.sd.final * qval, upper.conf = trend.est + trend.sd.final * qval)
+  l <- list(trend.est = trend.est, trend.var = trend.sd.final^2, lower.CI = trend.est - trend.sd.final * qval, upper.CI = trend.est + trend.sd.final * qval)
 
   return(l)
 }
@@ -117,53 +117,65 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
 #' trend estimate and spectral estimate of the time series.
 #' @keywords internal
 #' @noRd
-trend.estCI.diff <- function(x, trend.est, spec.est, filter.number = 4, thresh.type = "soft",
+trend.est.CI.bootstrap <- function(x, trend.est, spec.est, filter.number = 4, thresh.type = "soft",
                              normal = TRUE, transform.type = c("dec", "nondec")[2],
                              family = "DaubLeAsymm", max.scale = floor(log2(length(x)) * 0.7),
                              boundary.handle = TRUE, reps = 199, sig.lvl = 0.05,
-                             confint.type = c("percentile", "normal")[1], ...) {
+                             confint.type = c("percentile", "normal")[1],
+                             diff = TRUE, ...) {
+
   trend.mat <- matrix(0, nrow = reps, ncol = length(x))
 
   spec <- spec.est$S
 
   spec$D[spec$D < 0] <- 0
 
-  if (is.null(spec.est$lag)) {
-    spec.est$lag <- 1
-  }
-  if (is.null(spec.est$diff.number)) {
-    spec.est$diff.number <- 1
-  }
-
   A <- wavethresh::ipndacw(
     J = -spec.est$max.scale, filter.number = spec$filter$filter.number,
     family = spec$filter$family
   )
-  A1 <- Atau.mat.calc(
-    J = spec.est$max.scale, filter.number = spec$filter$filter.number,
-    family = spec$filter$family, lag = spec.est$lag
-  )
 
-  inv.mat <- solve(2 * A - 2 * A1)
+  if(diff == TRUE){
+    if (is.null(spec.est$lag)) {
+      spec.est$lag <- 1
+    }
+    if (is.null(spec.est$diff.number)) {
+      spec.est$diff.number <- 1
+    }
+    A1 <- Atau.mat.calc(
+      J = spec.est$max.scale, filter.number = spec$filter$filter.number,
+      family = spec$filter$family, lag = spec.est$lag
+    )
+    inv.mat <- solve(2 * A - 2 * A1)
+  }
+
 
   for (i in 1:reps) {
     rep.x <- trend.est + wavethresh::LSWsim(spec)[1:length(x)]
 
-    rep.spec <- suppressWarnings(ewspec.diff(rep.x,
-      lag = spec.est$lag,
-      filter.number = spec$filter$filter.number,
-      family = spec$filter$family, binwidth = spec.est$binwidth,
-      max.scale = spec.est$max.scale, boundary.handle = spec.est$boundary.handle,
-      supply.inv.mat = TRUE, inv.mat = inv.mat,
-      diff.number = spec.est$diff.number, ...
-    ))
+    if(diff == TRUE){
+      rep.spec <- suppressWarnings(ewspec.diff(rep.x,
+                                               lag = spec.est$lag,
+                                               filter.number = spec$filter$filter.number,
+                                               family = spec$filter$family, binwidth = spec.est$binwidth,
+                                               max.scale = spec.est$max.scale, boundary.handle = spec.est$boundary.handle,
+                                               supply.inv.mat = TRUE, inv.mat = inv.mat,
+                                               diff.number = spec.est$diff.number, ...
+      ))
 
-    rep.trend <- suppressWarnings(wav.diff.trend.est(
-      x = rep.x, spec.est = rep.spec, filter.number = filter.number,
-      family = family, max.scale = max.scale, transform.type = transform.type,
-      boundary.handle = boundary.handle,
-      thresh.type = thresh.type, normal = normal, T.CI = FALSE
-    ))
+      rep.trend <- suppressWarnings(wav.diff.trend.est(
+        x = rep.x, spec.est = rep.spec, filter.number = filter.number,
+        family = family, max.scale = max.scale, transform.type = transform.type,
+        boundary.handle = boundary.handle,
+        thresh.type = thresh.type, normal = normal, T.CI = FALSE
+      ))
+    }else{
+      rep.trend <- suppressWarnings(wav.trend.est(
+        x = rep.x, filter.number = filter.number,
+        family = family, max.scale = max.scale, transform.type = transform.type,
+        boundary.handle = boundary.handle, T.CI = FALSE
+      ))
+    }
 
     trend.mat[i, ] <- rep.trend$T
   }

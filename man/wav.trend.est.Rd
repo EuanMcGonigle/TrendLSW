@@ -15,6 +15,8 @@ wav.trend.est(
   sig.lvl = 0.05,
   lag.max = floor(10 * (log10(length(x)))),
   confint.type = c("percentile", "normal")[1],
+  reps = 199,
+  spec.est = NULL,
   ...
 )
 }
@@ -56,6 +58,12 @@ estimated.}
 \item{confint.type}{Used only if \code{T.CI = TRUE}; the type of confidence
 interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
 \code{"normal"}, in which case the normal approximation is used.}
+
+\item{reps}{Used only if \code{T.CI = TRUE} and \code{transform.type = "dec"} ; the number
+of bootstrap replications used to compute the confidence interval.}
+
+\item{spec.est}{Used only if \code{T.CI = TRUE}; the spectrum estimate of the time series,
+used to calculate the confidence interval for the trend estimate.}
 
 \item{...}{Further arguments to be passed to the \code{\link{ewspec.trend}} call.}
 }

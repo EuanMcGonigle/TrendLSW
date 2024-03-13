@@ -24,6 +24,8 @@ get.boundary.timeseries <- function(x, type = c("TLSW", "LSW.diff")[1]) {
   x.len <- length(x)
   J <- wavethresh::IsPowerOfTwo(x.len)
 
+  #use a proportion of the data to fit a pre-estimate of the trend, in order to extend the time series:
+
   s.right <- seq(from = 0, to = (x.len - 1) / x.len, length = x.len)[(floor(19*x.len/20)):x.len]
 
   s.left <- seq(from = 0, to = (x.len - 1) / x.len, length = x.len)[1:(floor(x.len/20))]

@@ -32,6 +32,10 @@
 #' @param confint.type Used only if \code{T.CI = TRUE}; the type of confidence
 #' interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
 #' \code{"normal"}, in which case the normal approximation is used.
+#' @param reps Used only if \code{T.CI = TRUE} and \code{transform.type = "dec"} ; the number
+#' of bootstrap replications used to compute the confidence interval.
+#' @param spec.est Used only if \code{T.CI = TRUE}; the spectrum estimate of the time series,
+#' used to calculate the confidence interval for the trend estimate.
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.trend}} call.
 #' @return A \code{list} object containing the following fields:
 #' \item{x}{Input data}
@@ -51,7 +55,8 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
                           transform.type = c("dec", "nondec")[1],
                           boundary.handle = FALSE, T.CI = FALSE, sig.lvl = 0.05,
                           lag.max = floor(10 * (log10(length(x)))),
-                          confint.type = c("percentile", "normal")[1], ...) {
+                          confint.type = c("percentile", "normal")[1],
+                          reps = 199, spec.est = NULL, ...) {
   # this function carries out wavelet thresholding of a time series to obtain a
   # trend estimate. All non-boundary wavelet coefficients up to a specified scale
   # are set to zero.
@@ -140,35 +145,57 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
       boundary.handle = boundary.handle, T.CI = T.CI
     ))
   } else {
-    spec.est <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
+    if(transform.type == "dec"){
+      spec.est2 <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
 
-    lacf.est <- TLSW.TLSWlacf(x,
-      filter.number = spec.est$S$filter$filter.number, family = spec.est$S$filter$family,
-      lag.max = lag.max, spec.est = spec.est
-    )
+      lacf.est <- TLSW.TLSWlacf(x,
+                                filter.number = spec.est2$S$filter$filter.number, family = spec.est2$S$filter$family,
+                                lag.max = lag.max, spec.est = spec.est2
+      )
 
-    trend.CI <- trend.estCI(
-      trend.est = x_wr, lacf.est = lacf.est, filter.number = filter.number,
-      family = family, sig.lvl = sig.lvl
-    )
-    lower.conf <- trend.CI$lower.conf
-    upper.conf <- trend.CI$upper.conf
+      trend.CI <- trend.estCI(
+        trend.est = x_wr, lacf.est = lacf.est, filter.number = filter.number,
+        family = family, sig.lvl = sig.lvl
+      )
+      lower.CI <- trend.CI$lower.CI
+      upper.CI <- trend.CI$upper.CI
 
-    if (boundary.handle == TRUE) {
-      if (dyadic == TRUE) {
-        lower <- 2^(J - 2) + 2^(J - 3) + 1
-        upper <- 2^(J - 1) + 2^(J - 3)
-      } else {
-        lower <- floor((x.len - length(orig.x)) / 2)
-        upper <- lower + length(orig.x) - 1
+      if (boundary.handle == TRUE) {
+        if (dyadic == TRUE) {
+          lower <- 2^(J - 2) + 2^(J - 3) + 1
+          upper <- 2^(J - 1) + 2^(J - 3)
+        } else {
+          lower <- floor((x.len - length(orig.x)) / 2)
+          upper <- lower + length(orig.x) - 1
+        }
+        x_wr <- x_wr[lower:upper]
+        lower.CI <- lower.CI[lower:upper]
+        upper.CI <- upper.CI[lower:upper]
       }
-      x_wr <- x_wr[lower:upper]
-      lower.conf <- lower.conf[lower:upper]
-      upper.conf <- upper.conf[lower:upper]
+    }else{
+      if (boundary.handle == TRUE) {
+        if (dyadic == TRUE) {
+          lower <- 2^(J - 2) + 2^(J - 3) + 1
+          upper <- 2^(J - 1) + 2^(J - 3)
+        } else {
+          lower <- floor((x.len - length(orig.x)) / 2)
+          upper <- lower + length(orig.x) - 1
+        }
+        x_wr <- x_wr[lower:upper]
+      }
+
+      trend.CI <- trend.est.CI.bootstrap(x = orig.x,
+        trend.est = x_wr, spec.est = spec.est, filter.number = filter.number,
+        family = family, max.scale = max.scale, boundary.handle = FALSE,
+        reps = reps, sig.lvl = sig.lvl, confint.type = confint.type,
+        diff = FALSE
+      )
+      lower.CI <- trend.CI[1,]
+      upper.CI <- trend.CI[2,]
     }
 
     return(list(
-      x = orig.x, T = x_wr,  lower.CI = lower.conf, upper.CI = upper.conf,
+      x = orig.x, T = x_wr,  lower.CI = lower.CI, upper.CI = upper.CI,
       sig.lvl = sig.lvl, filter.number = filter.number, family = family, transform.type = transform.type,
       max.scale = max.scale, boundary.handle = boundary.handle, T.CI = T.CI
      ))

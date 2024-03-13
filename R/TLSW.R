@@ -202,6 +202,8 @@ TLSW <- function(x, do.trend.est = TRUE, do.spec.est = TRUE,
         smooth.type = S.smooth.type
       )
     }
+  }else{
+    x.spec <- NULL
   }
 
   if (do.trend.est == TRUE) {
@@ -212,7 +214,7 @@ TLSW <- function(x, do.trend.est = TRUE, do.spec.est = TRUE,
         transform.type = T.transform,
         boundary.handle = T.boundary.handle, T.CI = T.CI,
         sig.lvl = T.sig.lvl, lag.max = floor(10 * (log10(length(x)))),
-        confint.type = T.CI.type
+        confint.type = T.CI.type, spec.est = x.spec
       )
     } else {
       x.trend <- wav.diff.trend.est(

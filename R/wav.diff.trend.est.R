@@ -223,7 +223,7 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
   }
 
   if (T.CI == TRUE) {
-    trend.CI <- trend.estCI.diff(
+    trend.CI <- trend.est.CI.bootstrap(
       x = orig.x, trend.est = trend.est, spec.est = spec.est,
       filter.number = filter.number, thresh.type = thresh.type,
       normal = normal, transform.type = transform.type,
