@@ -201,7 +201,7 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
 
       trend.CI <- trend.est.CI.bootstrap(x = orig.x,
         trend.est = x_wr, spec.est = spec.est, filter.number = filter.number,
-        family = family, max.scale = max.scale, boundary.handle = FALSE,
+        family = family, max.scale = max.scale, boundary.handle = boundary.handle,
         reps = reps, sig.lvl = sig.lvl, confint.type = confint.type,
         diff = FALSE
       )
