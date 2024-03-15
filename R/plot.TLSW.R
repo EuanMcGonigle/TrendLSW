@@ -70,7 +70,39 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
                               ylab = expression(X[t]),
                               ylim = c(y.min, y.max),
                               main = "Trend Estimate", col = "grey60")
+      T.args <- list(col = 2, lwd = 2)
+      poly.args <- list(col = "#0000FF33", border = NA)
+      CI.args <- list(col="blue", lty=2)
     } else{
+      T.names <- names(trend.plot.args)[grep("T.", names(trend.plot.args))]
+      poly.names <- names(trend.plot.args)[grep("poly.", names(trend.plot.args))]
+      CI.names <- names(trend.plot.args)[grep("CI.", names(trend.plot.args))]
+
+      name.func <- function(y, num){substr(y, num, nchar(y))}
+
+      if(length(T.names)>0){
+        T.args <- trend.plot.args[T.names]
+        names(T.args) <- sapply(names(T.args), name.func, num = 3)
+      }else{
+        T.args <- list(col = 2, lwd = 2)
+      }
+      if(length(poly.names)>0){
+        poly.args <- trend.plot.args[poly.names]
+        names(poly.args) <- sapply(names(poly.args), name.func, num = 6)
+      }else{
+        poly.args <- list(col = "#0000FF33", border = NA)
+      }
+      if(length(CI.names)>0){
+        CI.args <- trend.plot.args[CI.names]
+        names(CI.args) <- sapply(names(CI.args), name.func, num = 4)
+      }else{
+        CI.args <- list(col="blue", lty=2)
+      }
+
+      all.names <- c(T.names, poly.names, CI.names)
+
+      trend.plot.args <- trend.plot.args[names(trend.plot.args)!=all.names]
+
       if(!("type" %in% names(trend.plot.args))){
         trend.plot.args$type <- "l"
       }
@@ -103,14 +135,16 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
 
     do.call(plot, c(x$x ~ time.index, trend.plot.args))
 
-    lines(x$trend.est$T, col = 2, lwd = 2)
-
     if(x$trend$T.CI == TRUE){
-      polygon(c(time.index,rev(time.index)), c(x$trend.est$lower.CI, rev(x$trend.est$upper.CI)),
-              col = "#0000FF33", border = NA)
-      lines(x$trend.est$lower.CI, col="blue",lty=2)
-      lines(x$trend.est$upper.CI, col="blue",lty=2)
+      do.call(polygon, c(list(x = c(time.index,rev(time.index)), y = c(x$trend.est$lower.CI, rev(x$trend.est$upper.CI))),
+                         poly.args))
+      do.call(lines, c(x$trend.est$lower.CI ~ time.index, CI.args))
+      do.call(lines, c(x$trend.est$upper.CI ~ time.index, CI.args))
     }
+
+    do.call(lines, c(x$trend.est$T ~ time.index, T.args))
+    #lines(x$trend.est$T, col = 2, lwd = 2)
+
 
   }
 
