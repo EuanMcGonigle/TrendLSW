@@ -106,7 +106,7 @@
 #'
 #'  where \eqn{\{\xi_{j,k} \}} is a random, uncorrelated, zero-mean orthonormal increment sequence,
 #'  \eqn{\{w_{j,k;n} \}} is a set of amplitudes, and \eqn{\{\psi_{j, k} \}_{j,k}} is a set of discrete
-#'  non-decimated wavelets.  The trend component \eqn{T_t := T(t/n)} is assumed to be a general smooth (H\"older)
+#'  non-decimated wavelets.  The trend component \eqn{T_t := T(t/n)} is assumed to be a general smooth (H{\"o}lder)
 #'  continuous function. See the referenced papers for full details of the model.
 #'  The key considerations for users are:
 #'  \itemize{
