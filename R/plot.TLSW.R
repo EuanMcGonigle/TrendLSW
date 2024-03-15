@@ -15,6 +15,24 @@
 #' @param trend.plot.args A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.
 #' @param spec.plot.args A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.
 #' @param ... Any additional arguments that will be applied to the graphical parameters of both the trend and spectrum plotting.
+#' @details
+#' A TLSW object can be plotted using the standard \code{plot} function in R.
+#' Graphical parameters for customising the display of the trend or spectrum plots should be given
+#' to the \code{trend.plot.args} and \code{spec.plot.args} arguments resectively.
+#' For graphical parameters for the trend plot:
+#' \itemize{
+#' \item Parameters related to the overall plot should be provided as they usually would be when using the \code{plot} function,
+#' in the \code{trend.plot.args} list object. For example, to change the title of the plot to "Plot", use \code{main = "Plot"}.
+#' \item Parameters affecting the display of the estimated trend line should begin with the
+#' prefix \code{"T."}. For example, to set the colour of the trend line to blue, use
+#' \code{T.col = "blue"}.
+#' \item Parameters affecting the display of the confidence interval lines should begin with the
+#' prefix \code{"CI."}. For example, to set the line width of the confidence interval to 2, use
+#' \code{CI.lwd = 2}.
+#' \item Parameters affecting the display of the polygon drawn by the confidence interval
+#'  should begin with the prefix \code{"poly."}. For example, to set the colour of the
+#'  confidence interval region to green, use \code{poly.col = "green"}.
+#' }
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
@@ -32,9 +50,9 @@
 #'
 #'spec <- matrix(0, nrow = 9, ncol = 512)
 #'
-#'spec[1,] <- 1 + 2*sin(seq(from = 0, to = 2 * pi, length = 512))^2
+#'spec[1,] <- 4 + 4*sin(seq(from = 0, to = 2 * pi, length = 512))^2
 #'
-#'trend <- seq(from = 0, to = 5, length = 512) + sin(seq(from = 0, to = 2 * pi, length = 512))
+#'trend <- seq(from = 0, to = 10, length = 512) + 2*sin(seq(from = 0, to = 2 * pi, length = 512))
 #'
 #'set.seed(1)
 #'
@@ -42,7 +60,8 @@
 #'
 #'x.TLSW <- TLSW(x)
 #'
-#'plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data"))
+#'plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data", T.col = 4,
+#'.    T.lwd = 2, T.lty = 2))
 #'
 plot.TLSW <- function(x, plot.type = c("trend", "spec"),
                       trend.plot.args, spec.plot.args, ...){
