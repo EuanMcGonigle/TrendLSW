@@ -61,7 +61,7 @@
 #'x.TLSW <- TLSW(x)
 #'
 #'plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data", T.col = 4,
-#'.    T.lwd = 2, T.lty = 2))
+#'    T.lwd = 2, T.lty = 2))
 #'
 plot.TLSW <- function(x, plot.type = c("trend", "spec"),
                       trend.plot.args, spec.plot.args, ...){
@@ -120,7 +120,7 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
 
       all.names <- c(T.names, poly.names, CI.names)
 
-      trend.plot.args <- trend.plot.args[names(trend.plot.args)!=all.names]
+      trend.plot.args <- trend.plot.args[!names(trend.plot.args)%in%all.names]
 
       if(!("type" %in% names(trend.plot.args))){
         trend.plot.args$type <- "l"

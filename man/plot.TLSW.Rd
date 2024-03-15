@@ -63,7 +63,7 @@ x <- TLSWsim(trend = trend, spec = spec)
 x.TLSW <- TLSW(x)
 
 plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data", T.col = 4,
-.    T.lwd = 2, T.lty = 2))
+   T.lwd = 2, T.lty = 2))
 
 }
 \references{
