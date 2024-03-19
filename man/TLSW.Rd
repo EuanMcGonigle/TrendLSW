@@ -18,7 +18,7 @@ TLSW(
   T.thresh.normal = TRUE,
   T.CI = FALSE,
   T.sig.lvl = 0.05,
-  T.reps = 199,
+  T.reps = 200,
   T.CI.type = c("percentile", "normal")[1],
   T.lacf.max.lag = floor(10 * (log10(length(x)))),
   S.filter.number = 4,

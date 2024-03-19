@@ -142,7 +142,6 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
 
     bc.var.mat[, lower:upper] <- var.mat[, 1:length(orig.x)]
 
-
     for (j in 1:max.scale) {
       dj <- wavethresh::accessD(x.wd, level = J - j)
 
