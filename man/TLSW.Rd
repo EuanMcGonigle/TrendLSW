@@ -8,23 +8,23 @@ TLSW(
   x,
   do.trend.est = TRUE,
   do.spec.est = TRUE,
-  T.est.type = c("linear", "nonlinear")[1],
+  T.est.type = "linear",
   T.filter.number = 4,
   T.family = "DaubExPhase",
-  T.transform = c("dec", "nondec")[1],
+  T.transform = "nondec",
   T.boundary.handle = TRUE,
   T.max.scale = floor(log2(length(x)) * 0.7),
-  T.thresh.type = c("hard", "soft")[1],
+  T.thresh.type = "hard",
   T.thresh.normal = TRUE,
   T.CI = FALSE,
   T.sig.lvl = 0.05,
   T.reps = 200,
-  T.CI.type = c("percentile", "normal")[1],
+  T.CI.type = "normal",
   T.lacf.max.lag = floor(10 * (log10(length(x)))),
   S.filter.number = 4,
   S.family = "DaubExPhase",
   S.smooth = TRUE,
-  S.smooth.type = c("mean", "median", "epan")[1],
+  S.smooth.type = "epan",
   S.binwidth = floor(2 * sqrt(length(x))),
   S.max.scale = floor(log2(length(x)) * 0.7),
   S.boundary.handle = TRUE,
@@ -43,8 +43,8 @@ TLSW(
 
 \item{do.spec.est}{Logical variable, indicating whether spectral estimation is to be performed on the time series.}
 
-\item{T.est.type}{String indicating type of wavelet thresholding used. Can be "linear", which means
-that all non-boundary wavelet coefficients are set to zero, or "nonlinear", where
+\item{T.est.type}{String indicating type of wavelet thresholding used. Can be \code{"linear"} (default), which means
+that all non-boundary wavelet coefficients are set to zero, or \code{"nonlinear"}, where
 each wavelet coefficient is thresholded using a time-varying, noise-dependent threshold.}
 
 \item{T.filter.number}{The index number for the wavelet used for trend estimation.}
@@ -52,7 +52,7 @@ each wavelet coefficient is thresholded using a time-varying, noise-dependent th
 \item{T.family}{The family of the wavelet used for trend estimation.}
 
 \item{T.transform}{String giving the type of wavelet transform used for trend estimation.
-Can be "dec", in which case a standard (decimated) wavelet transform is used, or "nondec",
+Can be \code{"dec"}, in which case a standard (decimated) wavelet transform is used, or \code{"nondec"} (default),
 in which case a nondecimated transform is used.}
 
 \item{T.boundary.handle}{Logical variable, if \code{TRUE}, the time series is
@@ -63,7 +63,7 @@ apply thresholding to for trend estimation.}
 
 \item{T.thresh.type}{String variable, used only if \code{T.est.type = "nonlinear"}; the type of
 thresholding function used in the trend estimation. Can be
-"soft" or "hard".}
+\code{"soft"} or \code{"hard"} (default).}
 
 \item{T.thresh.normal}{Logical variable, used only if \code{T.est.type = "nonlinear"};
 if \code{TRUE}, uses a threshold assuming the data are normally
@@ -83,7 +83,7 @@ replications used to calculate the confidence interval.}
 
 \item{T.CI.type}{Used only if \code{T.transform = "nondec"} and \code{T.CI = TRUE}; the type of confidence
 interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
-\code{"normal"}, in which case the normal approximation is used.}
+\code{"normal"} (default), in which case the (symmetric) normal approximation is used.}
 
 \item{T.lacf.max.lag}{Used only if \code{T.est.type = "linear"} and  \code{T.CI = TRUE};
 the maximum lag of the autocovariance to compute needed for calculating the asymptotic confidence interval.}
@@ -99,7 +99,7 @@ Can be one of
 \itemize{
 \item{\code{"mean"}: running mean smoother.}
 \item{ \code{"median"} running median smoother.}
-\item{\code{"epan"} Epanechnikov kernel smoother.}
+\item{\code{"epan"} (default) Epanechnikov kernel smoother.}
 }}
 
 \item{S.binwidth}{The bin width of the smoother used to smooth

@@ -28,14 +28,14 @@
 #' procedure. For Daubechies compactly supported wavelets the filter number is
 #' the number of vanishing moments.
 #' @param thresh.type The type of thresholding function used. Currently only
-#' "soft" and "hard" are available.
+#' \code{"soft"} and \code{"hard"} (default) are available.
 #' @param normal If TRUE, uses a threshold assuming the data are normally
 #' distributed. If FALSE, uses a larger threshold to reflect non-normality.
 #' @param family Selects the wavelet family to use. Recommended to only use the
 #' Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.
 #' @param transform.type String giving the type of wavelet transform used.
-#' Can be "dec", in which case a standard (decimated) wavelet transform is used, or "nondec",
-#' in which case a nondecimated transform is used.
+#' Can be \code{"dec"}, in which case a standard (decimated) wavelet transform is used, or \code{"nondec"},
+#' (default) in which case a nondecimated transform is used.
 #' @param max.scale Selects the number of scales of the wavelet transform to
 #' apply thresholding to. Should be a value from 1 (finest) to J-1 (coarsest),
 #' where \eqn{n =2^J} is the length of the time series. Recommended to use \eqn{0.7 J}
@@ -51,7 +51,7 @@
 #' replications used to calculate the confidence interval.
 #' @param confint.type Used only if \code{T.CI = TRUE}; the type of confidence
 #' interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
-#' \code{"normal"}, in which case the normal approximation is used.
+#' \code{"normal"} (default), in which case the normal approximation is used.
 #' @param ...  Further arguments to be passed to the \code{\link{ewspec.diff}}
 #' call, only to be used if \code{T.CI = TRUE}.
 #' @return A \code{list} object containing the following fields:
@@ -70,12 +70,12 @@
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
 #' @keywords internal
 wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExPhase",
-                               thresh.type = c("hard","soft")[1], normal = TRUE,
-                               transform.type = c("dec", "nondec")[1],
+                               thresh.type = "hard", normal = TRUE,
+                               transform.type = "nondec",
                                max.scale = floor(0.7 * log2(length(x))),
                                boundary.handle = FALSE, T.CI = FALSE,
                                reps = 199, sig.lvl = 0.05,
-                               confint.type = c("percentile", "normal")[1], ...) {
+                               confint.type = "normal", ...) {
   x.check <- trend.est.checks(
     x = x, max.scale = max.scale, boundary.handle = boundary.handle,
     transform.type = transform.type, T.CI = T.CI,

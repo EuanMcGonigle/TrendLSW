@@ -43,7 +43,7 @@
 #' @param S.smooth Argument that dictates if smoothing is performed on the raw
 #' wavelet periodogram.
 #' @param smooth.type String indicating which type of smoothing to use on wavelet periodogram.
-#' Can be \code{"mean"}, \code{"median"}, or \code{"epan"}.
+#' Can be \code{"mean"}, \code{"median"}, or \code{"epan"}. Default is \code{"epan"}.
 #' @param boundary.handle Logical variable, if TRUE, then boundary handling
 #' will be applied when computing the periodogram. Recommended to set as FALSE,
 #' will be set as TRUE automatically if non-dyadic data is used.
@@ -74,7 +74,7 @@
 ewspec.diff <- function(x, lag = 1, filter.number = 4, family = "DaubExPhase",
                         binwidth = floor(2 * sqrt(length(x))), diff.number = 1,
                         max.scale = floor(log2(length(x)) * 0.7), S.smooth = TRUE,
-                        smooth.type = c("mean", "median", "epan")[1],
+                        smooth.type = "epan",
                         boundary.handle = FALSE, AutoReflect = FALSE,
                         supply.inv.mat = FALSE, inv.mat = NULL) {
   # function that computes the spectral estimate of a time series that has a trend.

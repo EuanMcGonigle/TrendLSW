@@ -14,7 +14,7 @@ ewspec.diff(
   diff.number = 1,
   max.scale = floor(log2(length(x)) * 0.7),
   S.smooth = TRUE,
-  smooth.type = c("mean", "median", "epan")[1],
+  smooth.type = "epan",
   boundary.handle = FALSE,
   AutoReflect = FALSE,
   supply.inv.mat = FALSE,
@@ -50,7 +50,7 @@ time series. The default setting is \eqn{0.7J}, to control for bias.}
 wavelet periodogram.}
 
 \item{smooth.type}{String indicating which type of smoothing to use on wavelet periodogram.
-Can be \code{"mean"}, \code{"median"}, or \code{"epan"}.}
+Can be \code{"mean"}, \code{"median"}, or \code{"epan"}. Default is \code{"epan"}.}
 
 \item{boundary.handle}{Logical variable, if TRUE, then boundary handling
 will be applied when computing the periodogram. Recommended to set as FALSE,

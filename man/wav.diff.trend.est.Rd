@@ -9,15 +9,15 @@ wav.diff.trend.est(
   spec.est,
   filter.number = 4,
   family = "DaubExPhase",
-  thresh.type = c("hard", "soft")[1],
+  thresh.type = "hard",
   normal = TRUE,
-  transform.type = c("dec", "nondec")[1],
+  transform.type = "nondec",
   max.scale = floor(0.7 * log2(length(x))),
   boundary.handle = FALSE,
   T.CI = FALSE,
   reps = 199,
   sig.lvl = 0.05,
-  confint.type = c("percentile", "normal")[1],
+  confint.type = "normal",
   ...
 )
 }
@@ -36,14 +36,14 @@ the number of vanishing moments.}
 Daubechies compactly supported wavelets DaubExPhase and DaubLeAsymm.}
 
 \item{thresh.type}{The type of thresholding function used. Currently only
-"soft" and "hard" are available.}
+\code{"soft"} and \code{"hard"} (default) are available.}
 
 \item{normal}{If TRUE, uses a threshold assuming the data are normally
 distributed. If FALSE, uses a larger threshold to reflect non-normality.}
 
 \item{transform.type}{String giving the type of wavelet transform used.
-Can be "dec", in which case a standard (decimated) wavelet transform is used, or "nondec",
-in which case a nondecimated transform is used.}
+Can be \code{"dec"}, in which case a standard (decimated) wavelet transform is used, or \code{"nondec"},
+(default) in which case a nondecimated transform is used.}
 
 \item{max.scale}{Selects the number of scales of the wavelet transform to
 apply thresholding to. Should be a value from 1 (finest) to J-1 (coarsest),
@@ -65,7 +65,7 @@ confidence interval for the trend estimate is generated.}
 
 \item{confint.type}{Used only if \code{T.CI = TRUE}; the type of confidence
 interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
-\code{"normal"}, in which case the normal approximation is used.}
+\code{"normal"} (default), in which case the normal approximation is used.}
 
 \item{...}{Further arguments to be passed to the \code{\link{ewspec.diff}}
 call, only to be used if \code{T.CI = TRUE}.}

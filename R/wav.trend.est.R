@@ -13,9 +13,9 @@
 #' @param max.scale Selects the coarsest scale of the wavelet transform to
 #' analyse to. Should be a value from \eqn{1} (finest) to \eqn{J-1} (coarsest),
 #' where \eqn{n=2^J} is the length of the time series.
-#' @param transform.type The type of wavelet transform used. By default, it is "dec"
-#' which is the standard discrete wavelet transform. Can also be "nondec",
-#' which uses a non-decimated wavelet transform, but a confidence interval
+#' @param transform.type The type of wavelet transform used. Can be \code{"dec"}
+#' which is the standard discrete wavelet transform or \code{"nondec"} (default),
+#' a non-decimated wavelet transform, but a confidence interval
 #' cannot be calculated in this case.
 #' @param boundary.handle Logical variable. If \code{TRUE}, the time
 #' series is boundary corrected, to get a less variable trend estimate at the
@@ -31,7 +31,7 @@
 #' estimated.
 #' @param confint.type Used only if \code{T.CI = TRUE}; the type of confidence
 #' interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
-#' \code{"normal"}, in which case the normal approximation is used.
+#' \code{"normal"} (default), in which case the normal approximation is used.
 #' @param reps Used only if \code{T.CI = TRUE} and \code{transform.type = "dec"} ; the number
 #' of bootstrap replications used to compute the confidence interval.
 #' @param spec.est Used only if \code{T.CI = TRUE}; the spectrum estimate of the time series,
@@ -52,10 +52,10 @@
 #' @keywords internal
 wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
                           max.scale = floor(log2(length(x)) * 0.7),
-                          transform.type = c("dec", "nondec")[1],
+                          transform.type = "nondec",
                           boundary.handle = FALSE, T.CI = FALSE, sig.lvl = 0.05,
                           lag.max = floor(10 * (log10(length(x)))),
-                          confint.type = c("percentile", "normal")[1],
+                          confint.type = "normal",
                           reps = 199, spec.est = NULL, ...) {
   # this function carries out wavelet thresholding of a time series to obtain a
   # trend estimate. All non-boundary wavelet coefficients up to a specified scale

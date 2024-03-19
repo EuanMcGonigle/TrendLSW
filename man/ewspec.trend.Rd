@@ -13,7 +13,7 @@ ewspec.trend(
   binwidth = floor(2 * sqrt(length(x))),
   max.scale = floor(log2(length(x)) * 0.7),
   S.smooth = TRUE,
-  smooth.type = c("mean", "median", "epan")[1],
+  smooth.type = "epan",
   AutoReflect = TRUE,
   supply.inv.mat = FALSE,
   inv.mat = NULL,
@@ -50,7 +50,7 @@ and boundary effects.}
 wavelet periodogram.}
 
 \item{smooth.type}{String indicating which type of smoothing to use on wavelet periodogram.
-Can be \code{"mean"}, \code{"median"}, or \code{"epan"}.}
+Can be \code{"mean"}, \code{"median"}, or \code{"epan"}. Default is \code{"epan"}.}
 
 \item{AutoReflect}{As in wavethresh. Decides whether or not the time series
 is reflected when computing the wavelet transform. Helps estimation at the
