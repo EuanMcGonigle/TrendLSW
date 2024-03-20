@@ -78,7 +78,7 @@ Otherwise, it is computed via bootstrapping.}
 (\code{0 <= T.sig.lvl <= 1}) with which a \code{(1-T.sig.lvl)} pointwise
 confidence interval for the trend estimate is generated.}
 
-\item{T.reps}{Used only if \code{T.est.type = "nonlinear"} and  \code{T.CI = TRUE}; the number of bootstrap
+\item{T.reps}{Used only if \code{T.transform = "nondec"} and  \code{T.CI = TRUE}; the number of bootstrap
 replications used to calculate the confidence interval.}
 
 \item{T.CI.type}{Used only if \code{T.transform = "nondec"} and \code{T.CI = TRUE}; the type of confidence

@@ -33,7 +33,7 @@
 #' @param T.sig.lvl Used only if \code{T.CI = TRUE}; a numeric value
 #' (\code{0 <= T.sig.lvl <= 1}) with which a \code{(1-T.sig.lvl)} pointwise
 #' confidence interval for the trend estimate is generated.
-#' @param T.reps Used only if \code{T.est.type = "nonlinear"} and  \code{T.CI = TRUE}; the number of bootstrap
+#' @param T.reps Used only if \code{T.transform = "nondec"} and  \code{T.CI = TRUE}; the number of bootstrap
 #' replications used to calculate the confidence interval.
 #' @param T.CI.type Used only if \code{T.transform = "nondec"} and \code{T.CI = TRUE}; the type of confidence
 #' interval computed. Can be \code{"percentile"}, in which case empirical percentiles are used, or
