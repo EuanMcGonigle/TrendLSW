@@ -56,7 +56,7 @@
 #' boundaries of the times series. If FALSE, no boundary correction is applied.
 #' Recommended to use TRUE.
 #' @param smooth.type String indicating which type of smoothing to use on wavelet periodogram.
-#' Can be \code{"mean"}, \code{"median"}, or \code{"epan"}.
+#' Can be \code{"mean"}, \code{"median"}, or \code{"epan"}. Default is \code{"epan"}.
 #' @return A list object, containing the following fields:
 #' \item{S}{The evolutionary wavelet spectral estimate of the input data. This object is of
 #' class wd and so can be plotted and printed in the usual way using wavethresh
@@ -80,7 +80,7 @@ ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
                          gen.filter.number = an.filter.number, gen.family = an.family,
                          binwidth = floor(2 * sqrt(length(x))),
                          max.scale = floor(log2(length(x)) * 0.7), S.smooth = TRUE,
-                         smooth.type = c("mean", "median", "epan")[1],
+                         smooth.type = "epan",
                          AutoReflect = TRUE, supply.inv.mat = FALSE, inv.mat = NULL,
                          boundary.handle = TRUE) {
   # function that computes the spectral estimate of a time series that has a smooth trend

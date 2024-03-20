@@ -2,9 +2,9 @@
 #' @description Internal function to calculate the boundary extended time series, to be used within
 #' the \code{\link{TLSW}} function. Not recommended for general usage.
 #' @param x The time series used to calculate the boundary extended version.
-#' @param type The type of boundary handling used. Either "TLSW" for boundary
+#' @param type The type of boundary handling used. Either \code{"TLSW"} (default) for boundary
 #' handling as described in McGonigle, E. T., Killick, R., and Nunes, M. (2022a),
-#' or "LSW.diff" for a periodic version of this, used for the differencing-based functions
+#' or \code{"LSW.diff"} for a periodic version of this, used for the differencing-based functions
 #' as described in McGonigle, E. T., Killick, R., and Nunes, M. (2022b).
 #' @return A vector of 4 times the length of the input vector.
 #' @seealso \code{\link{TLSW}}
@@ -16,7 +16,7 @@
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
 #' @keywords internal
-get.boundary.timeseries <- function(x, type = c("TLSW", "LSW.diff")[1]) {
+get.boundary.timeseries <- function(x, type = "TLSW") {
   stopifnot("Error: type of boundary handling must be either 'TLSW' or
             'LSW.diff'." = type == "TLSW" || type == "LSW.diff")
 
