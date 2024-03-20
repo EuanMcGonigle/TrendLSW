@@ -4,7 +4,14 @@
 \alias{plot.TLSW}
 \title{Plot Trend and/or Spectrum Information in a \code{TLSW} Object}
 \usage{
-\method{plot}{TLSW}(x, plot.type = c("trend", "spec"), trend.plot.args, spec.plot.args, ...)
+\method{plot}{TLSW}(
+  x,
+  plot.type = c("trend", "spec"),
+  trend.plot.args,
+  spec.plot.args,
+  plot.CI = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{A \code{TLSW} object}
@@ -19,6 +26,8 @@
 \item{trend.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.}
 
 \item{spec.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.}
+
+\item{plot.CI}{A logical variable. If TRUE, the confidence interval of the trend estimate (if computed) will be included in the plot.}
 
 \item{...}{Any additional arguments that will be applied to the graphical parameters of both the trend and spectrum plotting.}
 }

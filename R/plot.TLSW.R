@@ -14,6 +14,7 @@
 #' }
 #' @param trend.plot.args A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.
 #' @param spec.plot.args A list object, that includes any choices for the graphical parameters used for plotting the spectral estimate.
+#' @param plot.CI A logical variable. If TRUE, the confidence interval of the trend estimate (if computed) will be included in the plot.
 #' @param ... Any additional arguments that will be applied to the graphical parameters of both the trend and spectrum plotting.
 #' @details
 #' A TLSW object can be plotted using the standard \code{plot} function in R.
@@ -64,7 +65,8 @@
 #'    T.lwd = 2, T.lty = 2))
 #'
 plot.TLSW <- function(x, plot.type = c("trend", "spec"),
-                      trend.plot.args, spec.plot.args, ...){
+                      trend.plot.args, spec.plot.args, plot.CI = TRUE,
+                      ...){
 
   if (x$do.trend.est == FALSE) {
     plot.type <- "spec"
@@ -90,7 +92,7 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
                               ylim = c(y.min, y.max),
                               main = "Trend Estimate", col = "grey60")
       T.args <- list(col = 2, lwd = 2)
-      poly.args <- list(col = "#0000FF33", border = NA)
+      poly.args <- list(col = "#0000FF40", border = NA)
       CI.args <- list(col="blue", lty=2)
     } else{
       T.names <- names(trend.plot.args)[grep("T.", names(trend.plot.args))]
@@ -109,7 +111,7 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
         poly.args <- trend.plot.args[poly.names]
         names(poly.args) <- sapply(names(poly.args), name.func, num = 6)
       }else{
-        poly.args <- list(col = "#0000FF33", border = NA)
+        poly.args <- list(col = "#0000FF40", border = NA)
       }
       if(length(CI.names)>0){
         CI.args <- trend.plot.args[CI.names]
@@ -154,16 +156,17 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
 
     do.call(plot, c(x$x ~ time.index, trend.plot.args))
 
+
     if(x$trend$T.CI == TRUE){
-      do.call(polygon, c(list(x = c(time.index,rev(time.index)), y = c(x$trend.est$lower.CI, rev(x$trend.est$upper.CI))),
-                         poly.args))
-      do.call(lines, c(x$trend.est$lower.CI ~ time.index, CI.args))
-      do.call(lines, c(x$trend.est$upper.CI ~ time.index, CI.args))
+      if(plot.CI == TRUE){
+        do.call(polygon, c(list(x = c(time.index,rev(time.index)), y = c(x$trend.est$lower.CI, rev(x$trend.est$upper.CI))),
+                           poly.args))
+        do.call(lines, c(x$trend.est$lower.CI ~ time.index, CI.args))
+        do.call(lines, c(x$trend.est$upper.CI ~ time.index, CI.args))
+      }
     }
 
     do.call(lines, c(x$trend.est$T ~ time.index, T.args))
-    #lines(x$trend.est$T, col = 2, lwd = 2)
-
 
   }
 
