@@ -18,8 +18,8 @@
 #' }
 #' @param innov.func A function with first argument \code{n} used for simulating the innovations. By default,
 #' normal random innovations are sampled using the \code{rnorm} function.
-#' @param filter.number The filter number for the wavelet used to simulate the LSW process.
-#' @param family The family of the wavelet used to simulate the LSW process.
+#' @param filter.number The filter number for the wavelet used to simulate the LSW process (default 4)
+#' @param family The family of the wavelet used to simulate the LSW process (default \code{DaubExPhase}).
 #' @param ... Optional arguments to be passed to the function  \code{innov.func} for
 #' sampling the innovation process.
 #' @return A vector containing a TLSW process simulated from the trend and spectral description given by the trend and
@@ -64,7 +64,7 @@
 #' plot.ts(x)
 #'
 #' @export
-TLSWsim <- function(trend, spec, filter.number = 1, family = "DaubExPhase",
+TLSWsim <- function(trend, spec, filter.number = 4, family = "DaubExPhase",
                     innov.func, ...) {
 
   if (missing(trend)) {
