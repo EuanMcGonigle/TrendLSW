@@ -4,7 +4,7 @@
       summary(x.TLSW)
     Output
       Spectral estimation was performed:
-      -smoothing was performed using epan smoothing with binwidth 135.
+      -smoothing was performed using mean smoothing with binwidth 135.
       -maximum wavelet scale analysed is scale 6.
       -boundary handling was used.
       -----------
@@ -26,7 +26,7 @@
       summary(.):
       -----------
       Spectral estimation was performed:
-      -smoothing was performed using epan smoothing with binwidth 135.
+      -smoothing was performed using mean smoothing with binwidth 135.
       -maximum wavelet scale analysed is scale 6.
       -boundary handling was used.
       -----------
