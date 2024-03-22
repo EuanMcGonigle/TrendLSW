@@ -24,7 +24,7 @@ TLSW(
   S.filter.number = 4,
   S.family = "DaubExPhase",
   S.smooth = TRUE,
-  S.smooth.type = "epan",
+  S.smooth.type = "mean",
   S.binwidth = floor(6 * sqrt(length(x))),
   S.max.scale = floor(log2(length(x)) * 0.7),
   S.boundary.handle = TRUE,
@@ -97,9 +97,9 @@ the maximum lag of the autocovariance to compute needed for calculating the asym
 \item{S.smooth.type}{String indicating which type of smoothing to use on wavelet periodogram.
 Can be one of
 \itemize{
-\item{\code{"mean"}: running mean smoother.}
-\item{ \code{"median"} running median smoother.}
-\item{\code{"epan"} (default) Epanechnikov kernel smoother.}
+\item{\code{"mean"}: (default) running mean smoother.}
+\item{ \code{"median"}: running median smoother.}
+\item{\code{"epan"}: Epanechnikov kernel smoother.}
 }}
 
 \item{S.binwidth}{The bin width of the smoother used to smooth
