@@ -25,7 +25,7 @@ TLSW(
   S.family = "DaubExPhase",
   S.smooth = TRUE,
   S.smooth.type = "epan",
-  S.binwidth = floor(2 * sqrt(length(x))),
+  S.binwidth = floor(6 * sqrt(length(x))),
   S.max.scale = floor(log2(length(x)) * 0.7),
   S.boundary.handle = TRUE,
   S.inv.mat = NULL,

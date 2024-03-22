@@ -7,7 +7,7 @@
 TLSWsim(
   trend,
   spec,
-  filter.number = 1,
+  filter.number = 4,
   family = "DaubExPhase",
   innov.func,
   ...
@@ -30,9 +30,9 @@ an LSW process,}
 function at scale \eqn{j} on rescaled time \eqn{[0,1)}.}
 }}
 
-\item{filter.number}{The filter number for the wavelet used to simulate the LSW process.}
+\item{filter.number}{The filter number for the wavelet used to simulate the LSW process (default 4)}
 
-\item{family}{The family of the wavelet used to simulate the LSW process.}
+\item{family}{The family of the wavelet used to simulate the LSW process (default \code{DaubExPhase}).}
 
 \item{innov.func}{A function with first argument \code{n} used for simulating the innovations. By default,
 normal random innovations are sampled using the \code{rnorm} function.}
