@@ -44,7 +44,7 @@
 #' @seealso \code{\link{TLSW}}, \code{\link{summary.TLSW}}, \code{\link{print.TLSW}}
 #' @export
 #'
-#' @importFrom graphics lines par polygon axis segments title
+#' @importFrom graphics lines par polygon axis segments title points
 #' @examples
 #' # Simulates an example time series and estimates its trend and evolutionary wavelet spectrum.
 #' # Then plots both estimates.
@@ -154,16 +154,24 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
 
     trend.plot.args <- as.list(c(trend.plot.args, trend.plot.args.add))
 
-    do.call(plot, c(x$x ~ time.index, trend.plot.args))
-
-
     if(x$trend$T.CI == TRUE){
+      trend.point.type <- trend.plot.args$type
+      trend.plot.args$type <- "n"
+      do.call(plot, c(x$x ~ time.index, trend.plot.args))
+
       if(plot.CI == TRUE){
         do.call(polygon, c(list(x = c(time.index,rev(time.index)), y = c(x$trend.est$lower.CI, rev(x$trend.est$upper.CI))),
                            poly.args))
+        trend.plot.args$type <- trend.point.type
+        trend.plot.args$xlab <- NULL
+        trend.plot.args$ylab <- NULL
+        trend.plot.args$main <- NULL
+        do.call(points, c(x$x ~ time.index, trend.plot.args))
         do.call(lines, c(x$trend.est$lower.CI ~ time.index, CI.args))
         do.call(lines, c(x$trend.est$upper.CI ~ time.index, CI.args))
       }
+    }else{
+      do.call(plot, c(x$x ~ time.index, trend.plot.args))
     }
 
     do.call(lines, c(x$trend.est$T ~ time.index, T.args))
