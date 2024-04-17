@@ -143,23 +143,23 @@ An object of class \code{"TLSW"}, a list that contains the following components:
    \item{spec.est}{A list object, returned if \code{do.spec.est = TRUE}. Contains relevant input parameters
    and the following fields related to the spectrum estimate:
 \itemize{
- \item{S}{: The evolutionary wavelet spectral (smoothed and corrected) estimate of the input data. This object is of
+ \item \code{S}: The evolutionary wavelet spectral (smoothed and corrected) estimate of the input data. This object is of
 class wd and so can be plotted and printed in the usual way using wavethresh
-functionality.}
-\item{WavPer}{: The raw wavelet periodogram of the input
+functionality.
+\item \code{WavPer}: The raw wavelet periodogram of the input
 data. The EWS estimate (S, above) is the smoothed corrected version of this raw
-wavelet periodogram.}
-\item{SmoothWavPer}{: The smoothed, but uncorrected raw
-wavelet periodogram of the input data.}
+wavelet periodogram.
+\item \code{SmoothWavPer}: The smoothed, but uncorrected raw
+wavelet periodogram of the input data.
 }
 }
    \item{do.trend.est}{Input parameter, logical variable specifying if trend estimation was performed.}
    \item{trend.est}{A list object, returned if \code{do.trend.est = TRUE}. Contains relevant input parameters
    and the following fields related to the trend estimate:
    \itemize{
-\item{T}{: A vector of length \code{length(x)} containing the trend estimate.}
-\item{lower.CI}{: Returned if \code{T.CI = TRUE}. The lower limit of the pointwise confidence interval.}
-\item{upper.CI}{: Returned if \code{T.CI = TRUE}. The upper limit of the pointwise confidence interval.}
+\item \code{T}: A vector of length \code{length(x)} containing the trend estimate.
+\item \code{lower.CI}: Returned if \code{T.CI = TRUE}. The lower limit of the pointwise confidence interval.
+\item \code{upper.CI}: Returned if \code{T.CI = TRUE}. The upper limit of the pointwise confidence interval.
    }}
 }
 \description{

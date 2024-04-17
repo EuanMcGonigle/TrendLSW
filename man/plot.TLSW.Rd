@@ -18,9 +18,9 @@
 
 \item{plot.type}{A string object indicating what is to be plotted. Can be:
 \itemize{
-\item{\code{"trend"}}{: will plot the trend estimate only.}
-\item{\code{"spec"}}{: will plot the spectral estimate only.}
-\item{\code{c("trend", "spec")}}{: the default value will plot both the trend and spectral estimate.}
+   \item \code{"trend"}: will plot the trend estimate only.
+   \item \code{"spec"}: will plot the spectral estimate only.
+   \item \code{c("trend", "spec")}: the default value will plot both the trend and spectral estimate.
 }}
 
 \item{trend.plot.args}{A list object, that includes any choices for the graphical parameters used for plotting the trend estimate.}
