@@ -3,6 +3,8 @@
 #' @description Plots information contained within a \code{TLSW} object.
 #' Depending on the \code{plot.type} option this will produce a plot of the data
 #' with trend estimate overlayed, a plot of the spectral estimate or both (default).
+#' If the \code{TLSW} object does not contain trend or spectral estimates and these are requested
+#' a warning will be given.
 #'
 #'
 #' @param x A \code{TLSW} object
@@ -68,11 +70,15 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
                       trend.plot.args, spec.plot.args, plot.CI = TRUE,
                       ...){
 
-  if (x$do.trend.est == FALSE) {
-    plot.type <- "spec"
-  } else if (x$do.spec.est == FALSE) {
-    plot.type <- "trend"
+  if (any(plot.type=="trend")&(x$do.trend.est == FALSE)) {
+    plot.type=plot.type[-which(plot.type=="trend")]
+    warning("trend plot requested but no trend estimated in TLSW object")
+  } else if (any(plot.type=="spec")&(x$do.spec.est == FALSE)) {
+    plot.type=plot.type[-which(plot.type=="spec")]
+    warning("spec plot requested but no spec estimated in TLSW object")
   }
+
+  if(length(plot.type)==0){stop("No plot.type specified")}
 
   both.args <- list(...)
 
