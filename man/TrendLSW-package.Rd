@@ -7,7 +7,7 @@ Wavelet Methods for Analysing Locally Stationary Time Series
 }
 \description{
 Provides wavelet-based methods for trend, spectrum and autocovariance estimation of locally
-    stationary time series.  See \code{\link{TLSW}}} for the main estimation function.
+    stationary time series.  See \code{\link{TLSW}} for the main estimation function.}
 \details{
 \tabular{ll}{
 Package: \tab TrendLSW\cr
@@ -17,7 +17,6 @@ Date: \tab 2024-04-17\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
-
 }
 \author{
 Euan T. McGonigle <e.t.mcgonigle@soton.ac.uk>, Rebecca Killick <r.killick@lancs.ac.uk>, and Matthew Nunes <m.a.nunes@bath.ac.uk>
@@ -42,7 +41,6 @@ lacf estimation without trend: Nason, G. P. (2013). A test for second-order stat
 confidence intervals for localized autocovariances for locally stationary
 time series. \emph{Journal of the Royal Statistical Society: Series B
 (Statistical Methodology)}, \bold{75(5)}, 879--904.
-
 }
 \keyword{time series}
 \keyword{nonstationary}
