@@ -15,8 +15,8 @@ default as in the regular acf function is used.}
 \value{
 An object of class \code{lacf} which contains the following components:
  \itemize{
- \item{lacf}{: a matrix containing the estimate of the local autocovariance. Columns represent lags, and rows represent time points.}
-\item{lacr}{: a matrix containing the estimate of the local autocorrelation. Columns represent lags, and rows represent time points.}
+ \item{lacf}{: a matrix containing the estimate of the local autocovariance. Columns represent lags (beginning at lag 0), and rows represent time points.}
+\item{lacr}{: a matrix containing the estimate of the local autocorrelation. Columns represent lags (beginning at lag 0), and rows represent time points.}
 \item{name}{: the name of the time series (if applicable).}
 \item{date}{: the date the function was executed.}
 \item{SmoothWP}{: The smoothed, un-corrected raw
@@ -35,7 +35,6 @@ class \code{TLSW} as the main argument.
 
 ## ---- computes estimate of local autocovariance function
 
-## ---- example where LSW process is generated using the Haar wavelet
 
 spec <- matrix(0, nrow = 9, ncol = 512)
 spec[2,] <-  1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
@@ -44,11 +43,9 @@ trend <- seq(from = 0, to = 10, length = 512)
 
 set.seed(123)
 
-noise <- TLSWsim(trend = trend, spec = spec)
+x <- TLSWsim(trend = trend, spec = spec)
 
-x <- trend + noise
-
-## ---- first estimate the spectrum using Daubechies EP4 wavelet:
+## ---- first estimate the spectrum:
 
 x.TLSW <- TLSW(x)
 
@@ -56,9 +53,9 @@ x.TLSW <- TLSW(x)
 
 lacf.est <- TLSWlacf(x.TLSW)
 
-#---- plot the lag 1 acf over time:
+#---- plot the variance (lag 0 lacf) over time:
 
-plot.ts(lacf.est$lacf[, 1], ylab = "Lag 1 ACF")
+plot.ts(lacf.est$lacf[, 1], ylab = "Variance")
 }
 \references{
 McGonigle, E. T., Killick, R., and Nunes, M. (2022). Trend
