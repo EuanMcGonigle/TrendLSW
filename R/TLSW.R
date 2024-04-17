@@ -1,9 +1,19 @@
 #' @title Estimate Trend and Spectrum of Trend Locally Stationary Wavelet Process
 #' @description Using wavelet-based methods, this function estimates the trend and evolutionary
-#' wavelet spectrum (EWS) of a nonstationary time series. For trend estimation, either
-#' a linear or nonlinear wavelet thresholding estimator can be computed. Spectral
-#'  estimation can be performed with or without differencing the times series first.
+#' wavelet spectrum (EWS) of a nonstationary time series.
 #'
+#' Two methods are implemented (see references), the direct estimator (\code{T.est.type="linear"} and
+#' \code{S.do.diff=FALSE}), and the difference estimator (\code{T.est.type="nonlinear"}) and \code{S.do.diff=TRUE})
+#' The defaults give the direct estimator.
+#'
+#' All the defaults are set carefully.  Key times to change defaults are
+#' \itemize{
+#'    \item if the data contains "cusps", then the difference estimator is preferred.
+#'    \item to assess stability of the estimate to the wavelet, change the wavelet number \code{T.filter.number} and
+#'    \code{S.filter.number} and/or the wavelet type \code{T.family} and \code{S.family}, see details.
+#' }
+#' The arguments affecting trend are preceeded by \code{T.} and those affecting spectral estimation are preceeded
+#' by \code{S.}.
 #'
 #' @param x The time series you wish to analyse.
 #' @param do.trend.est Logical variable, indicating whether trend estimation is to be performed on the time series.
