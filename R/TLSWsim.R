@@ -4,7 +4,7 @@
 #'
 #' @param trend Either:
 #' \itemize{
-#' \item{A numeric vector of length \eqn{n} giving the valued of the deterministic
+#' \item{A numeric vector of length \eqn{n=2^J} giving the valued of the deterministic
 #' trend function,}
 #' \item{A real-valued function of one argument defined on rescaled time \eqn{[0,1)}.}
 #' }
@@ -12,8 +12,8 @@
 #' \itemize{
 #' \item{A \code{wavethresh} object of class wd which contains the spectrum for simulating
 #' an LSW process,}
-#' \item{A matrix of dimensions \eqn{J \times n}, where the \eqn{j}-th row corresponds to the spectrum values at scale \eqn{j},}
-#' \item{A list of length \eqn{J}, where the \eqn{j}-th element of the list is a function of one argument specifying the spectrum
+#' \item{A matrix of dimensions \eqn{J \times n}, where the \eqn{j}-th row corresponds to the spectrum values at scale \eqn{j} and \eqn{n=2^J},}
+#' \item{A list of length \eqn{J=log_2(n)}, where the \eqn{j}-th element of the list is a function of one argument specifying the spectrum
 #' function at scale \eqn{j} on rescaled time \eqn{[0,1)}.}
 #' }
 #' @param innov.func A function with first argument \code{n} used for simulating the innovations. By default,
@@ -22,7 +22,7 @@
 #' @param family The family of the wavelet used to simulate the LSW process (default \code{DaubExPhase}).
 #' @param ... Optional arguments to be passed to the function  \code{innov.func} for
 #' sampling the innovation process.
-#' @return A vector containing a TLSW process simulated from the trend and spectral description given by the trend and
+#' @return A \eqn{n}-length vector containing a TLSW process simulated from the trend and spectral description given by the trend and
 #' spec arguments.
 #' @seealso \code{\link[wavethresh]{LSWsim}}
 #' @examples
