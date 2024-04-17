@@ -7,13 +7,13 @@ Wavelet Methods for Analysing Locally Stationary Time Series
 }
 \description{
 Provides wavelet-based methods for trend, spectrum and autocovariance estimation of locally
-    stationary time series.}
+    stationary time series.  See \code{\link{TLSW}}} for the main estimation function.
 \details{
 \tabular{ll}{
 Package: \tab TrendLSW\cr
 Type: \tab Package\cr
-Version: \tab 0.2.0 \cr
-Date: \tab 2023-11-21\cr
+Version: \tab 1.0.0 \cr
+Date: \tab 2024-04-17\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 }
@@ -37,6 +37,12 @@ Analysis}, 43(6), 895-917.
 LSW processes without trend: Nason, G. P., von Sachs, R., and Kroisandt, G. (2000). Wavelet processes and
 adaptive estimation of the evolutionary wavelet spectrum. \emph{Journal of
 the Royal Statistical Society: Series B (Statistical Methodology)}, \bold{62(2)}, 271--292.
+
+lacf estimation without trend: Nason, G. P. (2013). A test for second-order stationarity and approximate
+confidence intervals for localized autocovariances for locally stationary
+time series. \emph{Journal of the Royal Statistical Society: Series B
+(Statistical Methodology)}, \bold{75(5)}, 879--904.
+
 }
 \keyword{time series}
 \keyword{nonstationary}
