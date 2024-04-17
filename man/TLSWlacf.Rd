@@ -15,14 +15,16 @@ default as in the regular acf function is used.}
 \value{
 An object of class \code{lacf} which contains the following components:
  \itemize{
- \item{lacf}{: a matrix containing the estimate of the local autocovariance. Columns represent lags (beginning at lag 0), and rows represent time points.}
-\item{lacr}{: a matrix containing the estimate of the local autocorrelation. Columns represent lags (beginning at lag 0), and rows represent time points.}
-\item{name}{: the name of the time series (if applicable).}
-\item{date}{: the date the function was executed.}
-\item{SmoothWP}{: The smoothed, un-corrected raw
-wavelet periodogram of the input data.}
-\item{S}{: the spectral estimate used to compute the local autocovariance.}
-\item{J}{: the number of total wavelet scales.}
+ \item \code{lacf}: a matrix containing the estimate of the local autocovariance. Columns represent lags
+ (beginning at lag 0), and rows represent time points.
+\item \code{lacr}: a matrix containing the estimate of the local autocorrelation. Columns represent lags
+(beginning at lag 0), and rows represent time points.
+\item \code{name}: the name of the time series (if applicable).
+\item \code{date}: the date the function was executed.
+\item \code{SmoothWP}: The smoothed, un-corrected raw
+wavelet periodogram of the input data.
+\item \code{S}: the spectral estimate used to compute the local autocovariance.
+\item \code{J}: the number of total wavelet scales.
 }
 }
 \description{
