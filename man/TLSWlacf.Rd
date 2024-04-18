@@ -39,7 +39,7 @@ class \code{TLSW} as the main argument.
 
 
 spec <- matrix(0, nrow = 9, ncol = 512)
-spec[2,] <-  1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
+spec[2, ] <- 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
 
 trend <- seq(from = 0, to = 10, length = 512)
 

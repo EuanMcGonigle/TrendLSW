@@ -35,6 +35,8 @@
 Plots information contained within a \code{TLSW} object.
 Depending on the \code{plot.type} option this will produce a plot of the data
 with trend estimate overlayed, a plot of the spectral estimate or both (default).
+If the \code{TLSW} object does not contain trend or spectral estimates and these are requested
+a warning will be given.
 }
 \details{
 A TLSW object can be plotted using the standard \code{plot} function in R.
@@ -61,9 +63,9 @@ prefix \code{"CI."}. For example, to set the line width of the confidence interv
 
 spec <- matrix(0, nrow = 9, ncol = 512)
 
-spec[1,] <- 4 + 4*sin(seq(from = 0, to = 2 * pi, length = 512))^2
+spec[1, ] <- 4 + 4 * sin(seq(from = 0, to = 2 * pi, length = 512))^2
 
-trend <- seq(from = 0, to = 10, length = 512) + 2*sin(seq(from = 0, to = 2 * pi, length = 512))
+trend <- seq(from = 0, to = 10, length = 512) + 2 * sin(seq(from = 0, to = 2 * pi, length = 512))
 
 set.seed(1)
 
@@ -71,8 +73,10 @@ x <- TLSWsim(trend = trend, spec = spec)
 
 x.TLSW <- TLSW(x)
 
-plot(x.TLSW, trend.plot.args = list(ylab = "Simulated Data", T.col = 4,
-   T.lwd = 2, T.lty = 2))
+plot(x.TLSW, trend.plot.args = list(
+  ylab = "Simulated Data", T.col = 4,
+  T.lwd = 2, T.lty = 2
+))
 
 }
 \references{

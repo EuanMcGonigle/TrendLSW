@@ -164,9 +164,20 @@ wavelet periodogram of the input data.
 }
 \description{
 Using wavelet-based methods, this function estimates the trend and evolutionary
-wavelet spectrum (EWS) of a nonstationary time series. For trend estimation, either
-a linear or nonlinear wavelet thresholding estimator can be computed. Spectral
- estimation can be performed with or without differencing the times series first.
+wavelet spectrum (EWS) of a nonstationary time series.
+
+Two methods are implemented (see references), the direct estimator (\code{T.est.type="linear"} and
+\code{S.do.diff=FALSE}), and the difference estimator (\code{T.est.type="nonlinear"}) and \code{S.do.diff=TRUE})
+The defaults give the direct estimator.
+
+All the defaults are set carefully.  Key times to change defaults are
+\itemize{
+   \item if the data contains "cusps", then the difference estimator is preferred.
+   \item to assess stability of the estimate to the wavelet, change the wavelet number \code{T.filter.number} and
+   \code{S.filter.number} and/or the wavelet type \code{T.family} and \code{S.family}, see details.
+}
+The arguments affecting trend are preceeded by \code{T.} and those affecting spectral estimation are preceeded
+by \code{S.}.
 }
 \details{
 The fitted \emph{trend LSW process} \eqn{X_{t,n} }, \eqn{t = 0, \ldots , n-1}, and \eqn{n = 2^J} is
@@ -195,7 +206,7 @@ The fitted \emph{trend LSW process} \eqn{X_{t,n} }, \eqn{t = 0, \ldots , n-1}, a
 
 spec <- matrix(0, nrow = 10, ncol = 2^10)
 
-spec[1,] = seq(from = 1, to = 10, length = 1024)
+spec[1, ] <- seq(from = 1, to = 10, length = 1024)
 
 trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
 

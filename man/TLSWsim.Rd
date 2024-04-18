@@ -16,7 +16,7 @@ TLSWsim(
 \arguments{
 \item{trend}{Either:
 \itemize{
-\item{A numeric vector of length \eqn{n} giving the valued of the deterministic
+\item{A numeric vector of length \eqn{n=2^J} giving the valued of the deterministic
 trend function,}
 \item{A real-valued function of one argument defined on rescaled time \eqn{[0,1)}.}
 }}
@@ -25,8 +25,8 @@ trend function,}
 \itemize{
 \item{A \code{wavethresh} object of class wd which contains the spectrum for simulating
 an LSW process,}
-\item{A matrix of dimensions \eqn{J \times n}, where the \eqn{j}-th row corresponds to the spectrum values at scale \eqn{j},}
-\item{A list of length \eqn{J}, where the \eqn{j}-th element of the list is a function of one argument specifying the spectrum
+\item{A matrix of dimensions \eqn{J \times n}, where the \eqn{j}-th row corresponds to the spectrum values at scale \eqn{j} and \eqn{n=2^J},}
+\item{A list of length \eqn{J=log_2(n)}, where the \eqn{j}-th element of the list is a function of one argument specifying the spectrum
 function at scale \eqn{j} on rescaled time \eqn{[0,1)}.}
 }}
 
@@ -41,7 +41,7 @@ normal random innovations are sampled using the \code{rnorm} function.}
 sampling the innovation process.}
 }
 \value{
-A vector containing a TLSW process simulated from the trend and spectral description given by the trend and
+A \eqn{n}-length vector containing a TLSW process simulated from the trend and spectral description given by the trend and
 spec arguments.
 }
 \description{
@@ -62,13 +62,13 @@ x <- TLSWsim(trend = trend, spec = spec)
 
 plot.ts(x)
 
-#---- simulate with numeric trend, and spec a matrix-----
+#---- simulate with numeric trend, and spec a matrix, with non-dyadic n-----
 
-spec <- matrix(0, nrow = 10, ncol = 2^10)
+spec <- matrix(0, nrow = 10, ncol = 1000)
 
-spec[1,] = seq(from = 1, to = 10, length = 1024)
+spec[1, ] <- seq(from = 1, to = 10, length = 1000)
 
-trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
+trend <- sin(pi * (seq(from = 0, to = 4, length = 1000)))
 
 x <- TLSWsim(trend = trend, spec = spec)
 
@@ -78,9 +78,13 @@ plot.ts(x)
 
 spec <- vector(mode = "list", length = 10)
 
-spec[[1]] <- function(u){1+9*u}
+spec[[1]] <- function(u) {
+  1 + 9 * u
+}
 
-trend <- function(u){sin(pi * u)}
+trend <- function(u) {
+  sin(pi * u)
+}
 
 x <- TLSWsim(trend = trend, spec = spec)
 
