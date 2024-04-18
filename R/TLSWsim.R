@@ -39,13 +39,13 @@
 #'
 #' plot.ts(x)
 #'
-#' #---- simulate with numeric trend, and spec a matrix-----
+#' #---- simulate with numeric trend, and spec a matrix, with non-dyadic n-----
 #'
-#' spec <- matrix(0, nrow = 10, ncol = 2^10)
+#' spec <- matrix(0, nrow = 9, ncol = 1000)
 #'
-#' spec[1, ] <- seq(from = 1, to = 10, length = 1024)
+#' spec[1, ] <- seq(from = 1, to = 10, length = 1000)
 #'
-#' trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
+#' trend <- sin(pi * (seq(from = 0, to = 4, length = 1000)))
 #'
 #' x <- TLSWsim(trend = trend, spec = spec)
 #'
@@ -126,8 +126,19 @@ TLSWsim <- function(trend, spec, filter.number = 4, family = "DaubExPhase",
     J <- nrow(spec)
     n <- ncol(spec)
 
-    if (log2(n) != J) {
-      stop("Dimensions of spec matrix incorrect. Number of columns should be 2 to the power of the number of rows.")
+    if (floor(log2(n)) != J) {
+      stop("Dimensions of spec matrix incorrect. The integer part of log2(number of columns) should equal the number of rows.")
+    }
+
+    if(is.na(wavethresh::IsPowerOfTwo(n))){
+      if (!is.numeric(trend)) {
+        stop("If spec has a non-dyadic number of columns, then trend must be a numeric vector.")
+      }
+      extended.spec <- matrix(0, nrow = J + 1, ncol = 2^(J+1))
+      for(j in 1:J){
+        extended.spec[j, ] <- c(spec[j, ], rep(spec[j, n], 2^(J+1) - n))
+      }
+      spec <- extended.spec
     }
 
     spec <- mat.to.spec(spec,
@@ -153,12 +164,19 @@ TLSWsim <- function(trend, spec, filter.number = 4, family = "DaubExPhase",
   }
 
 
+  if(is.na(wavethresh::IsPowerOfTwo(n))){
+    final.n <- 2^(ceiling(log2(n)))
+    J <- J + 1
+  }else{
+    final.n <- n
+  }
+
   for (i in (J - 1):0) {
     v <- wavethresh::accessD(spec, level = i)
-    v <- sqrt(v) * 2^(J - i) * innov.func(n, ...)
+    v <- sqrt(v) * 2^(J - i) * innov.func(final.n, ...)
     spec <- wavethresh::putD(spec, level = i, v = v)
   }
 
-  x <- T + wavethresh::AvBasis(wavethresh::convert(spec))
+  x <- T + wavethresh::AvBasis(wavethresh::convert(spec))[1:n]
   return(x)
 }

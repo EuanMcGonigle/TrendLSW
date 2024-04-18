@@ -64,7 +64,7 @@ test_that("innov.func argument is an rnorm type function", {
 test_that("spec matrix dimensions match", {
   expect_error(
     TLSWsim(spec = spec2[1:4, ]),
-    "Dimensions of spec matrix incorrect. Number of columns should be 2 to the power of the number of rows."
+    "Dimensions of spec matrix incorrect. The integer part of log2\\(number of columns\\) should equal the number of rows."
   )
 })
 
@@ -84,3 +84,9 @@ test_that("TLSWsim gives same output", {
   x <- TLSWsim(trend = trend, spec = spec)
   expect_snapshot_value(round(x, digits = 3), style = "deparse")
 })
+
+test_that("TLSWsim works on non-dyadic data", {
+  skip_on_cran()
+  expect_equal(200, length(TLSWsim(rep(0,200), spec2[1:7,1:200])))
+})
+

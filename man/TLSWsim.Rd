@@ -64,7 +64,7 @@ plot.ts(x)
 
 #---- simulate with numeric trend, and spec a matrix, with non-dyadic n-----
 
-spec <- matrix(0, nrow = 10, ncol = 1000)
+spec <- matrix(0, nrow = 9, ncol = 1000)
 
 spec[1, ] <- seq(from = 1, to = 10, length = 1000)
 
