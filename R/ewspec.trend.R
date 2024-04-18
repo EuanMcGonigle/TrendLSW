@@ -126,15 +126,17 @@ ewspec.trend <- function(x, an.filter.number = 4, an.family = "DaubExPhase",
 
   if (smooth.type == "median" || smooth.type == "epan") {
     x.wd <- locits::ewspec3(x,
-                            filter.number = an.filter.number, family = an.family,
-                            binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = FALSE
+      filter.number = an.filter.number, family = an.family,
+      binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = FALSE
     )
-    x.wd <- WP.manual.smooth(x.wd = x.wd, smooth.type = smooth.type,
-                             max.scale = max.scale, binwidth = binwidth)
-  } else{
+    x.wd <- WP.manual.smooth(
+      x.wd = x.wd, smooth.type = smooth.type,
+      max.scale = max.scale, binwidth = binwidth
+    )
+  } else {
     x.wd <- locits::ewspec3(x,
-                            filter.number = an.filter.number, family = an.family,
-                            binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = S.smooth
+      filter.number = an.filter.number, family = an.family,
+      binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = S.smooth
     )
   }
 

@@ -145,27 +145,28 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
       boundary.handle = boundary.handle, T.CI = T.CI
     ))
   } else {
-    if(transform.type == "dec"){
-      if(!is.null(spec.est)){
-        if(boundary.handle==TRUE){
-          spec.est2 <- ewspec.trend(x = x, an.filter.number = spec.est$S$filter$filter.number,
-                                    an.family = spec.est$S$filter$family,
-                                    binwidth = spec.est$binwidth,
-                                    max.scale = spec.est$max.scale, S.smooth = spec.est$S.smooth,
-                                    smooth.type = spec.est$smooth.type,
-                                    AutoReflect = FALSE, boundary.handle = FALSE)
-        }else{
+    if (transform.type == "dec") {
+      if (!is.null(spec.est)) {
+        if (boundary.handle == TRUE) {
+          spec.est2 <- ewspec.trend(
+            x = x, an.filter.number = spec.est$S$filter$filter.number,
+            an.family = spec.est$S$filter$family,
+            binwidth = spec.est$binwidth,
+            max.scale = spec.est$max.scale, S.smooth = spec.est$S.smooth,
+            smooth.type = spec.est$smooth.type,
+            AutoReflect = FALSE, boundary.handle = FALSE
+          )
+        } else {
           spec.est2 <- spec.est
         }
-
-      }else{
+      } else {
         spec.est2 <- ewspec.trend(x, max.scale = max.scale, ..., AutoReflect = FALSE)
       }
 
 
       lacf.est <- TLSW.TLSWlacf(x,
-                                filter.number = spec.est2$S$filter$filter.number, family = spec.est2$S$filter$family,
-                                lag.max = lag.max, spec.est = spec.est2
+        filter.number = spec.est2$S$filter$filter.number, family = spec.est2$S$filter$family,
+        lag.max = lag.max, spec.est = spec.est2
       )
 
       trend.CI <- trend.estCI(
@@ -187,7 +188,7 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
         lower.CI <- lower.CI[lower:upper]
         upper.CI <- upper.CI[lower:upper]
       }
-    }else{
+    } else {
       if (boundary.handle == TRUE) {
         if (dyadic == TRUE) {
           lower <- 2^(J - 2) + 2^(J - 3) + 1
@@ -199,20 +200,21 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
         x_wr <- x_wr[lower:upper]
       }
 
-      trend.CI <- trend.est.CI.bootstrap(x = orig.x,
+      trend.CI <- trend.est.CI.bootstrap(
+        x = orig.x,
         trend.est = x_wr, spec.est = spec.est, filter.number = filter.number,
         family = family, max.scale = max.scale, boundary.handle = boundary.handle,
         reps = reps, sig.lvl = sig.lvl, confint.type = confint.type,
         diff = FALSE
       )
-      lower.CI <- trend.CI[1,]
-      upper.CI <- trend.CI[2,]
+      lower.CI <- trend.CI[1, ]
+      upper.CI <- trend.CI[2, ]
     }
 
     return(list(
-      x = orig.x, T = x_wr,  lower.CI = lower.CI, upper.CI = upper.CI,
+      x = orig.x, T = x_wr, lower.CI = lower.CI, upper.CI = upper.CI,
       sig.lvl = sig.lvl, filter.number = filter.number, family = family, transform.type = transform.type,
       max.scale = max.scale, boundary.handle = boundary.handle, T.CI = T.CI
-     ))
+    ))
   }
 }

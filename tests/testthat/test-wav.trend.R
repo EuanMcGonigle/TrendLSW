@@ -22,14 +22,14 @@ test_that("wav.trend.est executes with decimated tranform", {
 test_that("wav.trend.est executes with confidence interval", {
   skip_on_cran()
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
-  x.t <- wav.trend.est(x, T.CI = TRUE, transform.type="dec")
+  x.t <- wav.trend.est(x, T.CI = TRUE, transform.type = "dec")
   expect_equal(class(x.t), "list")
 })
 
 test_that("wav.trend.est executes with confidence interval and non-dyadic data", {
   skip_on_cran()
   x <- stats::rnorm(230) + seq(from = 0, to = 4, length = 230)
-  x.t <- suppressWarnings(wav.trend.est(x, T.CI = TRUE, transform.type="dec"))
+  x.t <- suppressWarnings(wav.trend.est(x, T.CI = TRUE, transform.type = "dec"))
   expect_equal(class(x.t), "list")
 })
 
@@ -43,13 +43,13 @@ test_that("wav.trend.est executes with non-dyadic data", {
 test_that("wav.trend.est executes with confidence interval and boundary handling", {
   skip_on_cran()
   x <- stats::rnorm(256) + seq(from = 0, to = 4, length = 256)
-  x.t <- wav.trend.est(x, T.CI = TRUE, transform.type="dec",boundary.handle = TRUE)
+  x.t <- wav.trend.est(x, T.CI = TRUE, transform.type = "dec", boundary.handle = TRUE)
   expect_equal(class(x.t), "list")
 })
 
 test_that("T.CI is logical", {
   expect_error(
-    wav.trend.est(stats::rnorm(64), T.CI = "true", transform.type="dec"),
+    wav.trend.est(stats::rnorm(64), T.CI = "true", transform.type = "dec"),
     "Parameter T.CI must be logical variable"
   )
 })

@@ -122,4 +122,3 @@ test_that("reps recognised as integer", {
     "Number of bootstrap replications should be a single positive integer."
   )
 })
-

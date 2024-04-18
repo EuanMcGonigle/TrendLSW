@@ -96,13 +96,15 @@ test_that("ewspec.trend executes with median smoothing", {
 test_that("ewspec.trend executes with epan smoothing", {
   skip_on_cran()
   x <- stats::rnorm(256)
-  x.s <- ewspec.trend(x, smooth.type =  "epan")
+  x.s <- ewspec.trend(x, smooth.type = "epan")
   expect_equal(class(x.s), "list")
 })
 
 test_that("ewspec.trend recognises smoothing", {
   skip_on_cran()
   x <- stats::rnorm(256)
-  expect_error(ewspec.trend(x, smooth.type =  "bartlett"),
-               "Smoothing type must be one of 'mean', 'median', or 'epan'.")
+  expect_error(
+    ewspec.trend(x, smooth.type = "bartlett"),
+    "Smoothing type must be one of 'mean', 'median', or 'epan'."
+  )
 })

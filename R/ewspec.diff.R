@@ -130,15 +130,17 @@ ewspec.diff <- function(x, lag = 1, filter.number = 4, family = "DaubExPhase",
   # calculate raw wavelet periodogram which we need to correct:
   if (smooth.type == "median" || smooth.type == "epan") {
     x.wd <- locits::ewspec3(diff.x,
-                            filter.number = filter.number, family = family,
-                            binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = FALSE
+      filter.number = filter.number, family = family,
+      binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = FALSE
     )
-    x.wd <- WP.manual.smooth(x.wd = x.wd, smooth.type = smooth.type,
-                             max.scale = max.scale, binwidth = binwidth)
-  } else{
+    x.wd <- WP.manual.smooth(
+      x.wd = x.wd, smooth.type = smooth.type,
+      max.scale = max.scale, binwidth = binwidth
+    )
+  } else {
     x.wd <- locits::ewspec3(diff.x,
-                            filter.number = filter.number, family = family,
-                            binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = S.smooth
+      filter.number = filter.number, family = family,
+      binwidth = binwidth, AutoReflect = AutoReflect, WPsmooth = S.smooth
     )
   }
 

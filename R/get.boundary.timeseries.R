@@ -24,15 +24,15 @@ get.boundary.timeseries <- function(x, type = "TLSW") {
   x.len <- length(x)
   J <- wavethresh::IsPowerOfTwo(x.len)
 
-  #use a proportion of the data to fit a pre-estimate of the trend, in order to extend the time series:
+  # use a proportion of the data to fit a pre-estimate of the trend, in order to extend the time series:
 
-  s.right <- seq(from = 0, to = (x.len - 1) / x.len, length = x.len)[(floor(19*x.len/20)):x.len]
+  s.right <- seq(from = 0, to = (x.len - 1) / x.len, length = x.len)[(floor(19 * x.len / 20)):x.len]
 
-  s.left <- seq(from = 0, to = (x.len - 1) / x.len, length = x.len)[1:(floor(x.len/20))]
+  s.left <- seq(from = 0, to = (x.len - 1) / x.len, length = x.len)[1:(floor(x.len / 20))]
 
-  x.right <- x[(floor(19*x.len/20)):x.len]
+  x.right <- x[(floor(19 * x.len / 20)):x.len]
 
-  x.left <- x[1:(floor(x.len/20))]
+  x.left <- x[1:(floor(x.len / 20))]
 
   L.right <- stats::lm(x.right ~ s.right)
 
@@ -40,7 +40,7 @@ get.boundary.timeseries <- function(x, type = "TLSW") {
 
   bh.right <- L.right$coefficients[1] + L.right$coefficients[2]
 
-  bh.left <- L.left$coefficients[1] - L.left$coefficients[2]/x.len
+  bh.left <- L.left$coefficients[1] - L.left$coefficients[2] / x.len
 
   if (type == "LSW.diff") {
     bh.series1 <- c(x - bh.right + bh.left, x, x + bh.right - bh.left)

@@ -28,7 +28,7 @@
 #'
 #' spec <- matrix(0, nrow = 10, ncol = 2^10)
 #'
-#' spec[1,] = seq(from = 1, to = 10, length = 1024)
+#' spec[1, ] <- seq(from = 1, to = 10, length = 1024)
 #'
 #' trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
 #'
@@ -81,7 +81,7 @@ summary.TLSW <- function(object, ...) {
       cat("-no boundary handling was perfomed.\n")
     }
     if (object$trend.est$T.CI == TRUE) {
-      cat("-a pointwise " , 100*(1-object$trend.est$sig.lvl), "% confidence interval was calculated.", sep = "")
+      cat("-a pointwise ", 100 * (1 - object$trend.est$sig.lvl), "% confidence interval was calculated.", sep = "")
     }
   } else {
     cat("Trend estimation was not performed.\n")

@@ -5,7 +5,9 @@ spec2 <- matrix(0, 8, 2^8)
 spec2[1, ] <- rep(1, 256)
 
 spec3 <- vector(mode = "list", length = 8)
-spec3[[1]] <- function(u){1}
+spec3[[1]] <- function(u) {
+  1
+}
 
 test_that("TLSWsim executes with wd spec", {
   x <- TLSWsim(spec = spec1)
@@ -28,7 +30,9 @@ test_that("TLSWsim executes with numeric trend", {
 })
 
 test_that("TLSWsim executes with function trend", {
-  x <- TLSWsim(trend = function(u){0}, spec = spec1)
+  x <- TLSWsim(trend = function(u) {
+    0
+  }, spec = spec1)
   expect_equal(class(x), "numeric")
 })
 
@@ -49,7 +53,9 @@ test_that("innov.func argument is a function", {
 
 test_that("innov.func argument is an rnorm type function", {
   expect_error(
-    TLSWsim(spec = spec1, innov.func = function(u){1}),
+    TLSWsim(spec = spec1, innov.func = function(u) {
+      1
+    }),
     "Invalid 'innov.func' argument: should be in the rnorm family of functions."
   )
 })
@@ -57,24 +63,24 @@ test_that("innov.func argument is an rnorm type function", {
 
 test_that("spec matrix dimensions match", {
   expect_error(
-    TLSWsim(spec = spec2[1:4,]),
+    TLSWsim(spec = spec2[1:4, ]),
     "Dimensions of spec matrix incorrect. Number of columns should be 2 to the power of the number of rows."
   )
 })
 
 test_that("trend and spec dimensions match", {
   expect_error(
-    TLSWsim(trend = rep(0,10), spec = spec1),
+    TLSWsim(trend = rep(0, 10), spec = spec1),
     "Length of trend does not match dimensions of spec."
   )
 })
 
-test_that("TLSWsim gives same output",{
+test_that("TLSWsim gives same output", {
   skip_on_cran()
   spec <- matrix(0, nrow = 9, ncol = 512)
-  spec[1,] <- 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
+  spec[1, ] <- 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
   trend <- seq(from = 0, to = 5, length = 512)
   set.seed(1)
   x <- TLSWsim(trend = trend, spec = spec)
-  expect_snapshot_value(round(x,digits=3), style="deparse")
+  expect_snapshot_value(round(x, digits = 3), style = "deparse")
 })

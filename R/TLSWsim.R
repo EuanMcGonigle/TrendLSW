@@ -43,7 +43,7 @@
 #'
 #' spec <- matrix(0, nrow = 10, ncol = 2^10)
 #'
-#' spec[1,] = seq(from = 1, to = 10, length = 1024)
+#' spec[1, ] <- seq(from = 1, to = 10, length = 1024)
 #'
 #' trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
 #'
@@ -55,9 +55,13 @@
 #'
 #' spec <- vector(mode = "list", length = 10)
 #'
-#' spec[[1]] <- function(u){1+9*u}
+#' spec[[1]] <- function(u) {
+#'   1 + 9 * u
+#' }
 #'
-#' trend <- function(u){sin(pi * u)}
+#' trend <- function(u) {
+#'   sin(pi * u)
+#' }
 #'
 #' x <- TLSWsim(trend = trend, spec = spec)
 #'
@@ -66,72 +70,73 @@
 #' @export
 TLSWsim <- function(trend, spec, filter.number = 4, family = "DaubExPhase",
                     innov.func, ...) {
-
   if (missing(trend)) {
-    trend <- function(u){0}
+    trend <- function(u) {
+      0
+    }
   }
 
   if (missing(innov.func)) {
     innov.func <- stats::rnorm
   }
 
-  if (!is.function(innov.func))
+  if (!is.function(innov.func)) {
     stop("Argument'innov.func' should be a function.")
-  if (names(formals(innov.func))[1] != "n")
+  }
+  if (names(formals(innov.func))[1] != "n") {
     stop("Invalid 'innov.func' argument: should be in the rnorm family of functions.")
+  }
 
-  #error check:
+  # error check:
 
   stopifnot("Argument trend must be either a numeric vector or function." = is.function(trend) || is.numeric(trend))
   stopifnot("Argument spec must be either a numeric matrix, list of functions, or wd object." = isa(spec, "list") || isa(spec, "wd") || is.matrix(spec))
 
-  if(isa(spec, "list")){
-
+  if (isa(spec, "list")) {
     J <- length(spec)
     n <- 2^J
 
     stopifnot("The length of the argument spec should be at least 2." = J >= 2)
 
-    for(j in 1:J){
+    for (j in 1:J) {
       stopifnot("The elements of the list spec should be a function, or the NULL value." = is.function(spec[[j]]) || is.null(spec[[j]]))
     }
 
     spec.mat <- matrix(0, nrow = J, ncol = n)
-    vals <- (0:(n-1))/n
+    vals <- (0:(n - 1)) / n
 
-    for (j in 1:J){
-      if(is.null(spec[[j]])){
-        spec.mat[j,] <- 0
-      }else{
-        spec.mat[j,] <- Vectorize(spec[[j]])(vals)
+    for (j in 1:J) {
+      if (is.null(spec[[j]])) {
+        spec.mat[j, ] <- 0
+      } else {
+        spec.mat[j, ] <- Vectorize(spec[[j]])(vals)
       }
     }
 
-    spec <- mat.to.spec(spec.mat, filter.number = filter.number,
-                        family = family)
-
-  }else if(isa(spec, "wd")){
-
+    spec <- mat.to.spec(spec.mat,
+      filter.number = filter.number,
+      family = family
+    )
+  } else if (isa(spec, "wd")) {
     J <- spec$nlevels
     n <- 2^J
     family <- spec$filter$family
     filter.number <- spec$filter$filter.number
-
-  }else if(is.matrix(spec)){
-
+  } else if (is.matrix(spec)) {
     J <- nrow(spec)
     n <- ncol(spec)
 
-    if(log2(n) != J){
+    if (log2(n) != J) {
       stop("Dimensions of spec matrix incorrect. Number of columns should be 2 to the power of the number of rows.")
     }
 
-    spec <- mat.to.spec(spec, filter.number = filter.number,
-                        family = family)
-
+    spec <- mat.to.spec(spec,
+      filter.number = filter.number,
+      family = family
+    )
   }
 
-  if(is.numeric(trend)){
+  if (is.numeric(trend)) {
     stopifnot("Length of trend does not match dimensions of spec." = n == length(trend))
   }
 
@@ -140,11 +145,11 @@ TLSWsim <- function(trend, spec, filter.number = 4, family = "DaubExPhase",
     stop("All spectral elements must be non-negative.")
   }
 
-  if(is.function(trend)){
-      vals <- (0:(n-1))/n
-      T <- Vectorize(trend)(vals)
-    } else{
-      T <- trend
+  if (is.function(trend)) {
+    vals <- (0:(n - 1)) / n
+    T <- Vectorize(trend)(vals)
+  } else {
+    T <- trend
   }
 
 
@@ -156,5 +161,4 @@ TLSWsim <- function(trend, spec, filter.number = 4, family = "DaubExPhase",
 
   x <- T + wavethresh::AvBasis(wavethresh::convert(spec))
   return(x)
-
 }

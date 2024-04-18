@@ -145,7 +145,7 @@
 #'
 #' spec <- matrix(0, nrow = 10, ncol = 2^10)
 #'
-#' spec[1,] = seq(from = 1, to = 10, length = 1024)
+#' spec[1, ] <- seq(from = 1, to = 10, length = 1024)
 #'
 #' trend <- sin(pi * (seq(from = 0, to = 4, length = 1024)))
 #'
@@ -212,7 +212,7 @@ TLSW <- function(x, do.trend.est = TRUE, do.spec.est = TRUE,
         smooth.type = S.smooth.type
       )
     }
-  }else{
+  } else {
     x.spec <- NULL
   }
 

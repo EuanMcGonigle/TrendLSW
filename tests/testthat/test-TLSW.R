@@ -29,8 +29,10 @@ test_that("TLSW executes with nonlinear trend est", {
 test_that("TLSW recognises T.thresh.type", {
   skip_on_cran()
   x <- stats::rnorm(128)
-  expect_error(TLSW(x, T.thresh.type = "bayes", T.est.type = "nonlinear"),
-               "The parameter T.thresh.type must be either 'hard' or 'soft'.")
+  expect_error(
+    TLSW(x, T.thresh.type = "bayes", T.est.type = "nonlinear"),
+    "The parameter T.thresh.type must be either 'hard' or 'soft'."
+  )
 })
 
 test_that("TLSW executes with supplied inv mat", {
@@ -48,24 +50,24 @@ test_that("TLSW executes with nonlinear wavelet trend estimator using non-differ
   expect_equal(class(x.lsw), "TLSW")
 })
 
-test_that("TLSW gives same output: spec",{
+test_that("TLSW gives same output: spec", {
   skip_on_cran()
   spec <- matrix(0, nrow = 9, ncol = 512)
-  spec[1,] <- 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
+  spec[1, ] <- 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
   trend <- seq(from = 0, to = 5, length = 512)
   set.seed(1)
   x <- TLSWsim(trend = trend, spec = spec)
   x.TLSW <- TLSW(x)
-  expect_snapshot_value(x.TLSW$spec.est$S$D, style="deparse")
+  expect_snapshot_value(x.TLSW$spec.est$S$D, style = "deparse")
 })
 
-test_that("TLSW gives same output: trend",{
+test_that("TLSW gives same output: trend", {
   skip_on_cran()
   spec <- matrix(0, nrow = 9, ncol = 512)
-  spec[1,] <- 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
+  spec[1, ] <- 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
   trend <- seq(from = 0, to = 5, length = 512)
   set.seed(1)
   x <- TLSWsim(trend = trend, spec = spec)
   x.TLSW <- TLSW(x)
-  expect_snapshot_value(x.TLSW$trend.est, style="deparse")
+  expect_snapshot_value(x.TLSW$trend.est, style = "deparse")
 })

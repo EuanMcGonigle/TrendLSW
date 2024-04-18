@@ -118,12 +118,11 @@ trend.estCI <- function(trend.est, lacf.est, filter.number = 4, family = "DaubLe
 #' @keywords internal
 #' @noRd
 trend.est.CI.bootstrap <- function(x, trend.est, spec.est, filter.number = 4, thresh.type = "soft",
-                             normal = TRUE, transform.type = c("dec", "nondec")[2],
-                             family = "DaubLeAsymm", max.scale = floor(log2(length(x)) * 0.7),
-                             boundary.handle = TRUE, reps = 199, sig.lvl = 0.05,
-                             confint.type = c("percentile", "normal")[1],
-                             diff = TRUE, ...) {
-
+                                   normal = TRUE, transform.type = c("dec", "nondec")[2],
+                                   family = "DaubLeAsymm", max.scale = floor(log2(length(x)) * 0.7),
+                                   boundary.handle = TRUE, reps = 199, sig.lvl = 0.05,
+                                   confint.type = c("percentile", "normal")[1],
+                                   diff = TRUE, ...) {
   trend.mat <- matrix(0, nrow = reps, ncol = length(x))
 
   spec <- spec.est$S
@@ -135,7 +134,7 @@ trend.est.CI.bootstrap <- function(x, trend.est, spec.est, filter.number = 4, th
     family = spec$filter$family
   )
 
-  if(diff == TRUE){
+  if (diff == TRUE) {
     if (is.null(spec.est$lag)) {
       spec.est$lag <- 1
     }
@@ -153,14 +152,14 @@ trend.est.CI.bootstrap <- function(x, trend.est, spec.est, filter.number = 4, th
   for (i in 1:reps) {
     rep.x <- trend.est + wavethresh::LSWsim(spec)[1:length(x)]
 
-    if(diff == TRUE){
+    if (diff == TRUE) {
       rep.spec <- suppressWarnings(ewspec.diff(rep.x,
-                                               lag = spec.est$lag,
-                                               filter.number = spec$filter$filter.number,
-                                               family = spec$filter$family, binwidth = spec.est$binwidth,
-                                               max.scale = spec.est$max.scale, boundary.handle = spec.est$boundary.handle,
-                                               supply.inv.mat = TRUE, inv.mat = inv.mat,
-                                               diff.number = spec.est$diff.number, ...
+        lag = spec.est$lag,
+        filter.number = spec$filter$filter.number,
+        family = spec$filter$family, binwidth = spec.est$binwidth,
+        max.scale = spec.est$max.scale, boundary.handle = spec.est$boundary.handle,
+        supply.inv.mat = TRUE, inv.mat = inv.mat,
+        diff.number = spec.est$diff.number, ...
       ))
 
       rep.trend <- suppressWarnings(wav.diff.trend.est(
@@ -169,7 +168,7 @@ trend.est.CI.bootstrap <- function(x, trend.est, spec.est, filter.number = 4, th
         boundary.handle = boundary.handle,
         thresh.type = thresh.type, normal = normal, T.CI = FALSE
       ))
-    }else{
+    } else {
       rep.trend <- suppressWarnings(wav.trend.est(
         x = rep.x, filter.number = filter.number,
         family = family, max.scale = max.scale, transform.type = transform.type,
@@ -180,10 +179,10 @@ trend.est.CI.bootstrap <- function(x, trend.est, spec.est, filter.number = 4, th
     trend.mat[i, ] <- rep.trend$T
   }
 
-  if(confint.type == "percentile"){
+  if (confint.type == "percentile") {
     conf.int <- apply(trend.mat, 2, FUN = stats::quantile, probs = c(sig.lvl / 2, (1 - sig.lvl / 2)))
-  } else{
-    sd.est <- stats::qnorm(1-sig.lvl/2)*apply(trend.mat, 2, FUN = stats::sd)
+  } else {
+    sd.est <- stats::qnorm(1 - sig.lvl / 2) * apply(trend.mat, 2, FUN = stats::sd)
     conf.int <- rbind(trend.est - sd.est, trend.est + sd.est)
   }
   return(conf.int)
@@ -205,7 +204,7 @@ ewspec.checks <- function(x, max.scale, binwidth, lag, boundary.handle, S.smooth
   stopifnot("Parameter S.boundary.handle must be logical variable" = is.logical(boundary.handle))
   stopifnot("Parameter S.smooth must be logical variable" = is.logical(S.smooth))
   stopifnot("Smoothing type must be one of 'mean', 'median', or 'epan'." = smooth.type == "mean" ||
-              smooth.type == "median" || smooth.type == "epan")
+    smooth.type == "median" || smooth.type == "epan")
 
   x.len <- length(x)
 
@@ -398,7 +397,7 @@ replace.neg.values <- function(var.mat, max.scale) {
 #' @keywords internal
 #' @noRd
 trend.est.checks <- function(x, max.scale, boundary.handle, transform.type,
-                            T.CI, reps, sig.lvl, est.type) {
+                             T.CI, reps, sig.lvl, est.type) {
   stopifnot(
     "Parameter T.transform must be either 'dec' or 'nondec'" =
       transform.type == "dec" || transform.type == "nondec"
@@ -455,22 +454,20 @@ trend.est.checks <- function(x, max.scale, boundary.handle, transform.type,
 #' @description Internal function for Epanechnikov smoothing
 #' @keywords internal
 #' @noRd
-epan.kern.f <- function(tt)	{
-  sqrt(2)*(1- (tt^2)/5)
+epan.kern.f <- function(tt) {
+  sqrt(2) * (1 - (tt^2) / 5)
 }
 
 #' @title Epanechnikov Kernel Calculation
 #' @description Internal function for calculating Epanechnikov kernel filter
 #' @keywords internal
 #' @noRd
-epan <- function(epan.len){
-
+epan <- function(epan.len) {
   mytt <- seq(from = -sqrt(5), to = sqrt(5), length = epan.len)
 
   sf <- sum(epan.kern.f(mytt))
 
-  return(epan.kern.f(mytt)/sf)
-
+  return(epan.kern.f(mytt) / sf)
 }
 
 
@@ -479,14 +476,13 @@ epan <- function(epan.len){
 #' @keywords internal
 #' @noRd
 spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
-                       main = "Spectral Estimate", scaling = "global",
-                       rhlab = FALSE, sub = "", NotPlotVal = 0.005, xlab = "Time",
-                       ylab = "Scale", aspect = "Identity", ...)
-{
+                      main = "Spectral Estimate", scaling = "global",
+                      rhlab = FALSE, sub = "", NotPlotVal = 0.005, xlab = "Time",
+                      ylab = "Scale", aspect = "Identity", ...) {
   ctmp <- class(x)
-  if (is.null(ctmp)){
+  if (is.null(ctmp)) {
     stop("wd has no class")
-  } else if (ctmp != "wd"){
+  } else if (ctmp != "wd") {
     stop("wd is not of class wd")
   }
 
@@ -496,32 +492,35 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
   nlevels <- levels - first.level
   type <- x$type
 
-  if (aspect != "Identity"){
+  if (aspect != "Identity") {
     sub <- paste(sub, "(", aspect, ")")
   }
 
-  plot(c(0, 0, n, n), c(0, nlevels + 1, nlevels + 1, 0), type = "n",
-       xlab = xlab, ylab = ylab, main = main, yaxt = "n", xaxt = "n",
-       sub = sub, ...)
+  plot(c(0, 0, n, n), c(0, nlevels + 1, nlevels + 1, 0),
+    type = "n",
+    xlab = xlab, ylab = ylab, main = main, yaxt = "n", xaxt = "n",
+    sub = sub, ...
+  )
 
-  if(missing(ylabchars)){
+  if (missing(ylabchars)) {
     ylabchars <- 1:nlevels
   }
 
   axis(2, at = 1:(nlevels), labels = ylabchars)
   if (missing(xlabchars)) {
     if (missing(xlabvals)) {
-      axx <- c(0, 2^(levels - 2), 2^(levels - 1),
-               2^(levels - 1) + 2^(levels - 2), 2^levels)
+      axx <- c(
+        0, 2^(levels - 2), 2^(levels - 1),
+        2^(levels - 1) + 2^(levels - 2), 2^levels
+      )
       axis(1, at = axx)
-    }
-    else {
+    } else {
       lx <- pretty(xlabvals, n = 4)
       cat("lx is ", lx, "\n")
-      if (lx[1] < min(xlabvals)){
+      if (lx[1] < min(xlabvals)) {
         lx[1] <- min(xlabvals)
       }
-      if (lx[length(lx)] > max(xlabvals)){
+      if (lx[length(lx)] > max(xlabvals)) {
         lx[length(lx)] <- max(xlabvals)
       }
 
@@ -535,8 +534,7 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
       axl <- signif(lx, digits = 2)
       axis(1, at = axx, labels = axl)
     }
-  }
-  else{
+  } else {
     axis(1, at = xlabvals, labels = xlabchars)
   }
   myxx <- 1:n
@@ -553,7 +551,7 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
   if (scaling == "compensated") {
     my <- 0
     for (i in ((levels - 1):first.level)) {
-      y <- wavethresh::accessD(x, i, aspect = aspect) * 2^(i/2)
+      y <- wavethresh::accessD(x, i, aspect = aspect) * 2^(i / 2)
       my <- max(c(my, abs(y)))
     }
   }
@@ -567,42 +565,44 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
   shift <- 1
   for (i in ((levels - 1):first.level)) {
     y <- wavethresh::accessD(x, i, aspect = aspect)
-    if (type == "wavelet")
+    if (type == "wavelet") {
       n <- 2^i
-    else {
+    } else {
       y <- y[c((n - shift + 1):n, 1:(n - shift))]
       shift <- shift * 2
     }
     xplot <- myxx
     ly <- length(y)
-    if (scaling == "by.level"){
+    if (scaling == "by.level") {
       my <- max(abs(y))
     }
-    if (scaling == "compensated"){
-      y <- y * 2^(i/2)
+    if (scaling == "compensated") {
+      y <- y * 2^(i / 2)
     }
-    if (scaling == "super"){
+    if (scaling == "super") {
       y <- y * 2^i
     }
     if (my == 0) {
       y <- rep(0, length(y))
-    } else{
-      y <- (0.5 * y)/my
+    } else {
+      y <- (0.5 * y) / my
     }
     axr <- c(axr, my)
-    if (max(abs(y)) > NotPlotVal)
+    if (max(abs(y)) > NotPlotVal) {
       segments(xplot, height, xplot, height + y)
+    }
     if (i != first.level) {
       if (type == "wavelet") {
         x1 <- myxx[seq(1, n - 1, 2)]
         x2 <- myxx[seq(2, n, 2)]
-        myxx <- (x1 + x2)/2
+        myxx <- (x1 + x2) / 2
       }
       height <- height + 1
     }
   }
-  if (rhlab == TRUE)
+  if (rhlab == TRUE) {
     axis(4, at = 1:length(axr), labels = signif(axr, digits = 3))
+  }
 }
 
 #' @title Convert matrix to wd object
@@ -610,21 +610,16 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
 #' @keywords internal
 #' @noRd
 
-mat.to.spec <- function(s.mat, filter.number = 1, family = "DaubExPhase"){
-
+mat.to.spec <- function(s.mat, filter.number = 1, family = "DaubExPhase") {
   J <- nrow(s.mat)
 
   spec <- wavethresh::cns(2^J, filter.number = filter.number, family = family)
 
-  for (j in 1:J){
-
+  for (j in 1:J) {
     spec <- wavethresh::putD(spec, level = J - j, s.mat[j, ])
-
   }
 
   spec
-
-
 }
 
 
@@ -635,7 +630,7 @@ mat.to.spec <- function(s.mat, filter.number = 1, family = "DaubExPhase"){
 #' @noRd
 
 TLSW.TLSWlacf <- function(x, filter.number = 4, family = "DaubExPhase",
-                      spec.est = NULL, lag.max = NULL, ...) {
+                          spec.est = NULL, lag.max = NULL, ...) {
   stopifnot("Paramter lag.max should be a nonegative integer." = lag.max >= 0)
 
   if (is.null(spec.est)) {
@@ -683,21 +678,22 @@ TLSW.TLSWlacf <- function(x, filter.number = 4, family = "DaubExPhase",
 #' @keywords internal
 #' @noRd
 
-WP.manual.smooth <- function(x.wd, smooth.type, max.scale, binwidth){
-
+WP.manual.smooth <- function(x.wd, smooth.type, max.scale, binwidth) {
   J2 <- wavethresh::nlevelsWT(x.wd$SmoothWavPer)
 
   if (smooth.type == "median") {
     for (j in 1:max.scale) {
-      x.wd$SmoothWavPer <- suppressWarnings(wavethresh::putD(x.wd$SmoothWavPer, level = J2 - j,
-                                                             2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J2 - j), k = binwidth)))
+      x.wd$SmoothWavPer <- suppressWarnings(wavethresh::putD(x.wd$SmoothWavPer,
+        level = J2 - j,
+        2.125 * stats::runmed(wavethresh::accessD(x.wd$WavPer, level = J2 - j), k = binwidth)
+      ))
     }
   }
   if (smooth.type == "epan") {
     epan.filter <- epan(binwidth)
     for (j in 1:max.scale) {
       temp.dj <- wavethresh::accessD(x.wd$WavPer, level = J2 - j)
-      temp.dj <- c(rev(temp.dj[1:(floor((binwidth-1)/2))]),temp.dj, rev(temp.dj[(length(temp.dj)-floor(binwidth/2)+1):length(temp.dj)]))
+      temp.dj <- c(rev(temp.dj[1:(floor((binwidth - 1) / 2))]), temp.dj, rev(temp.dj[(length(temp.dj) - floor(binwidth / 2) + 1):length(temp.dj)]))
 
       temp <- stats::filter(temp.dj, epan.filter)
       temp <- temp[!is.na(temp)]
@@ -706,7 +702,4 @@ WP.manual.smooth <- function(x.wd, smooth.type, max.scale, binwidth){
   }
 
   return(x.wd)
-
 }
-
-

@@ -98,9 +98,9 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
   x.len <- length(x)
   J <- wavethresh::IsPowerOfTwo(x.len)
 
-  if(transform.type == "nondec"){
+  if (transform.type == "nondec") {
     x.wd <- wavethresh::wd(x, filter.number = filter.number, family = family, type = "station")
-  }else{
+  } else {
     x.wd <- wavethresh::wd(x, filter.number = filter.number, family = family)
   }
 
@@ -150,8 +150,8 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
       } else {
         thresh <- sqrt(bc.var.mat[j, ]) * log(x.len)
       }
-      if(transform.type == "dec") {
-        thresh <- thresh[(1:(x.len/(2^j)))*2^j-2^j+1]
+      if (transform.type == "dec") {
+        thresh <- thresh[(1:(x.len / (2^j))) * 2^j - 2^j + 1]
       }
 
       temp1 <- dj
@@ -183,7 +183,6 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
       upper <- lower + length(orig.x) - 1
     }
     trend.est <- trend.est[lower:upper]
-
   } else {
     # threshold the wavelet coefficients using the variance estimate and user
     # inputted rules
@@ -196,8 +195,8 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
       } else {
         thresh <- sqrt(var.mat[j, ]) * log(x.len)
       }
-      if(transform.type == "dec") {
-        thresh <- thresh[(1:(x.len/(2^j)))*2^j-2^j+1]
+      if (transform.type == "dec") {
+        thresh <- thresh[(1:(x.len / (2^j))) * 2^j - 2^j + 1]
       }
 
       temp1 <- dj
@@ -236,11 +235,10 @@ wav.diff.trend.est <- function(x, spec.est, filter.number = 4, family = "DaubExP
       transform.type = transform.type, max.scale = max.scale,
       boundary.handle = boundary.handle, thresh.type = thresh.type,
       normal = normal, T.CI = T.CI
-
     ))
   } else {
     return(list(
-      x = orig.x, T = trend.est,  filter.number = filter.number, family = family,
+      x = orig.x, T = trend.est, filter.number = filter.number, family = family,
       transform.type = transform.type, max.scale = max.scale,
       boundary.handle = boundary.handle, thresh.type = thresh.type, normal = normal,
       T.CI = T.CI

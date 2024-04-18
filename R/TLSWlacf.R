@@ -37,7 +37,7 @@
 #'
 #'
 #' spec <- matrix(0, nrow = 9, ncol = 512)
-#' spec[2,] <-  1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
+#' spec[2, ] <- 1 + sin(seq(from = 0, to = 2 * pi, length = 512))^2
 #'
 #' trend <- seq(from = 0, to = 10, length = 512)
 #'
@@ -69,8 +69,10 @@ TLSWlacf <- function(x.TLSW, lag.max = NULL) {
 
   J <- S$nlevels
   Smat <- matrix(S$D, nrow = 2^J, ncol = J)[1:length(x), ]
-  Psi <- wavethresh::PsiJmat(-J, filter.number = S$filter$filter.number,
-                             family = S$filter$family)
+  Psi <- wavethresh::PsiJmat(-J,
+    filter.number = S$filter$filter.number,
+    family = S$filter$family
+  )
   nc <- ncol(Psi)
   L <- (nc - 1) / 2
   dimnames(Psi) <- list(NULL, c(-L:0, 1:L))
