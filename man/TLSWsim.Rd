@@ -16,19 +16,24 @@ TLSWsim(
 \arguments{
 \item{trend}{Either:
 \itemize{
-\item{A numeric vector of length \eqn{n=2^J} giving the valued of the deterministic
+\item{A numeric vector of length \eqn{n} giving the values of the deterministic
 trend function,}
 \item{A real-valued function of one argument defined on rescaled time \eqn{[0,1)}.}
-}}
+}
+When using a numeric vector for \code{trend}, if \eqn{n} is not a power of 2 then \code{spec} must be specified using
+a numeric matrix of dimensions \eqn{\lfloor \log_2 (n) \rfloor \times n}.}
 
 \item{spec}{Either:
 \itemize{
 \item{A \code{wavethresh} object of class wd which contains the spectrum for simulating
 an LSW process,}
-\item{A matrix of dimensions \eqn{J \times n}, where the \eqn{j}-th row corresponds to the spectrum values at scale \eqn{j} and \eqn{n=2^J},}
-\item{A list of length \eqn{J=log_2(n)}, where the \eqn{j}-th element of the list is a function of one argument specifying the spectrum
+\item{A numeric matrix of dimensions \eqn{J \times n}, where the \eqn{j}-th row corresponds to the spectrum values at scale \eqn{j} and
+\eqn{\lfloor \log_2 (n) \rfloor = J},}
+\item{A list of length \eqn{J=\log_2(n)}, where the \eqn{j}-th element of the list is a function of one argument specifying the spectrum
 function at scale \eqn{j} on rescaled time \eqn{[0,1)}.}
-}}
+}
+When using a numeric matrix for \code{spec}, if \eqn{n} is not a power of 2 then \code{trend}
+must be specified using a numeric vector of length \eqn{n}.}
 
 \item{filter.number}{The filter number for the wavelet used to simulate the LSW process (default 4)}
 

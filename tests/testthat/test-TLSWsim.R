@@ -90,3 +90,9 @@ test_that("TLSWsim works on non-dyadic data", {
   expect_equal(200, length(TLSWsim(rep(0,200), spec2[1:7,1:200])))
 })
 
+test_that("TLSWsim rejects non-dyadic spec and function trend", {
+  skip_on_cran()
+  expect_error(TLSWsim(function(z){0}, spec2[1:7,1:200]),
+               "If spec has a non-dyadic number of columns, then trend must be a numeric vector.")
+})
+
