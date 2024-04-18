@@ -26,7 +26,13 @@ for full details.
 
 ## Installation
 
-To install `TrendLSW` from GitHub:
+You can install the released version of `TrendLSW` from
+[CRAN](https://CRAN.R-project.org) with:
+
+    install.packages("TrendLSW")
+
+You can install the development version of `TrendLSW` from
+[GitHub](https://github.com/) with:
 
     devtools::install_github("https://github.com/EuanMcGonigle/TrendLSW")
 
@@ -37,13 +43,12 @@ generate a small example for performing trend and spectrum estimation as
 follows:
 
 ``` r
-
 library(TrendLSW)
 
 set.seed(1)
 
-noise <- rnorm(512)*c(seq(from = 1, to = 3, length = 256),seq(from = 3, to = 1, length = 256))
-trend <- seq(from = 0, to = 5,length = 512)
+noise <- rnorm(512) * c(seq(from = 1, to = 3, length = 256), seq(from = 3, to = 1, length = 256))
+trend <- seq(from = 0, to = 5, length = 512)
 x <- trend + noise
 ```
 
