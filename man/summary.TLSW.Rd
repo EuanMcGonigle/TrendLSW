@@ -12,7 +12,7 @@
 \item{...}{Other arguments.}
 }
 \value{
-None
+No return value, called for side effects
 }
 \description{
 Summary method for objects of class \code{TLSW}.

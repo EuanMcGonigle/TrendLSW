@@ -7,8 +7,10 @@ Authors@R: c(person("Euan T.", "McGonigle", email="e.t.mcgonigle@soton.ac.uk",ro
         person("Matthew","Nunes", role="aut"))
 Depends: R (>= 4.1.0)
 Maintainer: Euan T. McGonigle <e.t.mcgonigle@soton.ac.uk>
-Description: Provides wavelet-based methods for trend, spectrum and autocovariance estimation of locally 
-    stationary time series.
+Description: Fitting models for, and simulation of, trend locally stationary 
+    wavelet (TLSW) time series models, which take account of time-varying trend 
+    and dependence structure in a univariate time series. The TLSW model, and its estimation, is described in 
+    McGonigle, Killick and Nunes (2022a) <doi:10.1111/jtsa.12643>, (2022b) <doi:10.1214/22-EJS2044>.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

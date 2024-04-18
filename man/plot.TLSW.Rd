@@ -31,6 +31,9 @@
 
 \item{...}{Any additional arguments that will be applied to the graphical parameters of both the trend and spectrum plotting.}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Plots information contained within a \code{TLSW} object.
 Depending on the \code{plot.type} option this will produce a plot of the data
@@ -39,7 +42,8 @@ If the \code{TLSW} object does not contain trend or spectral estimates and these
 a warning will be given.
 }
 \details{
-A TLSW object can be plotted using the standard \code{plot} function in R.
+A TLSW object can be plotted using the standard \code{plot} function in R to diplay the
+estimated trend function and wavelet spectrum.
 Graphical parameters for customising the display of the trend or spectrum plots should be given
 to the \code{trend.plot.args} and \code{spec.plot.args} arguments resectively.
 For graphical parameters for the trend plot:

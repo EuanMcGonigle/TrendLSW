@@ -12,7 +12,7 @@
 #' @param object A \code{TLSW} object.
 #' @param ... Other arguments.
 #'
-#' @return None
+#' @return No return value, called for side effects
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.

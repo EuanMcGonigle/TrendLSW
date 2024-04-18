@@ -12,7 +12,7 @@
 \item{...}{Other arguments.}
 }
 \value{
-None
+No return value, called for side effects
 }
 \description{
 Prints a \code{TLSW} object, alongside summary information.

@@ -19,7 +19,8 @@
 #' @param plot.CI A logical variable. If TRUE, the confidence interval of the trend estimate (if computed) will be included in the plot.
 #' @param ... Any additional arguments that will be applied to the graphical parameters of both the trend and spectrum plotting.
 #' @details
-#' A TLSW object can be plotted using the standard \code{plot} function in R.
+#' A TLSW object can be plotted using the standard \code{plot} function in R to diplay the
+#' estimated trend function and wavelet spectrum.
 #' Graphical parameters for customising the display of the trend or spectrum plots should be given
 #' to the \code{trend.plot.args} and \code{spec.plot.args} arguments resectively.
 #' For graphical parameters for the trend plot:
@@ -36,6 +37,7 @@
 #'  should begin with the prefix \code{"poly."}. For example, to set the colour of the
 #'  confidence interval region to green, use \code{poly.col = "green"}.
 #' }
+#' @return No return value, called for side effects
 #' @references McGonigle, E. T., Killick, R., and Nunes, M. (2022). Modelling
 #' time-varying first and second-order structure of time series via wavelets
 #' and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
