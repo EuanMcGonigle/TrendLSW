@@ -21,8 +21,8 @@
 #' @details
 #' A TLSW object can be plotted using the standard \code{plot} function in R to display the
 #' estimated trend function and wavelet spectrum. The estimated trend is visualised using
-#' \code{\link[graphics]{plot.default}}, and the estimated spectrum is visualised via
-#'  \code{\link[wavethresh]{plot.wd}}.
+#' \code{\link[graphics]{plot.default}}, and visualisation of the estimated spectrum is
+#' based on \code{\link[wavethresh]{plot.wd}}.
 #' Graphical parameters for customising the display of the trend or spectrum plots should be given
 #' to the \code{trend.plot.args} and \code{spec.plot.args} arguments respectively.
 #' For graphical parameters for the trend plot:
