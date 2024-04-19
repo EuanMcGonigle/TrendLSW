@@ -516,15 +516,12 @@ spec.plot <- function(x, xlabvals, xlabchars, ylabchars, first.level = 0, n,
       axis(1, at = axx)
     } else {
       lx <- pretty(xlabvals, n = 4)
-      cat("lx is ", lx, "\n")
       if (lx[1] < min(xlabvals)) {
         lx[1] <- min(xlabvals)
       }
       if (lx[length(lx)] > max(xlabvals)) {
         lx[length(lx)] <- max(xlabvals)
       }
-
-      cat("lx is ", lx, "\n")
       xix <- NULL
       for (i in 1:length(lx)) {
         u <- (xlabvals - lx[i])^2
