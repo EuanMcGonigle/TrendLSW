@@ -27,6 +27,8 @@ jobs:
           needs: coverage
 
       - name: Test coverage
+        env:
+          NOT_CRAN: true
         run: |
           covr::codecov(
             quiet = FALSE,
