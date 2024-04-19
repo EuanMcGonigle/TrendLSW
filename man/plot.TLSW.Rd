@@ -42,10 +42,12 @@ If the \code{TLSW} object does not contain trend or spectral estimates and these
 a warning will be given.
 }
 \details{
-A TLSW object can be plotted using the standard \code{plot} function in R to diplay the
-estimated trend function and wavelet spectrum.
+A TLSW object can be plotted using the standard \code{plot} function in R to display the
+estimated trend function and wavelet spectrum. The estimated trend is visualised using
+\code{\link[graphics]{plot.default}}, and the estimated spectrum is visualised via
+ \code{\link[wavethresh]{plot.wd}}.
 Graphical parameters for customising the display of the trend or spectrum plots should be given
-to the \code{trend.plot.args} and \code{spec.plot.args} arguments resectively.
+to the \code{trend.plot.args} and \code{spec.plot.args} arguments respectively.
 For graphical parameters for the trend plot:
 \itemize{
 \item Parameters related to the overall plot should be provided as they usually would be when using the \code{plot} function,
@@ -93,5 +95,5 @@ locally stationary wavelet processes. \emph{Journal of Time Series
 Analysis}, 43(6), 895-917.
 }
 \seealso{
-\code{\link{TLSW}}, \code{\link{summary.TLSW}}, \code{\link{print.TLSW}}
+\code{\link{TLSW}}, \code{\link{summary.TLSW}}, \code{\link{print.TLSW}}, \code{\link[wavethresh]{plot.wd}}
 }
