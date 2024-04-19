@@ -176,7 +176,7 @@ All the defaults are set carefully.  Key times to change defaults are
    \item to assess stability of the estimate to the wavelet, change the wavelet number \code{T.filter.number} and
    \code{S.filter.number} and/or the wavelet type \code{T.family} and \code{S.family}, see details.
 }
-The arguments affecting trend are preceeded by \code{T.} and those affecting spectral estimation are preceeded
+The arguments affecting trend are preceded by \code{T.} and those affecting spectral estimation are preceded
 by \code{S.}.
 }
 \details{
