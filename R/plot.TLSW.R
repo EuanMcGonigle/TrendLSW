@@ -2,7 +2,7 @@
 #'
 #' @description Plots information contained within a \code{TLSW} object.
 #' Depending on the \code{plot.type} option this will produce a plot of the data
-#' with trend estimate overlayed, a plot of the spectral estimate or both (default).
+#' with trend estimate overlayed, a plot of the spectral estimate, or both (default).
 #' If the \code{TLSW} object does not contain trend or spectral estimates and these are requested
 #' a warning will be given.
 #'
