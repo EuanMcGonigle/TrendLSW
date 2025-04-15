@@ -64,7 +64,7 @@ wav.trend.est <- function(x, filter.number = 4, family = "DaubLeAsymm",
   x.check <- trend.est.checks(
     x = x, max.scale = max.scale, boundary.handle = boundary.handle,
     transform.type = transform.type, T.CI = T.CI,
-    reps = 2, sig.lvl = sig.lvl, est.type = "linear"
+    reps = reps, sig.lvl = sig.lvl, est.type = "linear"
   )
 
   x.len <- x.check$x.len
