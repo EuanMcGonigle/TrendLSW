@@ -19,7 +19,7 @@ LazyData: true
 Imports: wavethresh, locits
 URL: https://github.com/EuanMcGonigle/TrendLSW
 BugReports: https://github.com/EuanMcGonigle/TrendLSW/issues
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Suggests: 
     testthat (>= 3.0.0), vdiffr
 Config/testthat/edition: 3
