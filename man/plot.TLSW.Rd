@@ -9,7 +9,7 @@
   plot.type = c("trend", "spec"),
   trend.plot.args,
   spec.plot.args,
-  plot.CI = TRUE,
+  plot.CI,
   ...
 )
 }

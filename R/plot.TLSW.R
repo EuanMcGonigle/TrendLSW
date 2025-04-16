@@ -73,7 +73,7 @@
 #' ))
 #'
 plot.TLSW <- function(x, plot.type = c("trend", "spec"),
-                      trend.plot.args, spec.plot.args, plot.CI = TRUE,
+                      trend.plot.args, spec.plot.args, plot.CI,
                       ...) {
   if (any(plot.type == "trend") & (x$do.trend.est == FALSE)) {
     plot.type <- plot.type[-which(plot.type == "trend")]
@@ -93,9 +93,24 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
     if (x$trend$T.CI == FALSE) {
       y.min <- min(x$x, x$trend$trend.est)
       y.max <- max(x$x, x$trend$trend.est)
+      if(missing(plot.CI)){
+        plot.CI <- FALSE
+      }
+      if(plot.CI == TRUE){
+        warning("Argument plot.CI set to TRUE, but no CI was calculated. Will not display CIs.")
+        plot.CI <- FALSE
+      }
     } else {
-      y.min <- min(x$x, x$trend$trend.est, x$trend.est$lower.CI)
-      y.max <- max(x$x, x$trend$trend.est, x$trend.est$upper.CI)
+      if(missing(plot.CI)){
+        plot.CI <- TRUE
+      }
+      if(plot.CI == TRUE){
+        y.min <- min(x$x, x$trend$trend.est, x$trend.est$lower.CI)
+        y.max <- max(x$x, x$trend$trend.est, x$trend.est$upper.CI)
+      }else{
+        y.min <- min(x$x, x$trend$trend.est)
+        y.max <- max(x$x, x$trend$trend.est)
+      }
     }
 
     if (missing(trend.plot.args)) {
@@ -175,23 +190,25 @@ plot.TLSW <- function(x, plot.type = c("trend", "spec"),
       trend.plot.args$type <- "n"
       do.call(plot, c(x$x ~ time.index, trend.plot.args))
 
+      trend.plot.args$type <- trend.point.type
+      trend.plot.args$xlab <- NULL
+      trend.plot.args$ylab <- NULL
+      trend.plot.args$main <- NULL
+
       if (plot.CI == TRUE) {
         do.call(polygon, c(
           list(x = c(time.index, rev(time.index)), y = c(x$trend.est$lower.CI, rev(x$trend.est$upper.CI))),
           poly.args
         ))
-        trend.plot.args$type <- trend.point.type
-        trend.plot.args$xlab <- NULL
-        trend.plot.args$ylab <- NULL
-        trend.plot.args$main <- NULL
         do.call(points, c(x$x ~ time.index, trend.plot.args))
         do.call(lines, c(x$trend.est$lower.CI ~ time.index, CI.args))
         do.call(lines, c(x$trend.est$upper.CI ~ time.index, CI.args))
+      }else{
+        do.call(points, c(x$x ~ time.index, trend.plot.args))
       }
     } else {
       do.call(plot, c(x$x ~ time.index, trend.plot.args))
     }
-
     do.call(lines, c(x$trend.est$T ~ time.index, T.args))
   }
 
