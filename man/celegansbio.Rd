@@ -2,10 +2,10 @@
 \docType{data}
 \alias{celegansbio}
 \title{
-Bioluminescence of C. Elegens
+Bioluminescence of C. Elegans
 }
 \description{
- This dataset gives the time series of bioluminescence of an experiment monitoring C. Elegens as they feed and forage.  The observations are taken 6-minutes apart with no missing data.
+ This dataset gives the time series of bioluminescence of an experiment monitoring C. Elegans as they feed and forage.  The observations are taken 6-minutes apart with no missing data.
 }
 \usage{
 celegansbio
