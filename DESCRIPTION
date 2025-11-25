@@ -1,7 +1,7 @@
 Package: TrendLSW
 Type: Package
 Title: Wavelet Methods for Analysing Locally Stationary Time Series
-Version: 1.0.4
+Version: 1.0.5
 Authors@R: c(person("Euan T.", "McGonigle", email="e.t.mcgonigle@soton.ac.uk",role=c("aut", "cre")),
         person("Rebecca","Killick", role="aut"),
         person("Matthew","Nunes", role="aut"))

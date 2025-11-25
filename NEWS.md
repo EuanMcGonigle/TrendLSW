@@ -1,3 +1,5 @@
+# TrendLSW 1.0.5
+
 # TrendLSW 1.0.4
 
 * Updated the example in the TLSW() function to a smaller sample size to comply with CRAN checks.
