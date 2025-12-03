@@ -1,5 +1,7 @@
 # TrendLSW 1.0.5
 
+* Fixed a typo in the data file: "celegensbio" is now "celegansbio".
+
 # TrendLSW 1.0.4
 
 * Updated the example in the TLSW() function to a smaller sample size to comply with CRAN checks.
