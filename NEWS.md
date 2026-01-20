@@ -1,3 +1,5 @@
+# TrendLSW 1.0.6
+
 #TrendLSW 1.0.6
 
 * Added Journal of Statistical Software reference where relevant.
