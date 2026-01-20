@@ -33,7 +33,7 @@
 #' R package version 1.7.3.
 #'
 #' McGonigle, E. T., Killick, R., and Nunes, M. (2025). TrendLSW: Trend and Spectral Estimation of
-#' Nonstationary Time Series in R. \emph{Journal of Statistical Software}, 115(10), 1-30, <doi:10.18637/jss.v115.i10>.
+#' Nonstationary Time Series in R. \emph{Journal of Statistical Software}, 115(10), 1-30, \url{doi:10.18637/jss.v115.i10}.
 #'
 #' @examples
 #'

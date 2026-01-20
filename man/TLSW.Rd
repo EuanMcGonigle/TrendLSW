@@ -233,7 +233,7 @@ time-varying first and second-order structure of time series via wavelets
 and differencing. \emph{Electronic Journal of Statistics}, 6(2), 4398-4448.
 
 McGonigle, E. T., Killick, R., and Nunes, M. (2025). TrendLSW: Trend and Spectral Estimation of
-Nonstationary Time Series in R. \emph{Journal of Statistical Software}, 115(10), 1-30, <doi:10.18637/jss.v115.i10>.
+Nonstationary Time Series in R. \emph{Journal of Statistical Software}, 115(10), 1-30, \url{doi:10.18637/jss.v115.i10}.
 }
 \seealso{
 \code{\link{plot.TLSW}}, \code{\link{summary.TLSW}}, \code{\link{print.TLSW}}, \code{\link[wavethresh]{wd}}, \code{\link[locits]{ewspec3}}
