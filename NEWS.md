@@ -1,3 +1,7 @@
+#TrendLSW 1.0.6
+
+* Added Journal of Statistical Software reference where relevant.
+
 # TrendLSW 1.0.5
 
 * Fixed a typo in the data file: "celegensbio" is now "celegansbio".
