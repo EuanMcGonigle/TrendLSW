@@ -1,0 +1,20 @@
+bibentry(bibtype = "Article",
+  title        = "{TrendLSW}: Trend and Spectral Estimation of Nonstationary Time Series in {R}",
+  author       = c(person(given = c("Euan", "T."),
+                          family = "McGonigle",
+                          email = "e.t.mcgonigle@soton.ac.uk"),
+                   person(given = "Rebecca",
+                          family = "Killick",
+                          email = "r.killick@lancaster.ac.uk"),
+                   person(given = c("Matthew", "A."),
+                          family = "Nunes",
+                          email = "m.a.nunes@bath.ac.uk")),
+  journal      = "Journal of Statistical Software",
+  year         = "2025",
+  volume       = "115",
+  number       = "10",
+  pages        = "1--30",
+  doi          = "10.18637/jss.v115.i10",
+  header       = "To cite TrendLSW in publications use:"
+)
+
